@@ -1,7 +1,9 @@
 package com.brisktouch.timeline;
 
 import android.app.Activity;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import com.brisktouch.timeline.util.Tool;
 import org.json.JSONArray;
@@ -30,14 +32,20 @@ import java.util.HashMap;
 
 class TestView extends TextView {
 	public static String TAG = "TestView";
-	public static final int DATELINE_LENGTH = 70;
-	public static final int DATELINE_RADIUS = 30;
-	public static final int TIMELINE_RADIUS = 10;
-	public static final int MARGIN_RIGHT = 100;
-	public static final int DISPLAY_DATE_STRING_X = 150;
-	public static final int THING_X = 240;
-	public static final int THING_Y = 70;
-	public static final int TIME_THING_INTERVAL = 30;
+	public static int DATELINE_LENGTH = 70;
+	public static int DATELINE_RADIUS = 30;
+	public static int TIMELINE_RADIUS = 10;
+	public static int MARGIN_RIGHT = 100;
+	public static int DISPLAY_DATE_STRING_X = 150;
+	public static int THING_X = 240;
+	public static int THING_Y = 70;
+	public static int TIME_THING_INTERVAL = 30;
+
+	public static int SMALL_WORD_SIZE = 18;
+	public static int BIG_WORD_SIZE = 24;
+
+	public static boolean isInitData = false;
+
 	public static final String YEAR = "年";
 	public static final String MONTH = "月";
 	
@@ -52,6 +60,7 @@ class TestView extends TextView {
 
 	public TestView(Context context, JSONObject json ) {
 		super(context);
+		initData();
 		p = new Paint();
 		this.json = json;
 		height += 20;
@@ -68,6 +77,40 @@ class TestView extends TextView {
 		int titleHeight = getTitleBarHeight(statusHeight);
 		topHeight = statusHeight + titleHeight;
 		Log.i(TAG, "topHeight :" + topHeight);
+
+	}
+
+	public void initData(){
+		if(!isInitData) {
+			Activity parent = (Activity) getContext();
+			DisplayMetrics dms = parent.getResources().getDisplayMetrics();
+			int screenWidth = dms.widthPixels;
+			int screenHeight = dms.heightPixels;
+			DATELINE_LENGTH = screenHeight / 11;
+			DATELINE_RADIUS = screenWidth / 16;
+			TIMELINE_RADIUS = screenWidth / 48;
+			MARGIN_RIGHT = (int) (screenWidth / 4.8);
+			DISPLAY_DATE_STRING_X = screenWidth / 3;
+			THING_X = screenWidth / 2;
+			THING_Y = screenHeight / 11;
+			TIME_THING_INTERVAL = screenHeight / 26;
+			BIG_WORD_SIZE = screenWidth/20;
+			SMALL_WORD_SIZE = screenWidth/26;
+			Log.i(TAG, "screenWidth :" + screenWidth);
+			Log.i(TAG, "screenHeight :" + screenHeight);
+			Log.i(TAG, "DATELINE_LENGTH :" + DATELINE_LENGTH);
+			Log.i(TAG, "DATELINE_RADIUS :" + DATELINE_RADIUS);
+			Log.i(TAG, "TIMELINE_RADIUS :" + TIMELINE_RADIUS);
+			Log.i(TAG, "MARGIN_RIGHT :" + MARGIN_RIGHT);
+			Log.i(TAG, "DISPLAY_DATE_STRING_X :" + DISPLAY_DATE_STRING_X);
+			Log.i(TAG, "THING_X :" + THING_X);
+			Log.i(TAG, "THING_Y :" + THING_Y);
+			Log.i(TAG, "TIME_THING_INTERVAL :" + TIME_THING_INTERVAL);
+			Log.i(TAG, "BIG_WORD_SIZE :" + BIG_WORD_SIZE);
+			Log.i(TAG, "SMALL_WORD_SIZE :" + SMALL_WORD_SIZE);
+			isInitData = true;
+		}
+
 	}
 	
 	protected void onDraw(Canvas canvas){
@@ -122,7 +165,7 @@ class TestView extends TextView {
 				week = Tool.getWeek(d1);
 			}catch (Exception e){}
 			p.setColor(Color.BLACK);
-			p.setTextSize(24);
+			p.setTextSize(BIG_WORD_SIZE);
 			FontMetricsInt fontMetrics = p.getFontMetricsInt();
 			int baseline = y + (y+DATELINE_RADIUS*2 - y - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
 			p.setTextAlign(Paint.Align.CENTER);
@@ -189,16 +232,16 @@ class TestView extends TextView {
 		canvas.drawPath(path, p);
 
 		p.reset();
+		p.setTextSize(BIG_WORD_SIZE);
 		FontMetricsInt fontMetrics = p.getFontMetricsInt();
 		float baseline = r1.top + (r1.bottom - r1.top - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
-		p.setTextSize(24);
 		p.setAntiAlias(true);
 		p.setColor(Color.BLACK);
 		p.setTypeface(Typeface.DEFAULT_BOLD);
 		p.setTextAlign(Paint.Align.CENTER);
 		canvas.drawText(context + System.currentTimeMillis(), r1.centerX(), baseline , p); 
 		p.setColor(Color.GRAY);
-		p.setTextSize(18);
+		p.setTextSize(SMALL_WORD_SIZE);
 		p.setTypeface(Typeface.DEFAULT);
 		fontMetrics = p.getFontMetricsInt();
 		baseline = r1.top + (r1.bottom - r1.top - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
@@ -243,6 +286,7 @@ class TestView extends TextView {
 		Activity parent = (Activity) getContext();
 		int contentTop = parent.getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
 		int titleBarHeight = contentTop - statusBarHeight;
+		Log.i(TAG, "titleBarHeight:"+titleBarHeight);
 		return titleBarHeight;
 	}
 
