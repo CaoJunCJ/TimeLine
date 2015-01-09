@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class ListAdapter extends BaseAdapter {
 	private JSONArray data;
 	private Context context;
-	private HashMap<Integer,TestView> map;
+	private HashMap<Integer, TimeLineDisplayView> map;
 	String TAG = "ListAdapter";
 	@Override
 	public int getCount() {
@@ -38,7 +38,7 @@ public class ListAdapter extends BaseAdapter {
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
 		Log.i(TAG, "getView");
 		JSONObject date = data.optJSONObject(arg0);
-		TestView tv = new TestView(context, date);
+		TimeLineDisplayView tv = new TimeLineDisplayView(context, date);
 		tv.setBackgroundColor(Color.WHITE);
 		tv.setHeight(tv.getCurrentLength());
 		return tv;

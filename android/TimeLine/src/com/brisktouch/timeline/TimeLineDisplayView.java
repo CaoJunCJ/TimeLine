@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-class TestView extends TextView {
+class TimeLineDisplayView extends TextView {
 	public static String TAG = "TestView";
 	public static int DATELINE_LENGTH = 70;
 	public static int DATELINE_RADIUS = 30;
@@ -58,7 +58,7 @@ class TestView extends TextView {
 
 	private int topHeight;
 
-	public TestView(Context context, JSONObject json ) {
+	public TimeLineDisplayView(Context context, JSONObject json) {
 		super(context);
 		initData();
 		p = new Paint();
@@ -73,7 +73,9 @@ class TestView extends TextView {
 		height += DATELINE_LENGTH;
 		rectMap = new HashMap<String, RectF>();
 
-		int statusHeight = getStatusBarHeight();
+		//hide status bar , so statusHeight = 0;
+		//int statusHeight = getStatusBarHeight();
+		int statusHeight = 0;
 		int titleHeight = getTitleBarHeight(statusHeight);
 		topHeight = statusHeight + titleHeight;
 		Log.i(TAG, "topHeight :" + topHeight);
@@ -164,6 +166,7 @@ class TestView extends TextView {
 				Date d1 = datef.parse(date);
 				week = Tool.getWeek(d1);
 			}catch (Exception e){}
+			p.setAntiAlias(true);
 			p.setColor(Color.BLACK);
 			p.setTextSize(BIG_WORD_SIZE);
 			FontMetricsInt fontMetrics = p.getFontMetricsInt();
@@ -279,6 +282,7 @@ class TestView extends TextView {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
+		Log.i(TAG, "StatusBarHeight:"+y);
 		return y;
 	}
 
