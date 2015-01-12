@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:orientation="vertical" android:background="#ff58eaff">
+
+    <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton7" android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_action_expand"/>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView" android:layout_gravity="center_horizontal">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:baselineAligned="false">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:transitionGroup="false"
+                    android:touchscreenBlocksFocus="false" android:nestedScrollingEnabled="false"
+                    android:measureWithLargestChild="false">
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="300dp"
+                        android:id="@+id/imageButton" android:background="@drawable/puzzlenote_vertical2"
+                        android:longClickable="false" android:adjustViewBounds="false"
+                        android:baselineAlignBottom="false" android:clickable="false"
+                        android:nestedScrollingEnabled="false" android:layout_margin="5dp" android:layout_weight="1"/>
+                <ImageButton android:layout_width="wrap_content" android:layout_height="300dp"
+                             android:id="@+id/imageButton2" android:background="@drawable/puzzlenote_vertical3"
+                             android:layout_margin="5dp" android:layout_weight="1"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <ImageButton android:layout_width="wrap_content" android:layout_height="300dp"
+                             android:id="@+id/imageButton3" android:background="@drawable/puzzlenote_vertical4"
+                             android:layout_margin="5dp" android:contentDescription="styleImageDisplay"
+                             android:layout_weight="1"/>
+                <ImageButton android:layout_width="wrap_content" android:layout_height="300dp"
+                             android:id="@+id/imageButton4" android:background="@drawable/puzzlewall_vertical3"
+                             android:layout_margin="5dp" android:layout_weight="1"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <ImageButton android:layout_width="wrap_content" android:layout_height="300dp"
+                             android:id="@+id/imageButton6" android:background="@drawable/puzzlewall_vertical6"
+                             android:layout_margin="5dp" android:layout_weight="1"/>
+                <ImageButton android:layout_width="wrap_content" android:layout_height="300dp"
+                             android:id="@+id/imageButton5" android:background="@drawable/puzzlewall_vertical4"
+                             android:layout_margin="5dp" android:layout_weight="1"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
