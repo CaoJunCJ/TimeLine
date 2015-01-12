@@ -13,6 +13,17 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+        </activity>
+        <activity
+                android:name=".add.StyleActivity"
+                android:label="@string/style_activity_name"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".add.Style1"
+                android:label="style1"
+                android:screenOrientation="portrait">
         </activity>
     </application>
 </manifest>

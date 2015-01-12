@@ -8,8 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.view.WindowManager;
+import com.brisktouch.timeline.add.StyleActivity;
 import com.brisktouch.timeline.test.TestData;
 import org.json.JSONObject;
+import android.widget.Button;
+import android.content.Intent;
+import android.view.View;
 
 public class MyActivity extends Activity {
     /**
@@ -31,5 +35,18 @@ public class MyActivity extends Activity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(listview);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.mycustomtitle);
+        Button btn1 =(Button)findViewById(R.id.header_right_btn);
+        btn1.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MyActivity.this, StyleActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+        });
+
     }
 }
