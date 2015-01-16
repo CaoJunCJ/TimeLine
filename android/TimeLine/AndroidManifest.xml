@@ -3,8 +3,19 @@
           package="com.brisktouch.timeline"
           android:versionCode="1"
           android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="8"/>
+    <!--<uses-sdk android:minSdkVersion="7"/>-->
+    <uses-configuration android:minSdkVersion="7"/>
+    <uses-configuration android:targetSdkVersion="21"/>
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+        <activity android:name=".ui.TestActivity"
+                  android:label="TestActivity"
+                  android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!--
         <activity android:name="MyActivity"
                   android:label="@string/app_name"
                   android:theme="@style/MyTheme"
@@ -13,8 +24,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
-        </activity>
+        </activity>-->
         <activity
                 android:name=".add.StyleActivity"
                 android:label="@string/style_activity_name"
@@ -24,6 +34,10 @@
                 android:name=".add.Style1"
                 android:label="style1"
                 android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 </manifest>

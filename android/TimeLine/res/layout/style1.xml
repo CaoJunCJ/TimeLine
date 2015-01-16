@@ -21,7 +21,7 @@
                         android:layout_height="190dp"
                         android:id="@+id/imageButton8" android:layout_weight="1" android:layout_marginLeft="10dp"
                         android:layout_marginTop="2dp" android:layout_marginRight="2dp" android:layout_marginBottom="2dp"
-                        android:background="@drawable/p2221352087"/>
+                        android:background="@drawable/p2221352090"/>
                 <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="190dp"
@@ -63,9 +63,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="hellow world, hi yanye."
+                    android:text="hello world, hi yanye."
                     android:id="@+id/textView3" android:layout_marginLeft="10dp" android:layout_marginTop="2dp"
-                    android:textColor="#af949494"/>
+                    android:textColor="#af949494" android:singleLine="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:text="author"
                     android:id="@+id/textView4" android:layout_marginRight="10dp"
-                    android:layout_marginTop="2dp" android:layout_gravity="right"/>
+                    android:layout_marginTop="2dp" android:layout_gravity="right" android:layout_marginBottom="15dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
