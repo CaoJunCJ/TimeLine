@@ -57,7 +57,6 @@ public class TestActivity extends Activity {
     }
 
     public View onCreateView() {
-
         final View v = LayoutInflater.from(this).inflate(R.layout.image_grid_fragment, null);
         final GridView mGridView = (GridView) v.findViewById(R.id.gridView);
         mGridView.setAdapter(mAdapter);
@@ -159,36 +158,21 @@ public class TestActivity extends Activity {
 
         @Override
         public int getCount() {
-            /*
-            // If columns have yet to be determined, return no items
-            if (getNumColumns() == 0) {
-                return 0;
-            }
-
-            // Size + number of columns for top empty row
-            return Images.imageThumbUrls.length + mNumColumns;
-            */
             return list.size();
         }
 
         @Override
         public Object getItem(int position) {
-            /*
-            return position < mNumColumns ?
-                    null : Images.imageThumbUrls[position - mNumColumns];
-                    */
             return list.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            //return position < mNumColumns ? 0 : position - mNumColumns;
             return  position;
         }
 
         @Override
         public int getViewTypeCount() {
-            // Two types of views, the normal ImageView and the top row of empty views
             return 2;
         }
 
@@ -204,18 +188,6 @@ public class TestActivity extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup container) {
-            //BEGIN_INCLUDE(load_gridview_item)
-            // First check if this is the top row
-            if (position < mNumColumns) {
-                if (convertView == null) {
-                    convertView = new View(mContext);
-                }
-                // Set empty view with height of ActionBar
-                convertView.setLayoutParams(new AbsListView.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, mActionBarHeight));
-                return convertView;
-            }
-
             // Now handle the main ImageView thumbnails
             ImageView imageView;
             if (convertView == null) { // if it's not recycled, instantiate and initialize

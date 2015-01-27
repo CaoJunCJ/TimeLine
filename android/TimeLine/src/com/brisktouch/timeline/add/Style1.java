@@ -11,12 +11,17 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.*;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.brisktouch.timeline.R;
 import android.net.Uri;
 import android.widget.AbsListView.LayoutParams;
+import com.brisktouch.timeline.ui.RecyclingImageView;
+import com.brisktouch.timeline.util.ImageCache;
+import com.brisktouch.timeline.util.ImageNative;
+import com.brisktouch.timeline.util.Utils;
 
 import java.io.File;
 import java.util.*;
@@ -30,6 +35,15 @@ import java.text.SimpleDateFormat;
 //TODO must be Reconstruction!!!!!
 public class Style1 extends Activity {
 
+    HashMap<Long, List<String>> dateGruopMap;
+    HashMap<String, List<String>> folderGruopMap;
+    private int mImageThumbSize;
+    private int mImageThumbSpacing;
+    private ImageNative mImageFetcher;
+    ListView listView;
+    ImageListAdapter mImageListAdapter;
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //hide title bar
@@ -42,10 +56,68 @@ public class Style1 extends Activity {
 
     }
 
+    public void popSelectPictureDialog(){
+        List<Map.Entry<Long, List<String>>> infoIds = new ArrayList<Map.Entry<Long, List<String>>>(dateGruopMap.entrySet());
+        Collections.sort(infoIds, new Comparator<Map.Entry<Long, List<String>>>() {
+            public int compare(Map.Entry<Long, List<String>> o1,
+                               Map.Entry<Long, List<String>> o2) {
+                return (o1.getKey()).compareTo(o2.getKey());
+            }
+        });
+        Log.d(Style1.class.getName(),"infoIds size:"+infoIds.size());
+
+        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
+        mImageThumbSpacing = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_spacing);
+        ImageCache.ImageCacheParams cacheParams = new ImageCache.ImageCacheParams();
+        cacheParams.setMemCacheSizePercent(0.25f);
+        mImageFetcher = new ImageNative(this, mImageThumbSize);
+        mImageFetcher.setLoadingImage(R.drawable.empty_photo);
+        mImageFetcher.addImageCache(cacheParams);
+
+        LinearLayout main = new LinearLayout(Style1.this);
+        main.setOrientation(LinearLayout.VERTICAL);
+        main.setBackgroundColor(Color.parseColor("#ffffffff"));
+
+
+
+
+        listView = new ListView(Style1.this);
+        listView.setBackgroundColor(Color.parseColor("#ffffffff"));
+        listView.setCacheColorHint(0);
+        mImageListAdapter = new ImageListAdapter(Style1.this, infoIds, listView);
+        listView.setAdapter(mImageListAdapter);
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                // Pause fetcher to ensure smoother scrolling when flinging
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                    // Before Honeycomb pause image loading on scroll to help with performance
+                    if (!Utils.hasHoneycomb()) {
+                        mImageFetcher.setPauseWork(true);
+                    }
+                } else {
+                    mImageFetcher.setPauseWork(false);
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+            }
+        });
+
+
+
+        main.addView(listView);
+
+
+        new AlertDialog.Builder(Style1.this).setView(main).show();
+    }
+
     public class SelectPic implements View.OnClickListener {
 
-        HashMap<Long, List<String>> dateGruopMap;
-        HashMap<String, List<String>> folderGruopMap;
+
 
         private Handler mHandler = new Handler(){
             public void handleMessage(Message msg){
@@ -59,62 +131,7 @@ public class Style1 extends Activity {
             folderGruopMap = new HashMap<String, List<String>>();
         }
 
-        public void popSelectPictureDialog(){
-            List<Map.Entry<Long, List<String>>> infoIds = new ArrayList<Map.Entry<Long, List<String>>>(dateGruopMap.entrySet());
-            Collections.sort(infoIds, new Comparator<Map.Entry<Long, List<String>>>() {
-                public int compare(Map.Entry<Long, List<String>> o1,
-                                   Map.Entry<Long, List<String>> o2) {
-                    return (o1.getKey()).compareTo(o2.getKey());
-                }
-            });
-            Log.d(Style1.class.getName(),"infoIds size:"+infoIds.size());
 
-            LinearLayout main = new LinearLayout(Style1.this);
-            main.setOrientation(LinearLayout.VERTICAL);
-            main.setBackgroundColor(Color.parseColor("#ffffffff"));
-            ListView listView = new ListView(Style1.this);
-            listView.setBackgroundColor(Color.parseColor("#ffffffff"));
-            listView.setCacheColorHint(0);
-            listView.setAdapter(new ImageListAdapter(Style1.this, infoIds, listView));
-            main.addView(listView);
-            /*
-            ScrollView sv = new ScrollView(Style1.this);
-            LinearLayout line = new LinearLayout(Style1.this);
-            line.setOrientation(LinearLayout.VERTICAL);
-            for (int i = 0; i < infoIds.size(); i++) {
-                long time = infoIds.get(i).getKey();
-                SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Log.d(Style1.class.getName(), timeFormat.format(new Date(time)));
-                LinearLayout lt = new LinearLayout(Style1.this);
-                lt.setOrientation(LinearLayout.VERTICAL);
-                TextView tv = new TextView(Style1.this);
-                LinearLayout.LayoutParams param =
-                        new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,30);
-                int row = infoIds.get(i).getValue().size()/3;
-                if(infoIds.get(i).getValue().size()%3 != 0){
-                    row++;
-                }
-                MyImageView imageView = (MyImageView)LayoutInflater.from(Style1.this).inflate(R.layout.image_item, null).findViewById(R.id.group_image); //mContext指的是调用的Activtty
-                LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-                int height = row * linearParams.height + 35;
-                lt.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height));
-                tv.setLayoutParams(param);
-                tv.setText(timeFormat.format(new Date(time)));
-                GridView gv = new GridView(Style1.this);
-                gv.setNumColumns(3);
-                gv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-                gv.setAdapter(new GroupAdapter(Style1.this, infoIds.get(i).getValue(), gv));
-
-                lt.addView(tv);
-                lt.addView(gv);
-                line.addView(lt);
-            }
-            sv.addView(line);
-            main.addView(sv);
-            */
-
-            new AlertDialog.Builder(Style1.this).setView(main).show();
-        }
 
         public void onClick(View v) {
             Log.d(Style1.class.getName(),"onclick");
@@ -183,11 +200,14 @@ public class Style1 extends Activity {
         List<String> list;
         Context context;
         GridView mGridView;
+        private GridView.LayoutParams mImageViewLayoutParams;
 
         public GroupAdapter(Context c, List<String> list, GridView mGridView){
             this.list = list;
             this.context = c;
             this.mGridView = mGridView;
+            mImageViewLayoutParams = new GridView.LayoutParams(
+                    mImageThumbSize, mImageThumbSize);
         }
 
         @Override
@@ -206,70 +226,27 @@ public class Style1 extends Activity {
         }
 
         @Override
-        public View getView(int index, View convertView, ViewGroup arg2) {
-            final Holder holder;
-            if(null == convertView){
-                holder = new Holder();
-                convertView = LayoutInflater.from(context).inflate(R.layout.image_item, null);
-                holder.iamgeView = (MyImageView)convertView.findViewById(R.id.group_image);
-                holder.iamgeView.setOnMeasureListener(new MyImageView.OnMeasureListener() {
-                    @Override
-                    public void onMeasureSize(int width, int height) {
-                        pt.set(width, height);
-                    }
-                });
-                convertView.setTag(holder);
-            }else{
-                holder = (Holder) convertView.getTag();
-                holder.iamgeView.setImageResource(R.drawable.friends_sends_pictures_no);
+        public View getView(int position, View convertView, ViewGroup arg2) {
+            ImageView imageView;
+            if (convertView == null) { // if it's not recycled, instantiate and initialize
+                imageView = new RecyclingImageView(context);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setLayoutParams(mImageViewLayoutParams);
+            } else { // Otherwise re-use the converted view
+                imageView = (ImageView) convertView;
             }
-            String path = list.get(index);
-            holder.iamgeView.setTag(path);
 
-
-            final Bitmap bitmap = NativeImageLoader.getInstance().getBitmapFromMemCache(path);
-            if (bitmap != null) {
-                holder.iamgeView.setImageBitmap(bitmap);
-            } else {
-                holder.iamgeView.setImageResource(R.drawable.friends_sends_pictures_no);
-                try{
-                    BitmapWorkerTask task = new BitmapWorkerTask(holder.iamgeView);
-                    task.execute(path);
-                }catch (Exception e){
-                    e.printStackTrace();
-                    holder.iamgeView.setImageResource(R.drawable.friends_sends_pictures_no);
-                }catch (OutOfMemoryError e){
-                    e.printStackTrace();
-                    holder.iamgeView.setImageResource(R.drawable.friends_sends_pictures_no);
-                }
-            }
-            /*
-
-            Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path, pt, new NativeImageLoader.NativeImageCallBack() {
-                @Override
-                public void onImageLoader(Bitmap bitmap, String path) {
-                    MyImageView ib = (MyImageView)mGridView.findViewWithTag(path);
-                    if(bitmap != null && ib != null){
-                        ib.setImageBitmap(bitmap);
-                    }
-                }
-            });
-
-            if(bitmap != null){
-                holder.iamgeView.setImageBitmap(bitmap);
-            }else{
-                holder.iamgeView.setImageResource(R.drawable.friends_sends_pictures_no);
-            }
-            */
-            return convertView;
+            // Finally load the image asynchronously into the ImageView, this also takes care of
+            // setting a placeholder image while the background thread runs
+            //mImageFetcher.loadImage(Images.imageThumbUrls[position - mNumColumns], imageView);
+            //imageView.setLayoutParams(mImageViewLayoutParams);
+            mImageFetcher.setImageSize(mImageThumbSize ,mImageThumbSize);
+            mImageFetcher.loadImage(list.get(position), imageView);
+            return imageView;
         }
 
     }
-    class Holder
-    {
-        public MyImageView iamgeView;
 
-    }
 
     public class ImageListAdapter extends BaseAdapter {
         List<Map.Entry<Long, List<String>>> list;
@@ -304,7 +281,7 @@ public class Style1 extends Activity {
                 holder = new ListHolder();
                 convertView = LayoutInflater.from(context).inflate(R.layout.image_list_item, null);
                 holder.textView = (TextView)convertView.findViewById(R.id.textView7);
-                holder.gridView = (GridView)convertView.findViewById(R.id.gridView);
+                holder.gridView = (GridView)convertView.findViewById(R.id.gridView123);
                 convertView.setTag(holder);
             }else{
                 holder = (ListHolder) convertView.getTag();
@@ -312,17 +289,45 @@ public class Style1 extends Activity {
             long dateTime = list.get(index).getKey();
             SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd");
             holder.textView.setText(timeFormat.format(new Date(dateTime)));
-            holder.gridView.setNumColumns(4);
+            int mNumColumns = context.getResources().getDisplayMetrics().widthPixels/10*9/mImageThumbSize;
+            holder.gridView.setNumColumns(mNumColumns);
             holder.gridView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
             holder.gridView.setAdapter(new GroupAdapter(Style1.this, list.get(index).getValue(), holder.gridView));
-            int row = list.get(index).getValue().size()/4;
-            if(list.get(index).getValue().size()%4 != 0){
+            holder.gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                    // Pause fetcher to ensure smoother scrolling when flinging
+                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                        // Before Honeycomb pause image loading on scroll to help with performance
+                        if (!Utils.hasHoneycomb()) {
+                            mImageFetcher.setPauseWork(true);
+                        }
+                    } else {
+                        mImageFetcher.setPauseWork(false);
+                    }
+                }
+
+                @Override
+                public void onScroll(AbsListView absListView, int firstVisibleItem,
+                                     int visibleItemCount, int totalItemCount) {
+                }
+            });
+
+            holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(Style1.this, "OnClick at" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            int row = list.get(index).getValue().size()/mNumColumns;
+            if(list.get(index).getValue().size()%mNumColumns != 0){
                 row++;
             }
-            MyImageView imageView = (MyImageView)LayoutInflater.from(context).inflate(R.layout.image_item, null).findViewById(R.id.group_image); //mContext指的是调用的Activtty
-            LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+            //MyImageView imageView = (MyImageView)LayoutInflater.from(context).inflate(R.layout.image_item, null).findViewById(R.id.group_image); //mContext指的是调用的Activtty
+            //LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
             LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) holder.textView.getLayoutParams();
-            int height = row * linearParams.height + textParams.height + 80;
+            int height = row * mImageThumbSize + textParams.height + 80;
             convertView.setLayoutParams(new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, height));
             return convertView;
         }

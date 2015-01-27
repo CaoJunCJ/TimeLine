@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -128,6 +129,7 @@ public abstract class ImageWorker {
             ImageCache.ImageCacheParams cacheParams) {
         mImageCacheParams = cacheParams;
         mImageCache = ImageCache.getInstance(fragmentManager, mImageCacheParams);
+        //must need this task.
         new CacheAsyncTask().execute(MESSAGE_INIT_DISK_CACHE);
     }
 
@@ -400,8 +402,10 @@ public abstract class ImageWorker {
                             drawable
                     });
             // Set background to loading bitmap
-            imageView.setBackgroundDrawable(
-                    new BitmapDrawable(mResources, mLoadingBitmap));
+            //imageView.setBackgroundDrawable(
+            //        new BitmapDrawable(mResources, mLoadingBitmap));
+
+            imageView.setBackgroundColor(Color.WHITE);
 
             imageView.setImageDrawable(td);
             td.startTransition(FADE_IN_TIME);
