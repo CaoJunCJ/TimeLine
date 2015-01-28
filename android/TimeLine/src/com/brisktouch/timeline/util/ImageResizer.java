@@ -155,7 +155,6 @@ public class ImageResizer extends ImageWorker {
 
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        Log.d("test!!!!!options.inSampleSize",options.inSampleSize+"");
         // If we're running on Honeycomb or newer, try to use inBitmap
         if (Utils.hasHoneycomb()) {
             addInBitmapOptions(options, cache);

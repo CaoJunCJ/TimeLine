@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import android.widget.AbsListView.LayoutParams;
 import com.brisktouch.timeline.ui.RecyclingImageView;
 import com.brisktouch.timeline.util.ImageCache;
 import com.brisktouch.timeline.util.ImageNative;
+import com.brisktouch.timeline.util.ImageResizer;
 import com.brisktouch.timeline.util.Utils;
 
 import java.io.File;
@@ -42,7 +44,7 @@ public class Style1 extends Activity {
     private ImageNative mImageFetcher;
     ListView listView;
     ImageListAdapter mImageListAdapter;
-
+    AlertDialog alertView;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,68 +53,81 @@ public class Style1 extends Activity {
         //hide status bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.style1);
-        final ImageButton image = (ImageButton)findViewById(R.id.imageButton8);
-        image.setOnClickListener(new SelectPic());
+        SelectPic mClientListener = new SelectPic();
+        findViewById(R.id.imageButton8).setOnClickListener(mClientListener);
+        findViewById(R.id.imageButton9).setOnClickListener(mClientListener);
+        findViewById(R.id.imageButton10).setOnClickListener(mClientListener);
+        findViewById(R.id.imageButton11).setOnClickListener(mClientListener);
 
     }
 
-    public void popSelectPictureDialog(){
-        List<Map.Entry<Long, List<String>>> infoIds = new ArrayList<Map.Entry<Long, List<String>>>(dateGruopMap.entrySet());
-        Collections.sort(infoIds, new Comparator<Map.Entry<Long, List<String>>>() {
-            public int compare(Map.Entry<Long, List<String>> o1,
-                               Map.Entry<Long, List<String>> o2) {
-                return (o1.getKey()).compareTo(o2.getKey());
-            }
-        });
-        Log.d(Style1.class.getName(),"infoIds size:"+infoIds.size());
+    public void popSelectPictureDialog(int id){
 
-        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
-        mImageThumbSpacing = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_spacing);
-        ImageCache.ImageCacheParams cacheParams = new ImageCache.ImageCacheParams();
-        cacheParams.setMemCacheSizePercent(0.25f);
-        mImageFetcher = new ImageNative(this, mImageThumbSize);
-        mImageFetcher.setLoadingImage(R.drawable.empty_photo);
-        mImageFetcher.addImageCache(cacheParams);
-
-        LinearLayout main = new LinearLayout(Style1.this);
-        main.setOrientation(LinearLayout.VERTICAL);
-        main.setBackgroundColor(Color.parseColor("#ffffffff"));
-
-
-
-
-        listView = new ListView(Style1.this);
-        listView.setBackgroundColor(Color.parseColor("#ffffffff"));
-        listView.setCacheColorHint(0);
-        mImageListAdapter = new ImageListAdapter(Style1.this, infoIds, listView);
-        listView.setAdapter(mImageListAdapter);
-
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-                // Pause fetcher to ensure smoother scrolling when flinging
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
-                    // Before Honeycomb pause image loading on scroll to help with performance
-                    if (!Utils.hasHoneycomb()) {
-                        mImageFetcher.setPauseWork(true);
-                    }
-                } else {
-                    mImageFetcher.setPauseWork(false);
+        if(alertView == null){
+            List<Map.Entry<Long, List<String>>> infoIds = new ArrayList<Map.Entry<Long, List<String>>>(dateGruopMap.entrySet());
+            Collections.sort(infoIds, new Comparator<Map.Entry<Long, List<String>>>() {
+                public int compare(Map.Entry<Long, List<String>> o1,
+                                   Map.Entry<Long, List<String>> o2) {
+                    return (o1.getKey()).compareTo(o2.getKey());
                 }
-            }
+            });
+            Log.d(Style1.class.getName(),"infoIds size:"+infoIds.size());
 
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount) {
-            }
-        });
+            mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
+            mImageThumbSpacing = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_spacing);
+            ImageCache.ImageCacheParams cacheParams = new ImageCache.ImageCacheParams();
+            cacheParams.setMemCacheSizePercent(0.25f);
+            mImageFetcher = new ImageNative(this, mImageThumbSize);
+            mImageFetcher.setLoadingImage(R.drawable.empty_photo);
+            mImageFetcher.addImageCache(cacheParams);
+
+            LinearLayout main = new LinearLayout(Style1.this);
+            main.setOrientation(LinearLayout.VERTICAL);
+            main.setBackgroundColor(Color.parseColor("#ffffffff"));
 
 
 
-        main.addView(listView);
+
+            listView = new ListView(Style1.this);
+            listView.setBackgroundColor(Color.parseColor("#ffffffff"));
+            listView.setCacheColorHint(0);
+            mImageListAdapter = new ImageListAdapter(Style1.this, infoIds, listView);
+            mImageListAdapter.setChangeImageId(id);
+            listView.setAdapter(mImageListAdapter);
+
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                    // Pause fetcher to ensure smoother scrolling when flinging
+                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                        // Before Honeycomb pause image loading on scroll to help with performance
+                        if (!Utils.hasHoneycomb()) {
+                            mImageFetcher.setPauseWork(true);
+                        }
+                    } else {
+                        mImageFetcher.setPauseWork(false);
+                    }
+                }
+
+                @Override
+                public void onScroll(AbsListView absListView, int firstVisibleItem,
+                                     int visibleItemCount, int totalItemCount) {
+                }
+            });
 
 
-        new AlertDialog.Builder(Style1.this).setView(main).show();
+
+            main.addView(listView);
+
+
+            alertView = new AlertDialog.Builder(Style1.this).setView(main).create();
+        }
+
+        if(alertView!=null){
+            alertView.show();
+        }
+
+
     }
 
     public class SelectPic implements View.OnClickListener {
@@ -121,7 +136,8 @@ public class Style1 extends Activity {
 
         private Handler mHandler = new Handler(){
             public void handleMessage(Message msg){
-                popSelectPictureDialog();
+                Bundle ble = msg.getData();
+                popSelectPictureDialog(ble.getInt("id"));
             }
         };
 
@@ -134,11 +150,20 @@ public class Style1 extends Activity {
 
 
         public void onClick(View v) {
+            if(mImageListAdapter!=null){
+                mImageListAdapter.setChangeImageId(v.getId());
+            }
+
             Log.d(Style1.class.getName(),"onclick");
-            getImage();
+            if(alertView == null){
+                getImage(v.getId());
+            }else{
+                popSelectPictureDialog(v.getId());
+            }
+
         }
 
-        private void getImage(){
+        private void getImage(final int id){
             if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
                 Toast.makeText(Style1.this, "Not External Storage Card", Toast.LENGTH_SHORT).show();
                 return;
@@ -189,7 +214,12 @@ public class Style1 extends Activity {
                         }
 
                     }
-                    mHandler.sendEmptyMessage(1);
+
+                    Message message = new Message();
+                    Bundle ble = new Bundle();
+                    ble.putInt("id", id);
+                    message.setData(ble);
+                    mHandler.sendMessage(message);
                 }
             }).start();
         }
@@ -252,11 +282,16 @@ public class Style1 extends Activity {
         List<Map.Entry<Long, List<String>>> list;
         Context context;
         ListView mListView;
+        int changeImageId;
 
         public ImageListAdapter(Context c, List<Map.Entry<Long, List<String>>> list, ListView mListView){
             this.list = list;
             this.context = c;
             this.mListView = mListView;
+        }
+
+        public void setChangeImageId(int id){
+            changeImageId = id;
         }
 
         @Override
@@ -275,7 +310,7 @@ public class Style1 extends Activity {
         }
 
         @Override
-        public View getView(int index, View convertView, ViewGroup arg2) {
+        public View getView(final int index, View convertView, ViewGroup arg2) {
             ListHolder holder;
             if(null == convertView){
                 holder = new ListHolder();
@@ -316,7 +351,21 @@ public class Style1 extends Activity {
             holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(Style1.this, "OnClick at" + position, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Style1.this, "OnClick at" + position, Toast.LENGTH_SHORT).show();
+                    String path = list.get(index).getValue().get(position);
+                    Log.d("path:",path);
+                    ImageButton mImageButton = (ImageButton)((Activity)context).findViewById(changeImageId);
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    //options.inJustDecodeBounds = true;
+                    //BitmapFactory.decodeFile(path, options);
+                    //int height = mImageButton.getHeight();
+                    //options.inSampleSize = ImageResizer.calculateInSampleSize(options, options.outWidth, height);
+                    //options.inJustDecodeBounds = false;
+                    Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+                    //int width = bitmap.getWidth();
+                    mImageButton.setScaleType(ImageView.ScaleType.CENTER_CROP );
+                    mImageButton.setImageBitmap(bitmap);
+                    alertView.dismiss();
                 }
             });
 

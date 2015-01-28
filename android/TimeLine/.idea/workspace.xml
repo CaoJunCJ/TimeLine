@@ -17,7 +17,22 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.brisktouch.timeline" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b99c9a8-02df-4178-a631-e242781fa430" name="Default" comment="" />
+    <list default="true" id="7b99c9a8-02df-4178-a631-e242781fa430" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/util/ImageResizer.class" afterPath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/util/ImageResizer.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$GroupAdapter.class" afterPath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$GroupAdapter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$ImageListAdapter.class" afterPath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$ImageListAdapter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$ListHolder.class" afterPath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$ListHolder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$SelectPic$1.class" afterPath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$SelectPic$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$SelectPic$2.class" afterPath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$SelectPic$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$SelectPic.class" afterPath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1$SelectPic.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1.class" afterPath="$PROJECT_DIR$/out/production/TimeLine/com/brisktouch/timeline/add/Style1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/TimeLine.apk" afterPath="$PROJECT_DIR$/out/production/TimeLine/TimeLine.apk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TimeLine/TimeLine.unaligned.apk" afterPath="$PROJECT_DIR$/out/production/TimeLine/TimeLine.unaligned.apk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/brisktouch/timeline/util/ImageResizer.java" afterPath="$PROJECT_DIR$/src/com/brisktouch/timeline/util/ImageResizer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/brisktouch/timeline/add/Style1.java" afterPath="$PROJECT_DIR$/src/com/brisktouch/timeline/add/Style1.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="TimeLine.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -66,8 +81,8 @@
       <file leaf-file-name="ImageResizer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/util/ImageResizer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1929" max-vertical-offset="4233">
-              <caret line="147" column="39" selection-start-line="147" selection-start-column="30" selection-end-line="147" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1912" max-vertical-offset="4216">
+              <caret line="156" column="31" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -76,28 +91,12 @@
       <file leaf-file-name="TestActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/ui/TestActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.862069" vertical-offset="2346" max-vertical-offset="4131">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2346" max-vertical-offset="4131">
               <caret line="148" column="55" selection-start-line="148" selection-start-column="20" selection-end-line="148" selection-end-column="55" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1455#1521#0" expanded="true" />
-                <element signature="e#1552#1621#0" expanded="true" />
-                <element signature="e#3612#5092#0" expanded="true" />
-                <element signature="e#5091#5092#0" expanded="true" />
-                <element signature="e#6937#6938#0" expanded="true" />
-                <element signature="e#6979#6980#0" expanded="true" />
-                <element signature="e#7044#7045#0" expanded="true" />
-                <element signature="e#7093#7094#0" expanded="true" />
-                <element signature="e#7158#7159#0" expanded="true" />
-                <element signature="e#7198#7199#0" expanded="true" />
-                <element signature="e#7257#7258#0" expanded="true" />
-                <element signature="e#7289#7290#0" expanded="true" />
-                <element signature="e#7359#7360#0" expanded="true" />
-                <element signature="e#7422#7423#0" expanded="true" />
-                <element signature="e#7481#7482#0" expanded="true" />
-                <element signature="e#7516#7517#0" expanded="true" />
-                <element signature="e#9480#9481#0" expanded="true" />
-                <element signature="e#9522#9523#0" expanded="true" />
+                <element signature="e#1302#1310#0" expanded="false" />
+                <element signature="e#9394#9395#0" expanded="false" />
+                <element signature="e#9442#9443#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -106,32 +105,56 @@
       <file leaf-file-name="Style1.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/add/Style1.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="3.3864818" vertical-offset="3299" max-vertical-offset="5763">
-              <caret line="318" column="63" selection-start-line="318" selection-start-column="63" selection-end-line="318" selection-end-column="63" />
+            <state vertical-scroll-proportion="1.02" vertical-offset="5848" max-vertical-offset="6749">
+              <caret line="362" column="22" selection-start-line="362" selection-start-column="22" selection-end-line="362" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2350#2416#0" expanded="true" />
-                <element signature="e#2447#2516#0" expanded="true" />
-                <element signature="e#4394#4526#0" expanded="true" />
-                <element signature="e#4525#4526#0" expanded="true" />
-                <element signature="e#5154#7534#0" expanded="true" />
-                <element signature="e#6230#6238#0" expanded="true" />
-                <element signature="e#7189#7197#0" expanded="true" />
-                <element signature="e#7533#7534#0" expanded="true" />
-                <element signature="e#8152#8153#0" expanded="true" />
-                <element signature="e#8194#8195#0" expanded="true" />
-                <element signature="e#8255#8256#0" expanded="true" />
-                <element signature="e#8300#8301#0" expanded="true" />
-                <element signature="e#8361#8362#0" expanded="true" />
-                <element signature="e#8396#8397#0" expanded="true" />
-                <element signature="e#12397#12694#0" expanded="true" />
-                <element signature="e#12693#12694#0" expanded="true" />
+                <element signature="e#2282#2313#0" expanded="true" />
+                <element signature="e#2378#2664#0" expanded="true" />
+                <element signature="e#2663#2664#0" expanded="true" />
+                <element signature="e#2772#2838#0" expanded="true" />
+                <element signature="e#2873#2942#0" expanded="true" />
+                <element signature="e#5100#5292#0" expanded="true" />
+                <element signature="e#5291#5292#0" expanded="true" />
+                <element signature="e#6184#8750#0" expanded="true" />
+                <element signature="e#7260#7268#0" expanded="true" />
+                <element signature="e#8219#8227#0" expanded="true" />
+                <element signature="e#8749#8750#0" expanded="true" />
+                <element signature="e#9368#9369#0" expanded="true" />
+                <element signature="e#9410#9411#0" expanded="true" />
+                <element signature="e#9471#9472#0" expanded="true" />
+                <element signature="e#9516#9517#0" expanded="true" />
+                <element signature="e#9577#9578#0" expanded="true" />
+                <element signature="e#9612#9613#0" expanded="true" />
+                <element signature="e#11138#11139#0" expanded="true" />
+                <element signature="e#11180#11181#0" expanded="true" />
+                <element signature="e#11231#11232#0" expanded="true" />
+                <element signature="e#11273#11274#0" expanded="true" />
+                <element signature="e#11334#11335#0" expanded="true" />
+                <element signature="e#11379#11380#0" expanded="true" />
+                <element signature="e#11440#11441#0" expanded="true" />
+                <element signature="e#11475#11476#0" expanded="true" />
+                <element signature="e#13735#15005#0" expanded="true" />
+                <element signature="e#15004#15005#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="NativeImageLoader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/add/NativeImageLoader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="437" max-vertical-offset="2176">
+              <caret line="45" column="48" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -176,8 +199,8 @@
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/res/layout/image_list_item.xml" />
         <option value="$PROJECT_DIR$/src/com/brisktouch/timeline/ui/RecyclingImageView.java" />
-        <option value="$PROJECT_DIR$/src/com/brisktouch/timeline/util/ImageResizer.java" />
         <option value="$PROJECT_DIR$/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/src/com/brisktouch/timeline/util/ImageResizer.java" />
         <option value="$PROJECT_DIR$/src/com/brisktouch/timeline/add/Style1.java" />
       </list>
     </option>
@@ -188,7 +211,7 @@
     <option name="width" value="1296" />
     <option name="height" value="776" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -211,6 +234,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -305,6 +330,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="timeline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="add" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeLine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeLine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -347,8 +394,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -443,19 +488,6 @@
       </ExternalSystemSettings>
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -482,6 +514,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -618,11 +663,11 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39906833" sideWeight="0.4563107" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32298136" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44822007" sideWeight="0.5226537" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32847896" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44822007" sideWeight="0.4563107" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.44822007" sideWeight="0.47653723" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32919255" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -665,45 +710,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/app/FragmentManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.63474023" vertical-offset="0" max-vertical-offset="35428">
-          <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23011844" vertical-offset="0" max-vertical-offset="591">
-          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/util/ImageFetcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22077923" vertical-offset="2567" max-vertical-offset="5083">
-          <caret line="173" column="52" selection-start-line="173" selection-start-column="52" selection-end-line="173" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/support-v4-19.1.0.jar!/android/support/v4/app/FragmentTransaction.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17258883" vertical-offset="0" max-vertical-offset="1224">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/util/Log.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3058" max-vertical-offset="3417">
-          <caret line="225" column="0" selection-start-line="225" selection-start-column="0" selection-end-line="225" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://E:/sdk/android-sdk/sources/android-21/android/util/Slog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1632">
@@ -825,9 +831,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="13" max-vertical-offset="629">
           <caret line="28" column="30" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -835,9 +838,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1268" max-vertical-offset="5865">
           <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -852,19 +852,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2881356" vertical-offset="2601" max-vertical-offset="10999">
           <caret line="196" column="56" selection-start-line="196" selection-start-column="50" selection-end-line="196" selection-end-column="56" />
-          <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/style1.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1564">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/select_style.xml">
@@ -901,7 +889,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="35.44425" vertical-offset="0" max-vertical-offset="41378">
           <caret line="1217" column="32" selection-start-line="1217" selection-start-column="32" selection-end-line="1217" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -920,21 +907,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="294" max-vertical-offset="884">
           <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
-          <folding>
-            <element signature="e#944#962#0" expanded="true" />
-            <element signature="e#1388#1417#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/view/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3322034" vertical-offset="162766" max-vertical-offset="346188">
-          <caret line="9887" column="21" selection-start-line="9887" selection-start-column="21" selection-end-line="9887" selection-end-column="21" />
-          <folding>
-            <element signature="e#387581#387582#0" expanded="true" />
-            <element signature="e#387618#387619#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -964,7 +936,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.11525424" vertical-offset="0" max-vertical-offset="590">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -979,35 +950,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/add/BitmapWorkerTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53898305" vertical-offset="124" max-vertical-offset="714">
-          <caret line="27" column="57" selection-start-line="27" selection-start-column="57" selection-end-line="27" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/add/NativeImageLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="284" max-vertical-offset="2176">
-          <caret line="45" column="46" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/widget/ImageView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3322034" vertical-offset="6213" max-vertical-offset="22797">
-          <caret line="442" column="16" selection-start-line="442" selection-start-column="16" selection-end-line="442" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/TimeLineDisplayView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31694916" vertical-offset="867" max-vertical-offset="4726">
           <caret line="89" column="48" selection-start-line="87" selection-start-column="12" selection-end-line="89" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1016,7 +962,7 @@
         <state vertical-scroll-proportion="0.3322034" vertical-offset="2405" max-vertical-offset="7990">
           <caret line="175" column="30" selection-start-line="175" selection-start-column="30" selection-end-line="175" selection-end-column="30" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1058,14 +1004,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/util/ImageResizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1929" max-vertical-offset="4233">
-          <caret line="147" column="39" selection-start-line="147" selection-start-column="30" selection-end-line="147" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://E:/sdk/android-sdk/sources/android-21/android/widget/AbsListView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33968803" vertical-offset="102892" max-vertical-offset="120836">
@@ -1079,28 +1017,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/ui/TestActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.862069" vertical-offset="2346" max-vertical-offset="4131">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2346" max-vertical-offset="4131">
           <caret line="148" column="55" selection-start-line="148" selection-start-column="20" selection-end-line="148" selection-end-column="55" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1455#1521#0" expanded="true" />
-            <element signature="e#1552#1621#0" expanded="true" />
-            <element signature="e#3612#5092#0" expanded="true" />
-            <element signature="e#5091#5092#0" expanded="true" />
-            <element signature="e#6937#6938#0" expanded="true" />
-            <element signature="e#6979#6980#0" expanded="true" />
-            <element signature="e#7044#7045#0" expanded="true" />
-            <element signature="e#7093#7094#0" expanded="true" />
-            <element signature="e#7158#7159#0" expanded="true" />
-            <element signature="e#7198#7199#0" expanded="true" />
-            <element signature="e#7257#7258#0" expanded="true" />
-            <element signature="e#7289#7290#0" expanded="true" />
-            <element signature="e#7359#7360#0" expanded="true" />
-            <element signature="e#7422#7423#0" expanded="true" />
-            <element signature="e#7481#7482#0" expanded="true" />
-            <element signature="e#7516#7517#0" expanded="true" />
-            <element signature="e#9480#9481#0" expanded="true" />
-            <element signature="e#9522#9523#0" expanded="true" />
+            <element signature="e#1302#1310#0" expanded="false" />
+            <element signature="e#9394#9395#0" expanded="false" />
+            <element signature="e#9442#9443#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1109,32 +1031,136 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.57168144" vertical-offset="0" max-vertical-offset="565">
           <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/style1.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="523" max-vertical-offset="1564">
+          <caret line="41" column="16" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/app/AlertDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3322034" vertical-offset="15189" max-vertical-offset="15946">
+          <caret line="965" column="27" selection-start-line="965" selection-start-column="27" selection-end-line="965" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/view/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33968803" vertical-offset="328125" max-vertical-offset="346154">
+          <caret line="19930" column="21" selection-start-line="19930" selection-start-column="21" selection-end-line="19930" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/os/Bundle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2881356" vertical-offset="0" max-vertical-offset="17340">
+          <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/add/BitmapWorkerTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74915254" vertical-offset="0" max-vertical-offset="714">
+          <caret line="27" column="57" selection-start-line="27" selection-start-column="57" selection-end-line="27" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/os/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3322034" vertical-offset="6298" max-vertical-offset="9214">
+          <caret line="406" column="30" selection-start-line="406" selection-start-column="24" selection-end-line="406" selection-end-column="30" />
+          <folding>
+            <element signature="e#13265#13266#0" expanded="true" />
+            <element signature="e#13297#13298#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/os/BaseBundle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3322034" vertical-offset="5635" max-vertical-offset="22661">
+          <caret line="379" column="16" selection-start-line="379" selection-start-column="16" selection-end-line="379" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/net/Uri.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.2" vertical-offset="3357" max-vertical-offset="36958">
+          <caret line="52" column="22" selection-start-line="52" selection-start-column="22" selection-end-line="52" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/sdk/android-sdk/sources/android-21/android/widget/ImageView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41864407" vertical-offset="5737" max-vertical-offset="22797">
+          <caret line="417" column="30" selection-start-line="417" selection-start-column="30" selection-end-line="417" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/add/NativeImageLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="284" max-vertical-offset="2176">
+          <caret line="45" column="48" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/util/ImageResizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1912" max-vertical-offset="4216">
+          <caret line="156" column="31" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/brisktouch/timeline/add/Style1.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.3864818" vertical-offset="3299" max-vertical-offset="5763">
-          <caret line="318" column="63" selection-start-line="318" selection-start-column="63" selection-end-line="318" selection-end-column="63" />
+        <state vertical-scroll-proportion="1.02" vertical-offset="5848" max-vertical-offset="6749">
+          <caret line="362" column="22" selection-start-line="362" selection-start-column="22" selection-end-line="362" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2350#2416#0" expanded="true" />
-            <element signature="e#2447#2516#0" expanded="true" />
-            <element signature="e#4394#4526#0" expanded="true" />
-            <element signature="e#4525#4526#0" expanded="true" />
-            <element signature="e#5154#7534#0" expanded="true" />
-            <element signature="e#6230#6238#0" expanded="true" />
-            <element signature="e#7189#7197#0" expanded="true" />
-            <element signature="e#7533#7534#0" expanded="true" />
-            <element signature="e#8152#8153#0" expanded="true" />
-            <element signature="e#8194#8195#0" expanded="true" />
-            <element signature="e#8255#8256#0" expanded="true" />
-            <element signature="e#8300#8301#0" expanded="true" />
-            <element signature="e#8361#8362#0" expanded="true" />
-            <element signature="e#8396#8397#0" expanded="true" />
-            <element signature="e#12397#12694#0" expanded="true" />
-            <element signature="e#12693#12694#0" expanded="true" />
+            <element signature="e#2282#2313#0" expanded="true" />
+            <element signature="e#2378#2664#0" expanded="true" />
+            <element signature="e#2663#2664#0" expanded="true" />
+            <element signature="e#2772#2838#0" expanded="true" />
+            <element signature="e#2873#2942#0" expanded="true" />
+            <element signature="e#5100#5292#0" expanded="true" />
+            <element signature="e#5291#5292#0" expanded="true" />
+            <element signature="e#6184#8750#0" expanded="true" />
+            <element signature="e#7260#7268#0" expanded="true" />
+            <element signature="e#8219#8227#0" expanded="true" />
+            <element signature="e#8749#8750#0" expanded="true" />
+            <element signature="e#9368#9369#0" expanded="true" />
+            <element signature="e#9410#9411#0" expanded="true" />
+            <element signature="e#9471#9472#0" expanded="true" />
+            <element signature="e#9516#9517#0" expanded="true" />
+            <element signature="e#9577#9578#0" expanded="true" />
+            <element signature="e#9612#9613#0" expanded="true" />
+            <element signature="e#11138#11139#0" expanded="true" />
+            <element signature="e#11180#11181#0" expanded="true" />
+            <element signature="e#11231#11232#0" expanded="true" />
+            <element signature="e#11273#11274#0" expanded="true" />
+            <element signature="e#11334#11335#0" expanded="true" />
+            <element signature="e#11379#11380#0" expanded="true" />
+            <element signature="e#11440#11441#0" expanded="true" />
+            <element signature="e#11475#11476#0" expanded="true" />
+            <element signature="e#13735#15005#0" expanded="true" />
+            <element signature="e#15004#15005#0" expanded="true" />
           </folding>
         </state>
       </provider>
