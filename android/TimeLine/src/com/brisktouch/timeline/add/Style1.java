@@ -58,7 +58,18 @@ public class Style1 extends Activity {
         findViewById(R.id.imageButton9).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton10).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton11).setOnClickListener(mClientListener);
-
+        ImageView assistive = (ImageView)findViewById(R.id.imageButton12);
+        int mScreenWidth = this.getResources().getDisplayMetrics().widthPixels;
+        int mScreenHeight = this.getResources().getDisplayMetrics().heightPixels;
+        RelativeLayout.LayoutParams assistiveLayout = new RelativeLayout.LayoutParams(mScreenWidth*2/10 -10, mScreenWidth*2/10 -10);
+        assistiveLayout.setMargins(mScreenWidth*7/10, mScreenHeight*8/10,0,0);
+        assistive.setLayoutParams(assistiveLayout);
+        assistive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Style1.this, "OPOPOOOHHIH", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void popSelectPictureDialog(int id){
