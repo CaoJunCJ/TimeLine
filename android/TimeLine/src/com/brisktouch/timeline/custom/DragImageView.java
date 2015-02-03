@@ -19,6 +19,7 @@ public class DragImageView extends ImageView {
     int screenHeight;
     boolean isMove;
     OnClickListener listener;
+    long downTimeMillis;
     public DragImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         screenWidth = context.getResources().getDisplayMetrics().widthPixels;
@@ -45,6 +46,7 @@ public class DragImageView extends ImageView {
                 lastY = (int) ev.getRawY();
                 Log.d(TAG, "x:" + lastX);
                 Log.d(TAG, "y:" + lastY);
+                downTimeMillis = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
                 isMove = true;
@@ -57,12 +59,12 @@ public class DragImageView extends ImageView {
                 int right = getRight() + dx;
                 int bottom = getBottom() + dy;
 
-                System.out.println("left:" + left);
-                System.out.println("top:" + top);
-                System.out.println("right:" + right);
-                System.out.println("bottom:" + bottom);
+                //Log.d(TAG, "left:" + left);
+                //Log.d(TAG, "top:" + top);
+                //Log.d(TAG, "right:" + right);
+                //Log.d(TAG, "bottom:" + bottom);
 
-                // 设置不能出界
+                // set out of max
                 if (left < 0) {
                     left = 0;
                     right = left + getWidth();
@@ -89,7 +91,7 @@ public class DragImageView extends ImageView {
                 break;
             case MotionEvent.ACTION_UP:
                 Log.d(TAG, "ACTION_UP");
-                if(!isMove && listener != null){
+                if((!isMove||(System.currentTimeMillis()-downTimeMillis)<300) && listener != null){
                     listener.onClick(this);
                 }
                 break;

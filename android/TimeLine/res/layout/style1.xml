@@ -97,6 +97,6 @@
                 android:layout_marginLeft="200dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton12" android:background="#ff6eb7ff"/>
+                android:id="@+id/imageButton12" android:background="@drawable/assistivetouch"/>
     </RelativeLayout>
 </LinearLayout>

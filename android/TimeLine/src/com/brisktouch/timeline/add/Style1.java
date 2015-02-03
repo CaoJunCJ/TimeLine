@@ -67,7 +67,7 @@ public class Style1 extends Activity {
         assistive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Style1.this, "OPOPOOOHHIH", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Style1.this, "Test", Toast.LENGTH_SHORT).show();
             }
         });
     }
