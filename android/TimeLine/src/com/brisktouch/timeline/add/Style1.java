@@ -1,5 +1,7 @@
 package com.brisktouch.timeline.add;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -15,10 +17,12 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
+import android.view.animation.*;
 import android.widget.*;
 import com.brisktouch.timeline.R;
 import android.net.Uri;
 import android.widget.AbsListView.LayoutParams;
+import com.brisktouch.timeline.custom.ArcTranslateAnimation;
 import com.brisktouch.timeline.ui.RecyclingImageView;
 import com.brisktouch.timeline.util.ImageCache;
 import com.brisktouch.timeline.util.ImageNative;
@@ -46,6 +50,8 @@ public class Style1 extends Activity {
     ImageListAdapter mImageListAdapter;
     AlertDialog alertView;
 
+    boolean isDisplayButton = false;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //hide title bar
@@ -58,16 +64,135 @@ public class Style1 extends Activity {
         findViewById(R.id.imageButton9).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton10).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton11).setOnClickListener(mClientListener);
+        RelativeLayout rt = (RelativeLayout)findViewById(R.id.relativeLayout_style);
         ImageView assistive = (ImageView)findViewById(R.id.imageButton12);
         int mScreenWidth = this.getResources().getDisplayMetrics().widthPixels;
         int mScreenHeight = this.getResources().getDisplayMetrics().heightPixels;
         RelativeLayout.LayoutParams assistiveLayout = new RelativeLayout.LayoutParams(mScreenWidth*2/10 -10, mScreenWidth*2/10 -10);
         assistiveLayout.setMargins(mScreenWidth*7/10, mScreenHeight*8/10,0,0);
         assistive.setLayoutParams(assistiveLayout);
+        final ImageView iv1 = new ImageView(this);
+        iv1.setLayoutParams(assistiveLayout);
+        iv1.setImageResource(R.drawable.ic_launcher);
+        iv1.setVisibility(View.INVISIBLE);
+        rt.addView(iv1,1);
+
+        final ImageView iv2 = new ImageView(this);
+        iv2.setLayoutParams(assistiveLayout);
+        iv2.setImageResource(R.drawable.ic_launcher);
+        iv2.setVisibility(View.INVISIBLE);
+        rt.addView(iv2,1);
+
+        final ImageView iv3 = new ImageView(this);
+        iv3.setLayoutParams(assistiveLayout);
+        iv3.setImageResource(R.drawable.ic_launcher);
+        iv3.setVisibility(View.INVISIBLE);
+        rt.addView(iv3,1);
+
         assistive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(Style1.this, "Test", Toast.LENGTH_SHORT).show();
+                if(!isDisplayButton){
+                    iv1.layout(v.getLeft(),v.getTop(),v.getRight(),v.getBottom());
+
+                    iv2.layout(v.getLeft(),v.getTop(),v.getRight(),v.getBottom());
+
+                    iv3.layout(v.getLeft(),v.getTop(),v.getRight(),v.getBottom());
+
+                    int[] v1 = {0,-80};
+                    final int[] v2 = {-40,-80+35};
+                    final int[] v3 = {-80,-80+70};
+                    ArcTranslateAnimation animation1 = new ArcTranslateAnimation(
+                            0, v1[0], 0, v1[1]);
+                    animation1
+                            .setInterpolator(new LinearInterpolator());
+                    animation1.setDuration(200);
+                    animation1.setFillAfter(true);
+                    iv1.startAnimation(animation1);
+                    animation1.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            ArcTranslateAnimation animation2 = new ArcTranslateAnimation(
+                                    0, v2[0], 0, v2[1]);
+                            animation2
+                                    .setInterpolator(new LinearInterpolator());
+                            animation2.setDuration(200);
+                            animation2.setFillAfter(true);
+                            iv2.startAnimation(animation2);
+                            animation2.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    ArcTranslateAnimation animation3 = new ArcTranslateAnimation(
+                                            0, v3[0], 0, v3[1]);
+                                    animation3
+                                            .setInterpolator(new LinearInterpolator());
+                                    animation3.setDuration(100);
+                                    animation3.setFillAfter(true);
+                                    iv3.startAnimation(animation3);
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+
+
+
+
+                    isDisplayButton = true;
+                }else{
+                    int[] v1 = {0,-80};
+                    int[] v2 = {-40,-80+35};
+                    int[] v3 = {-80,-80+70};
+                    ArcTranslateAnimation animation1 = new ArcTranslateAnimation(
+                            v1[0], 0, v1[1], 0);
+                    animation1
+                            .setInterpolator(new LinearInterpolator());
+                    animation1.setDuration(500);
+                    animation1.setFillAfter(true);
+                    iv1.startAnimation(animation1);
+
+                    ArcTranslateAnimation animation2 = new ArcTranslateAnimation(
+                            v2[0], 0, v2[1], 0);
+                    animation2
+                            .setInterpolator(new LinearInterpolator());
+                    animation2.setDuration(500);
+                    animation2.setFillAfter(true);
+                    iv2.startAnimation(animation2);
+
+                    ArcTranslateAnimation animation3 = new ArcTranslateAnimation(
+                            v3[0], 0, v3[1], 0);
+                    animation3
+                            .setInterpolator(new LinearInterpolator());
+                    animation3.setDuration(500);
+                    animation3.setFillAfter(true);
+                    iv3.startAnimation(animation3);
+
+
+
+                    //iv1.setVisibility(View.INVISIBLE);
+                    isDisplayButton = false;
+                }
+
             }
         });
     }

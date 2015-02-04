@@ -40,17 +40,17 @@ public class DragImageView extends ImageView {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch(ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.d(TAG, "ACTION_DOWN");
+                //Log.d(TAG, "ACTION_DOWN");
                 isMove = false;
                 lastX = (int) ev.getRawX();
                 lastY = (int) ev.getRawY();
-                Log.d(TAG, "x:" + lastX);
-                Log.d(TAG, "y:" + lastY);
+                //Log.d(TAG, "x:" + lastX);
+                //Log.d(TAG, "y:" + lastY);
                 downTimeMillis = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
                 isMove = true;
-                Log.d(TAG, "ACTION_MOVE");
+                //Log.d(TAG, "ACTION_MOVE");
                 int dx = (int) ev.getRawX() - lastX;
                 int dy = (int) ev.getRawY() - lastY;
 
@@ -90,7 +90,7 @@ public class DragImageView extends ImageView {
                 lastY = (int) ev.getRawY();
                 break;
             case MotionEvent.ACTION_UP:
-                Log.d(TAG, "ACTION_UP");
+                //Log.d(TAG, "ACTION_UP");
                 if((!isMove||(System.currentTimeMillis()-downTimeMillis)<300) && listener != null){
                     listener.onClick(this);
                 }
