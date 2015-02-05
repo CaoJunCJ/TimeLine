@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.*;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
@@ -23,6 +24,8 @@ import com.brisktouch.timeline.R;
 import android.net.Uri;
 import android.widget.AbsListView.LayoutParams;
 import com.brisktouch.timeline.custom.ArcTranslateAnimation;
+import com.brisktouch.timeline.custom.CircleButton;
+import com.brisktouch.timeline.custom.PopButtonOnClickListener;
 import com.brisktouch.timeline.ui.RecyclingImageView;
 import com.brisktouch.timeline.util.ImageCache;
 import com.brisktouch.timeline.util.ImageNative;
@@ -71,130 +74,48 @@ public class Style1 extends Activity {
         RelativeLayout.LayoutParams assistiveLayout = new RelativeLayout.LayoutParams(mScreenWidth*2/10 -10, mScreenWidth*2/10 -10);
         assistiveLayout.setMargins(mScreenWidth*7/10, mScreenHeight*8/10,0,0);
         assistive.setLayoutParams(assistiveLayout);
-        final ImageView iv1 = new ImageView(this);
+        final ImageView iv1 = new CircleButton(this);
         iv1.setLayoutParams(assistiveLayout);
-        iv1.setImageResource(R.drawable.ic_launcher);
+        iv1.setImageResource(R.drawable.ic_action_undo);
         iv1.setVisibility(View.INVISIBLE);
+        //iv1.setBackgroundColor(Color.parseColor("#99CC00"));
         rt.addView(iv1,1);
-
-        final ImageView iv2 = new ImageView(this);
-        iv2.setLayoutParams(assistiveLayout);
-        iv2.setImageResource(R.drawable.ic_launcher);
-        iv2.setVisibility(View.INVISIBLE);
-        rt.addView(iv2,1);
-
-        final ImageView iv3 = new ImageView(this);
-        iv3.setLayoutParams(assistiveLayout);
-        iv3.setImageResource(R.drawable.ic_launcher);
-        iv3.setVisibility(View.INVISIBLE);
-        rt.addView(iv3,1);
-
-        assistive.setOnClickListener(new View.OnClickListener() {
+        iv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Style1.this, "Test", Toast.LENGTH_SHORT).show();
-                if(!isDisplayButton){
-                    iv1.layout(v.getLeft(),v.getTop(),v.getRight(),v.getBottom());
-
-                    iv2.layout(v.getLeft(),v.getTop(),v.getRight(),v.getBottom());
-
-                    iv3.layout(v.getLeft(),v.getTop(),v.getRight(),v.getBottom());
-
-                    int[] v1 = {0,-80};
-                    final int[] v2 = {-40,-80+35};
-                    final int[] v3 = {-80,-80+70};
-                    ArcTranslateAnimation animation1 = new ArcTranslateAnimation(
-                            0, v1[0], 0, v1[1]);
-                    animation1
-                            .setInterpolator(new LinearInterpolator());
-                    animation1.setDuration(200);
-                    animation1.setFillAfter(true);
-                    iv1.startAnimation(animation1);
-                    animation1.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            ArcTranslateAnimation animation2 = new ArcTranslateAnimation(
-                                    0, v2[0], 0, v2[1]);
-                            animation2
-                                    .setInterpolator(new LinearInterpolator());
-                            animation2.setDuration(200);
-                            animation2.setFillAfter(true);
-                            iv2.startAnimation(animation2);
-                            animation2.setAnimationListener(new Animation.AnimationListener() {
-                                @Override
-                                public void onAnimationStart(Animation animation) {
-
-                                }
-
-                                @Override
-                                public void onAnimationEnd(Animation animation) {
-                                    ArcTranslateAnimation animation3 = new ArcTranslateAnimation(
-                                            0, v3[0], 0, v3[1]);
-                                    animation3
-                                            .setInterpolator(new LinearInterpolator());
-                                    animation3.setDuration(100);
-                                    animation3.setFillAfter(true);
-                                    iv3.startAnimation(animation3);
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animation animation) {
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-
-
-
-
-                    isDisplayButton = true;
-                }else{
-                    int[] v1 = {0,-80};
-                    int[] v2 = {-40,-80+35};
-                    int[] v3 = {-80,-80+70};
-                    ArcTranslateAnimation animation1 = new ArcTranslateAnimation(
-                            v1[0], 0, v1[1], 0);
-                    animation1
-                            .setInterpolator(new LinearInterpolator());
-                    animation1.setDuration(500);
-                    animation1.setFillAfter(true);
-                    iv1.startAnimation(animation1);
-
-                    ArcTranslateAnimation animation2 = new ArcTranslateAnimation(
-                            v2[0], 0, v2[1], 0);
-                    animation2
-                            .setInterpolator(new LinearInterpolator());
-                    animation2.setDuration(500);
-                    animation2.setFillAfter(true);
-                    iv2.startAnimation(animation2);
-
-                    ArcTranslateAnimation animation3 = new ArcTranslateAnimation(
-                            v3[0], 0, v3[1], 0);
-                    animation3
-                            .setInterpolator(new LinearInterpolator());
-                    animation3.setDuration(500);
-                    animation3.setFillAfter(true);
-                    iv3.startAnimation(animation3);
-
-
-
-                    //iv1.setVisibility(View.INVISIBLE);
-                    isDisplayButton = false;
-                }
-
+                Toast.makeText(Style1.this, "Onclick at back", Toast.LENGTH_SHORT).show();
             }
         });
+
+        final ImageView iv2 = new CircleButton(this);
+        iv2.setLayoutParams(assistiveLayout);
+        iv2.setImageResource(R.drawable.ic_action_save);
+        iv2.setVisibility(View.INVISIBLE);
+        //iv2.setBackgroundColor(Color.parseColor("#99CC00"));
+        rt.addView(iv2,1);
+        iv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Style1.this, "Onclick at save", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final ImageView iv3 = new CircleButton(this);
+        iv3.setLayoutParams(assistiveLayout);
+        iv3.setImageResource(R.drawable.ic_action_share);
+        iv3.setVisibility(View.INVISIBLE);
+        //iv3.setBackgroundColor(Color.parseColor("#99CC00"));
+        rt.addView(iv3,1);
+        iv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Style1.this, "Onclick at share", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        PopButtonOnClickListener popListener = new PopButtonOnClickListener(iv1,iv2,iv3);
+        assistive.setOnClickListener(popListener);
     }
 
     public void popSelectPictureDialog(int id){

@@ -1,8 +1,10 @@
 package com.brisktouch.timeline.custom;
 
 import android.graphics.PointF;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.ImageView;
 
 /**
  * Created by jim on 2/4/2015.
@@ -30,6 +32,9 @@ public class ArcTranslateAnimation extends Animation {
     private PointF mEnd;
     private PointF mControl2;
 
+
+    private ImageView mImageView;
+    private boolean alphaIsZero;
     /**
      * Constructor to use when building a ArcTranslateAnimation from code
      *
@@ -53,6 +58,21 @@ public class ArcTranslateAnimation extends Animation {
         mToXType = ABSOLUTE;
         mFromYType = ABSOLUTE;
         mToYType = ABSOLUTE;
+    }
+
+    public ArcTranslateAnimation(float fromXDelta, float toXDelta,
+                                 float fromYDelta, float toYDelta, ImageView imageView, boolean alphaIsZero) {
+        mFromXValue = fromXDelta;
+        mToXValue = toXDelta;
+        mFromYValue = fromYDelta;
+        mToYValue = toYDelta;
+
+        mFromXType = ABSOLUTE;
+        mToXType = ABSOLUTE;
+        mFromYType = ABSOLUTE;
+        mToYType = ABSOLUTE;
+        mImageView = imageView;
+        this.alphaIsZero = alphaIsZero;
     }
 
     /**
@@ -115,6 +135,14 @@ public class ArcTranslateAnimation extends Animation {
         float dy = calcBezier(interpolatedTime, mStart.y, mControl.y, mControl2.y, mEnd.y);
 
         t.getMatrix().setTranslate(dx, dy);
+
+        if(mImageView!=null){
+            if(alphaIsZero){
+                mImageView.setAlpha((int)(interpolatedTime*255));
+            }else{
+                mImageView.setAlpha((int)((1-interpolatedTime)*255));
+            }
+        }
     }
 
     @Override
