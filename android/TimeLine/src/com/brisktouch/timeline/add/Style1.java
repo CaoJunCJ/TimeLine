@@ -78,11 +78,11 @@ public class Style1 extends Activity {
         iv1.setLayoutParams(assistiveLayout);
         iv1.setImageResource(R.drawable.ic_action_undo);
         iv1.setVisibility(View.INVISIBLE);
-        //iv1.setBackgroundColor(Color.parseColor("#99CC00"));
         rt.addView(iv1,1);
         iv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO should be create a stack for save activity ,when click back ,pop a activity from stack.
                 Toast.makeText(Style1.this, "Onclick at back", Toast.LENGTH_SHORT).show();
             }
         });
@@ -91,7 +91,6 @@ public class Style1 extends Activity {
         iv2.setLayoutParams(assistiveLayout);
         iv2.setImageResource(R.drawable.ic_action_save);
         iv2.setVisibility(View.INVISIBLE);
-        //iv2.setBackgroundColor(Color.parseColor("#99CC00"));
         rt.addView(iv2,1);
         iv2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,12 +103,11 @@ public class Style1 extends Activity {
         iv3.setLayoutParams(assistiveLayout);
         iv3.setImageResource(R.drawable.ic_action_share);
         iv3.setVisibility(View.INVISIBLE);
-        //iv3.setBackgroundColor(Color.parseColor("#99CC00"));
         rt.addView(iv3,1);
         iv3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Style1.this, "Onclick at share", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Style1.this, "Onclick at share, not implement", Toast.LENGTH_SHORT).show();
             }
         });
 

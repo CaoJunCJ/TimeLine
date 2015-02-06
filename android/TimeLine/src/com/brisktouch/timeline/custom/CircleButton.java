@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ImageView;
 import com.brisktouch.timeline.R;
@@ -98,6 +99,17 @@ public class CircleButton extends ImageView {
         circlePaint.setColor(defaultColor);
         focusPaint.setColor(defaultColor);
         focusPaint.setAlpha(PRESSED_RING_ALPHA);
+
+        this.invalidate();
+    }
+
+    public void setBackgroundAlpha(float interpolatedTime) {
+        //must first set color then set alpha, else invalid
+
+        circlePaint.setColor(defaultColor);
+        focusPaint.setColor(defaultColor);
+        focusPaint.setAlpha((int)(interpolatedTime*255));
+        circlePaint.setAlpha((int)(interpolatedTime*255));
 
         this.invalidate();
     }

@@ -152,7 +152,7 @@ public class PopButtonOnClickListener implements View.OnClickListener {
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
-
+                    
                 }
             });
 

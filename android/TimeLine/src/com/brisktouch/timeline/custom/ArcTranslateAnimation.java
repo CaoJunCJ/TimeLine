@@ -139,8 +139,10 @@ public class ArcTranslateAnimation extends Animation {
         if(mImageView!=null){
             if(alphaIsZero){
                 mImageView.setAlpha((int)(interpolatedTime*255));
+                ((CircleButton)mImageView).setBackgroundAlpha(interpolatedTime);
             }else{
                 mImageView.setAlpha((int)((1-interpolatedTime)*255));
+                ((CircleButton)mImageView).setBackgroundAlpha(1-interpolatedTime);
             }
         }
     }
