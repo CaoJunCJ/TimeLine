@@ -6,6 +6,7 @@
     <!--<uses-sdk android:minSdkVersion="7"/>-->
     <uses-configuration android:minSdkVersion="7"/>
     <uses-configuration android:targetSdkVersion="21"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
         <!--
         <activity android:name=".ui.TestActivity"
@@ -37,10 +38,11 @@
                 android:name=".add.Style1"
                 android:label="style1"
                 android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        </activity>
+        <activity
+                android:name=".WelcomeActivity"
+                android:label="WelcomeActivity"
+                android:screenOrientation="portrait">
         </activity>
     </application>
 </manifest>

@@ -30,7 +30,7 @@ public class StyleActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(StyleActivity.this, Style1.class);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
     }

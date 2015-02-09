@@ -1,6 +1,7 @@
 package com.brisktouch.timeline;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -24,29 +25,44 @@ public class MyActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.main);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        ListView listview = new ListView(this);
         JSONObject json = TestData.getRandomData();
-        BaseAdapter adapter = new ListAdapter(json, this);
-        listview.setAdapter(adapter);
-        listview.setDivider(null);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setContentView(listview);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.mycustomtitle);
-        Button btn1 =(Button)findViewById(R.id.header_right_btn);
-        btn1.setOnClickListener(new View.OnClickListener(){
+        SharedPreferences perPreferences = getSharedPreferences("JohnTsai", MODE_PRIVATE);
+        if (perPreferences.getBoolean("isFirstUse", true)) {
+            //setContentView(R.layout.main);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            ListView listview = new ListView(this);
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MyActivity.this, StyleActivity.class);
-                startActivity(intent);
-                finish();
-            }
+            BaseAdapter adapter = new ListAdapter(json, this);
+            listview.setAdapter(adapter);
+            listview.setDivider(null);
+            requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+            setContentView(listview);
+            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.mycustomtitle);
+            Button btn1 =(Button)findViewById(R.id.header_right_btn);
+            btn1.setOnClickListener(new View.OnClickListener(){
 
-        });
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(MyActivity.this, StyleActivity.class);
+                    startActivity(intent);
+                    //finish();
+                }
 
+            });
+        }else{
+            SharedPreferences.Editor editor = perPreferences.edit();
+            editor.putBoolean("isFirstUse", false);
+            editor.commit();
+            Intent intent = new Intent();
+            intent.setClass(MyActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
+
+        new InitTask(this,null,json).start();
     }
 }
