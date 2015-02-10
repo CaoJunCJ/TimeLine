@@ -1,18 +1,15 @@
 package com.brisktouch.timeline;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AbsListView;
-import android.widget.GridView;
-import android.widget.ImageView;
+import android.view.*;
+import android.widget.*;
+import com.brisktouch.timeline.add.StyleActivity;
 
 /**
  * Created by jim on welcome_background_2/9/2015.
@@ -25,24 +22,111 @@ public class WelcomeActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mViewPager = new android.support.v4.view.ViewPager(this);
-        GridView.LayoutParams mLayoutParams = new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT,GridView.LayoutParams.MATCH_PARENT);
+
+        //maybe write a clone function .
+        TextView jump = new TextView(this);
+        jump.setOnClickListener(new JumpToMainView());
+        jump.setPadding(0, 15, 20, 10);
+        jump.setGravity(Gravity.RIGHT);
+        jump.setTextColor(Color.WHITE);
+        jump.setTextSize(26);
+        jump.setText(R.string.skip);
+
+        TextView jump1 = new TextView(this);
+        jump1.setOnClickListener(new JumpToMainView());
+        jump1.setPadding(0, 15, 20, 10);
+        jump1.setGravity(Gravity.RIGHT);
+        jump1.setTextColor(Color.WHITE);
+        jump1.setTextSize(26);
+        jump1.setText(R.string.skip);
+
+        TextView jump2 = new TextView(this);
+        jump2.setOnClickListener(new JumpToMainView());
+        jump2.setPadding(0, 15, 20, 10);
+        jump2.setGravity(Gravity.RIGHT);
+        jump2.setTextColor(Color.WHITE);
+        jump2.setTextSize(26);
+        jump2.setText(R.string.skip);
+
+
+        GridView.LayoutParams mLayoutParams = new GridView.LayoutParams(GridView.LayoutParams.WRAP_CONTENT,GridView.LayoutParams.WRAP_CONTENT);
         ImageView mImageView1 = new ImageView(this);
         mImageView1.setLayoutParams(mLayoutParams);
+        mImageView1.setPadding(0,10,0,0);
         mImageView1.setImageResource(R.drawable.wel1);
+        LinearLayout welcomeView1 = new LinearLayout(this);
+        welcomeView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT));
+        welcomeView1.setOrientation(LinearLayout.VERTICAL);
+        welcomeView1.setGravity(Gravity.CENTER_HORIZONTAL);
+        welcomeView1.addView(mImageView1);
+        TextView text1 = new TextView(this);
+        text1.setTextColor(Color.WHITE);
+        text1.setGravity(Gravity.CENTER);
+        text1.setText("Hello World");
+        text1.setTextSize(22);
+        TextView desc1 = new TextView(this);
+        desc1.setPadding(15,10,15,0);
+        desc1.setTextColor(Color.WHITE);
+        desc1.setText(R.string.Lolita);
+        desc1.setGravity(Gravity.CENTER);
+        desc1.setTextSize(12);
+        welcomeView1.addView(text1);
+        welcomeView1.addView(desc1);
+        welcomeView1.addView(jump);
         //mImageView1.setBackgroundResource(R.drawable.welcome_backgroud_1);
 
         ImageView mImageView2 = new ImageView(this);
         mImageView2.setLayoutParams(mLayoutParams);
+        mImageView2.setPadding(0,10,0,0);
         mImageView2.setImageResource(R.drawable.wel2);
+        LinearLayout welcomeView2 = new LinearLayout(this);
+        welcomeView2.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT));
+        welcomeView2.setOrientation(LinearLayout.VERTICAL);
+        welcomeView2.setGravity(Gravity.CENTER_HORIZONTAL);
+        welcomeView2.addView(mImageView2);
+        TextView text2 = new TextView(this);
+        text2.setTextColor(Color.WHITE);
+        text2.setGravity(Gravity.CENTER);
+        text2.setText("Hello World");
+        text2.setTextSize(22);
+        TextView desc2 = new TextView(this);
+        desc2.setPadding(15,10,15,0);
+        desc2.setTextColor(Color.WHITE);
+        desc2.setText(R.string.Lolita);
+        desc2.setGravity(Gravity.CENTER);
+        desc2.setTextSize(12);
+        welcomeView2.addView(text2);
+        welcomeView2.addView(desc2);
+        welcomeView2.addView(jump1);
         //mImageView2.setBackgroundResource(R.drawable.welcome_background_2);
 
         ImageView mImageView3 = new ImageView(this);
         mImageView3.setLayoutParams(mLayoutParams);
+        mImageView3.setPadding(0,10,0,0);
         mImageView3.setImageResource(R.drawable.wel3);
+        LinearLayout welcomeView3 = new LinearLayout(this);
+        welcomeView3.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT));
+        welcomeView3.setOrientation(LinearLayout.VERTICAL);
+        welcomeView3.setGravity(Gravity.CENTER_HORIZONTAL);
+        welcomeView3.addView(mImageView3);
+        TextView text3 = new TextView(this);
+        text3.setTextColor(Color.WHITE);
+        text3.setGravity(Gravity.CENTER);
+        text3.setText("Hello World");
+        text3.setTextSize(22);
+        TextView desc3 = new TextView(this);
+        desc3.setPadding(15,10,15,0);
+        desc3.setTextColor(Color.WHITE);
+        desc3.setText(R.string.Lolita);
+        desc3.setGravity(Gravity.CENTER);
+        desc3.setTextSize(12);
+        welcomeView3.addView(text3);
+        welcomeView3.addView(desc3);
+        welcomeView3.addView(jump2);
         //mImageView3.setBackgroundResource(R.drawable.welcome_background_3);
-        views[0] = mImageView1;
-        views[1] = mImageView2;
-        views[2] = mImageView3;
+        views[0] = welcomeView1;
+        views[1] = welcomeView2;
+        views[2] = welcomeView3;
 
         mViewPager.setAdapter(new PagerAdapter() {
             @Override
@@ -67,7 +151,8 @@ public class WelcomeActivity extends Activity {
                 container.removeView(views[position]);
             }
         });
-        mViewPager.setBackgroundResource(R.drawable.welcome_back);
+        //mViewPager.setBackgroundResource(R.drawable.welcome_back);
+        mViewPager.setBackgroundColor(Color.argb(255, 140, 41, 78));
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float v, int i1) {
@@ -75,15 +160,15 @@ public class WelcomeActivity extends Activity {
                 //why?????
                 if (v > 0f) {
                     if (position == 0) {
-                        mViewPager.setBackgroundColor(Color.argb(255, (int) (125 * v), 100, 100));
+                        mViewPager.setBackgroundColor(Color.argb(255, (int) (140 - (30 * v)), (int)(41 + (161*v)), (int)(78 + 158*v)));
                     }
 
                     if (position == 1) {
-                        mViewPager.setBackgroundColor(Color.argb(255, (int) (125 + 125 * v), 100, 100));
-
+                        mViewPager.setBackgroundColor(Color.argb(255, (int) (110 + 24 * v), (int)(202-v*7), (int)(236-155*v)));
                     }
 
                     if (position == 2) {
+                        //because max is 3 , so never call this.
                         mViewPager.setBackgroundColor(Color.argb(255, (int) (125 * v), 100, 100));
                     }
 
@@ -101,6 +186,15 @@ public class WelcomeActivity extends Activity {
             }
         });
         setContentView(mViewPager);
+    }
+
+    public class JumpToMainView implements View.OnClickListener {
+        public void onClick(View v){
+            Intent intent = new Intent();
+            intent.setClass(WelcomeActivity.this, MyActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
 

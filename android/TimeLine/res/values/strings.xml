@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">TimeLine</string>
     <string name="style_activity_name">StyleActivity</string>
+    <string name="Lolita">Lolita, light of my life, fire of my loins. My sin, my soul. Lo-lee-ta: the tip of the tongue taking a trip of three steps down the palate to tap, at three, on the teeth.</string>
+    <string name="skip">Skip</string>
 </resources>

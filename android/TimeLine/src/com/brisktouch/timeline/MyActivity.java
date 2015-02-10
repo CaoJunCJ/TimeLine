@@ -26,8 +26,6 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JSONObject json = TestData.getRandomData();
-        SharedPreferences perPreferences = getSharedPreferences("JohnTsai", MODE_PRIVATE);
-        if (perPreferences.getBoolean("isFirstUse", true)) {
             //setContentView(R.layout.main);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -51,18 +49,6 @@ public class MyActivity extends Activity {
                 }
 
             });
-        }else{
-            SharedPreferences.Editor editor = perPreferences.edit();
-            editor.putBoolean("isFirstUse", false);
-            editor.commit();
-            Intent intent = new Intent();
-            intent.setClass(MyActivity.this, WelcomeActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-
-
         new InitTask(this,null,json).start();
     }
 }
