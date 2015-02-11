@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.brisktouch.timeline.add.StyleActivity;
+import com.brisktouch.timeline.custom.CircleButton;
 
 /**
  * Created by jim on welcome_background_2/9/2015.
@@ -21,32 +22,53 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        mViewPager = new android.support.v4.view.ViewPager(this);
-
         //maybe write a clone function .
+
+        RelativeLayout mainView = new RelativeLayout(this);
+        mainView.setGravity(Gravity.BOTTOM);
+
+        LinearLayout mSkipLinearLayout = new LinearLayout(this);
+        mSkipLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,GridView.LayoutParams.MATCH_PARENT));
+        mSkipLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        mSkipLinearLayout.setGravity(Gravity.RIGHT | Gravity.BOTTOM);
         TextView jump = new TextView(this);
         jump.setOnClickListener(new JumpToMainView());
-        jump.setPadding(0, 15, 20, 10);
-        jump.setGravity(Gravity.RIGHT);
+        jump.setPadding(0, 0, 20, 30);
         jump.setTextColor(Color.WHITE);
         jump.setTextSize(26);
         jump.setText(R.string.skip);
+        mSkipLinearLayout.addView(jump);
 
-        TextView jump1 = new TextView(this);
-        jump1.setOnClickListener(new JumpToMainView());
-        jump1.setPadding(0, 15, 20, 10);
-        jump1.setGravity(Gravity.RIGHT);
-        jump1.setTextColor(Color.WHITE);
-        jump1.setTextSize(26);
-        jump1.setText(R.string.skip);
+        LinearLayout mLinearLayout = new LinearLayout(this);
+        mLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,GridView.LayoutParams.MATCH_PARENT));
+        mLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        mLinearLayout.setGravity(Gravity.CENTER | Gravity.BOTTOM);
 
-        TextView jump2 = new TextView(this);
-        jump2.setOnClickListener(new JumpToMainView());
-        jump2.setPadding(0, 15, 20, 10);
-        jump2.setGravity(Gravity.RIGHT);
-        jump2.setTextColor(Color.WHITE);
-        jump2.setTextSize(26);
-        jump2.setText(R.string.skip);
+        LinearLayout.LayoutParams pointLayout = new LinearLayout.LayoutParams(15,15);
+        pointLayout.setMargins(0,0,0,20);
+
+        final CircleButton mCircleButton1 = new CircleButton(this);
+        mCircleButton1.setColor(Color.WHITE);
+        mCircleButton1.setIsClickAnimator(false);
+        mCircleButton1.setLayoutParams(pointLayout);
+
+        final CircleButton mCircleButton2 = new CircleButton(this);
+        mCircleButton2.setColor(Color.GRAY);
+        mCircleButton2.setIsClickAnimator(false);
+        mCircleButton2.setLayoutParams(pointLayout);
+
+        final CircleButton mCircleButton3 = new CircleButton(this);
+        mCircleButton3.setColor(Color.GRAY);
+        mCircleButton3.setIsClickAnimator(false);
+        mCircleButton3.setLayoutParams(pointLayout);
+
+        mLinearLayout.addView(mCircleButton1);
+        mLinearLayout.addView(mCircleButton2);
+        mLinearLayout.addView(mCircleButton3);
+
+        mViewPager = new android.support.v4.view.ViewPager(this);
+
+
 
 
         GridView.LayoutParams mLayoutParams = new GridView.LayoutParams(GridView.LayoutParams.WRAP_CONTENT,GridView.LayoutParams.WRAP_CONTENT);
@@ -72,7 +94,6 @@ public class WelcomeActivity extends Activity {
         desc1.setTextSize(12);
         welcomeView1.addView(text1);
         welcomeView1.addView(desc1);
-        welcomeView1.addView(jump);
         //mImageView1.setBackgroundResource(R.drawable.welcome_backgroud_1);
 
         ImageView mImageView2 = new ImageView(this);
@@ -97,7 +118,6 @@ public class WelcomeActivity extends Activity {
         desc2.setTextSize(12);
         welcomeView2.addView(text2);
         welcomeView2.addView(desc2);
-        welcomeView2.addView(jump1);
         //mImageView2.setBackgroundResource(R.drawable.welcome_background_2);
 
         ImageView mImageView3 = new ImageView(this);
@@ -122,7 +142,6 @@ public class WelcomeActivity extends Activity {
         desc3.setTextSize(12);
         welcomeView3.addView(text3);
         welcomeView3.addView(desc3);
-        welcomeView3.addView(jump2);
         //mImageView3.setBackgroundResource(R.drawable.welcome_background_3);
         views[0] = welcomeView1;
         views[1] = welcomeView2;
@@ -160,11 +179,11 @@ public class WelcomeActivity extends Activity {
                 //why?????
                 if (v > 0f) {
                     if (position == 0) {
-                        mViewPager.setBackgroundColor(Color.argb(255, (int) (140 - (30 * v)), (int)(41 + (161*v)), (int)(78 + 158*v)));
+                        mViewPager.setBackgroundColor(Color.argb(255, (int) (140 - (30 * v)), (int) (41 + (161 * v)), (int) (78 + 158 * v)));
                     }
 
                     if (position == 1) {
-                        mViewPager.setBackgroundColor(Color.argb(255, (int) (110 + 24 * v), (int)(202-v*7), (int)(236-155*v)));
+                        mViewPager.setBackgroundColor(Color.argb(255, (int) (110 + 24 * v), (int) (202 - v * 7), (int) (236 - 155 * v)));
                     }
 
                     if (position == 2) {
@@ -179,13 +198,35 @@ public class WelcomeActivity extends Activity {
 
             @Override
             public void onPageSelected(int i) {
+                switch (i) {
+                    case 0:
+                        mCircleButton1.setColor(Color.WHITE);
+                        mCircleButton2.setColor(Color.GRAY);
+                        mCircleButton3.setColor(Color.GRAY);
+                        break;
+                    case 1:
+                        mCircleButton1.setColor(Color.GRAY);
+                        mCircleButton2.setColor(Color.WHITE);
+                        mCircleButton3.setColor(Color.GRAY);
+                        break;
+                    case 2:
+                        mCircleButton1.setColor(Color.GRAY);
+                        mCircleButton2.setColor(Color.GRAY);
+                        mCircleButton3.setColor(Color.WHITE);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int i) {
             }
         });
-        setContentView(mViewPager);
+        mainView.addView(mViewPager);
+        mainView.addView(mLinearLayout);
+        mainView.addView(mSkipLinearLayout);
+        setContentView(mainView);
     }
 
     public class JumpToMainView implements View.OnClickListener {

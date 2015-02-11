@@ -36,6 +36,7 @@ public class CircleButton extends ImageView {
     private int defaultColor = Color.BLACK;
     private int pressedColor;
     private ObjectAnimator pressedAnimator;
+    private boolean isClickAnimator = true;
 
     public CircleButton(Context context) {
         super(context);
@@ -52,18 +53,24 @@ public class CircleButton extends ImageView {
         init(context, attrs);
     }
 
+    public void setIsClickAnimator(boolean b){
+        isClickAnimator = b;
+    }
+
     @Override
     public void setPressed(boolean pressed) {
-        super.setPressed(pressed);
+        if(isClickAnimator){
+            super.setPressed(pressed);
 
-        if (circlePaint != null) {
-            circlePaint.setColor(pressed ? pressedColor : defaultColor);
-        }
+            if (circlePaint != null) {
+                circlePaint.setColor(pressed ? pressedColor : defaultColor);
+            }
 
-        if (pressed) {
-            showPressedRing();
-        } else {
-            hidePressedRing();
+            if (pressed) {
+                showPressedRing();
+            } else {
+                hidePressedRing();
+            }
         }
     }
 
