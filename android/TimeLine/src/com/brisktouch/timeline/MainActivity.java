@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import com.brisktouch.timeline.add.StyleActivity;
 
 /**
  * Created by jim on 2/10/2015.

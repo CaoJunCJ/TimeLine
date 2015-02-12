@@ -29,7 +29,6 @@ import java.util.Date;
 
 import java.util.HashMap;
 
-
 class TimeLineDisplayView extends TextView {
 	public static String TAG = "TestView";
 	public static int DATELINE_LENGTH = 70;
@@ -46,9 +45,6 @@ class TimeLineDisplayView extends TextView {
 
 	public static boolean isInitData = false;
 
-	public static final String YEAR = "年";
-	public static final String MONTH = "月";
-	
 	private Paint p;
 	private JSONObject json;
 	private int currentLength = 0;
@@ -80,6 +76,10 @@ class TimeLineDisplayView extends TextView {
 		topHeight = statusHeight + titleHeight;
 		Log.i(TAG, "topHeight :" + topHeight);
 
+	}
+
+	public void setData(JSONObject json){
+		this.json = json;
 	}
 
 	public void initData(){
@@ -164,7 +164,7 @@ class TimeLineDisplayView extends TextView {
 			String week = null;
 			try{
 				Date d1 = datef.parse(date);
-				week = Tool.getWeek(d1);
+				week = Tool.getWeek(this.getContext(), d1);
 			}catch (Exception e){}
 			p.setAntiAlias(true);
 			p.setColor(Color.BLACK);
@@ -174,7 +174,8 @@ class TimeLineDisplayView extends TextView {
 			p.setTextAlign(Paint.Align.CENTER);
 			canvas.drawText(day , x, baseline , p); 
 			p.setColor(Color.GRAY);
-			String displayDate = year + YEAR + month + MONTH + " " + week;
+
+			String displayDate = year + getResources().getString(R.string.YEAR) + month + getResources().getString(R.string.MONTH) + " " + week;
 			canvas.drawText(displayDate , x + DISPLAY_DATE_STRING_X, baseline , p);
 		}
 		currentLength += DATELINE_RADIUS*2;

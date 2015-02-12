@@ -23,22 +23,26 @@ public class ListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object getItem(int index) {
+		return data.opt(index);
 	}
 
 	@Override
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
 		return arg0;
 	}
 
 	@Override
-	public View getView(int arg0, View arg1, ViewGroup arg2) {
-		Log.i(TAG, "getView");
-		JSONObject date = data.optJSONObject(arg0);
-		TimeLineDisplayView tv = new TimeLineDisplayView(context, date);
+	public View getView(int index, View convertView, ViewGroup arg2) {
+		TimeLineDisplayView tv;
+		JSONObject date = data.optJSONObject(index);
+		if(null == convertView){
+			tv = new TimeLineDisplayView(context, date);
+
+		}else{
+			tv = (TimeLineDisplayView)convertView;
+		}
+		tv.setData(date);
 		tv.setBackgroundColor(Color.WHITE);
 		tv.setHeight(tv.getCurrentLength());
 		return tv;
@@ -46,7 +50,6 @@ public class ListAdapter extends BaseAdapter {
 	
 	public ListAdapter(JSONObject json,Context c){
 		data = json.optJSONArray("data");
-		System.out.println(data.length());
 		this.context = c;
 	}
 }

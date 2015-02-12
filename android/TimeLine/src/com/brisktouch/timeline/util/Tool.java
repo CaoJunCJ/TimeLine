@@ -1,6 +1,8 @@
 package com.brisktouch.timeline.util;
 
+import android.content.Context;
 import android.os.Environment;
+import com.brisktouch.timeline.R;
 
 import java.util.Date;
 import java.util.Calendar;
@@ -9,8 +11,15 @@ import java.util.Calendar;
  * Created by jim on 12/18/2014.
  */
 public class Tool {
-    public static String getWeek(Date date){
-        String[] weeks = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+    public static String getWeek(Context context,Date date){
+        String[] weeks = {
+                context.getResources().getString(R.string.Sunday),
+                context.getResources().getString(R.string.Monday),
+                context.getResources().getString(R.string.Tuesday),
+                context.getResources().getString(R.string.Wednesday),
+                context.getResources().getString(R.string.Thursday),
+                context.getResources().getString(R.string.Friday),
+                context.getResources().getString(R.string.Saturday),};
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int week_index = cal.get(Calendar.DAY_OF_WEEK) - 1;

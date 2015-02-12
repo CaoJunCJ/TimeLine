@@ -4,4 +4,13 @@
     <string name="style_activity_name">StyleActivity</string>
     <string name="Lolita">Lolita, light of my life, fire of my loins. My sin, my soul. Lo-lee-ta: the tip of the tongue taking a trip of three steps down the palate to tap, at three, on the teeth.</string>
     <string name="skip">Skip</string>
+    <string name="YEAR">Y</string>
+    <string name="MONTH">M</string>
+    <string name="Monday">Monday</string>
+    <string name="Tuesday">Tuesday</string>
+    <string name="Wednesday">Wednesday</string>
+    <string name="Thursday">Thursday</string>
+    <string name="Friday">Friday</string>
+    <string name="Saturday">Saturday</string>
+    <string name="Sunday">Sunday</string>
 </resources>

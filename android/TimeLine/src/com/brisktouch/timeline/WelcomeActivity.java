@@ -22,6 +22,7 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //maybe write a clone function .
 
         RelativeLayout mainView = new RelativeLayout(this);
@@ -239,18 +240,5 @@ public class WelcomeActivity extends Activity {
     }
 }
 
-class DepthPageTransformer implements ViewPager.PageTransformer{
-    View _viewPager;
-    public DepthPageTransformer(View viewPager){
-        _viewPager = viewPager;
-    }
-    public void transformPage(View view, float position){
 
-        //float interpolatedTime = (position==0?0:(position+1)/2) ;
-        Log.d("DepthPageTransformer", "position:"+position);
-        //_viewPager.setBackgroundColor(Color.argb(255,(int)(Math.abs(interpolatedTime)*255),100,0));
-
-
-    }
-}
 
