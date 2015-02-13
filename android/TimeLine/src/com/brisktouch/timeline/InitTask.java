@@ -5,11 +5,13 @@ import android.os.Handler;
 import android.os.Environment;
 import android.util.Log;
 import com.brisktouch.timeline.util.Tool;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
 
 import java.io.File;
+import java.util.Calendar;
 
 /**
  * Created by jim on welcome_background_2/9/2015.
@@ -21,12 +23,45 @@ public class InitTask extends Thread {
     String folderName;
     String jsonFileName;
     JSONObject mJson;
+
+    /*
+    the json data format is
+    {
+        "data":[
+            {
+                "date":"2012.12.5",
+                "things":[
+                    "context":"title",
+                    "time":"12:11"
+                ],
+            }
+        ]
+    }
+     */
+
+
     public InitTask(Context context, Handler handler, JSONObject json){
         this.mContext = context;
         this.mHandler = handler;
         this.mJson = json;
         this.folderName = "brisktouch";
         this.jsonFileName = "data.json";
+        try{
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(System.currentTimeMillis());
+            JSONArray data = new JSONArray();
+            JSONObject theFirstContext = new JSONObject();
+            JSONArray array = new JSONArray();
+            JSONObject j = new JSONObject();
+            j.put("context", "welcome to timeLine.");
+            j.put("time",cal.HOUR+":"+cal.MINUTE);
+            array.put(j);
+            theFirstContext.put("date",cal.get(cal.YEAR)+"."+(cal.get(cal.MONTH)+1)+"."+cal.get(cal.DAY_OF_MONTH));
+            theFirstContext.put("things",array);
+            data.put(theFirstContext);
+            mJson.put("data", data);
+        }catch (Exception e){e.printStackTrace();}
+
 
     }
 

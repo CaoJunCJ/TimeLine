@@ -57,37 +57,21 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="title"
-                            android:id="@+id/textView" android:layout_marginLeft="10dp" android:layout_marginTop="2dp"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="style"
+                            android:text="Fashio"
                             android:id="@+id/textView2" android:layout_marginLeft="10dp" android:layout_marginTop="2dp"
                             android:textColor="#af949494"/>
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="hello world, hi yanye."
+                            android:text="@string/Lolita"
                             android:id="@+id/textView3" android:layout_marginLeft="10dp" android:layout_marginTop="2dp"
-                            android:textColor="#af949494" android:singleLine="true"/>
+                            android:textColor="#af949494" android:singleLine="false" android:layout_marginRight="10dp"/>
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="context: the sun at school"
-                            android:id="@+id/textView5" android:layout_marginLeft="10dp" android:layout_marginTop="2dp"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="discription"
-                            android:id="@+id/textView6" android:layout_marginLeft="10dp" android:layout_marginTop="2dp"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="author"
+                            android:text="Jane"
                             android:id="@+id/textView4" android:layout_marginRight="10dp"
                             android:layout_marginTop="2dp" android:layout_gravity="right" android:layout_marginBottom="15dp"/>
                 </LinearLayout>

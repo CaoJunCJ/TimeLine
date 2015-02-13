@@ -418,6 +418,7 @@ public class Style1 extends Activity {
                     //options.inJustDecodeBounds = false;
                     Bitmap bitmap = BitmapFactory.decodeFile(path, options);
                     //int width = bitmap.getWidth();
+                    mImageButton.setBackgroundColor(Color.WHITE);
                     mImageButton.setScaleType(ImageView.ScaleType.CENTER_CROP );
                     mImageButton.setImageBitmap(bitmap);
                     alertView.dismiss();

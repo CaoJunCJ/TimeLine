@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.view.WindowManager;
 import com.brisktouch.timeline.add.StyleActivity;
 import com.brisktouch.timeline.test.TestData;
+import com.brisktouch.timeline.util.Global;
 import org.json.JSONObject;
 import android.widget.Button;
 import android.content.Intent;
@@ -26,7 +27,8 @@ public class MyActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        JSONObject json = TestData.getRandomData();
+        //JSONObject json = TestData.getRandomData();
+        JSONObject json = Global.getJsonData();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ListView listview = new ListView(this);
@@ -49,6 +51,6 @@ public class MyActivity extends Activity {
                 }
 
             });
-        new InitTask(this,null,json).start();
+
     }
 }

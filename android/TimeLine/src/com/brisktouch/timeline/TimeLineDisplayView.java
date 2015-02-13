@@ -243,13 +243,13 @@ class TimeLineDisplayView extends TextView {
 		p.setColor(Color.BLACK);
 		p.setTypeface(Typeface.DEFAULT_BOLD);
 		p.setTextAlign(Paint.Align.CENTER);
-		canvas.drawText(context + System.currentTimeMillis(), r1.centerX(), baseline , p); 
+		canvas.drawText(context, r1.centerX(), baseline , p);
 		p.setColor(Color.GRAY);
 		p.setTextSize(SMALL_WORD_SIZE);
 		p.setTypeface(Typeface.DEFAULT);
 		fontMetrics = p.getFontMetricsInt();
 		baseline = r1.top + (r1.bottom - r1.top - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
-		canvas.drawText(time , x - 50, baseline, p); 
+		canvas.drawText(time , x - 35, baseline, p);
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText" android:layout_weight="10"
+                android:layout_marginLeft="10dp" android:layout_marginRight="5dp"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton13" android:background="@drawable/ic_action_accept"
+                android:layout_weight="1" android:layout_gravity="bottom" android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton14" android:background="@drawable/ic_action_select_all"
+                android:layout_weight="1" android:layout_gravity="bottom" android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton15" android:layout_weight="1" android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView4"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton16" android:layout_weight="1" android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView5"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton17" android:layout_weight="1" android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+    </LinearLayout>
+</LinearLayout>
