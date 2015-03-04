@@ -43,7 +43,7 @@ import java.text.SimpleDateFormat;
 
 //TODO must be Reconstruction!!!!!
 public class Style1 extends Activity {
-
+    String TAG = "Style1";
     HashMap<Long, List<String>> dateGruopMap;
     HashMap<String, List<String>> folderGruopMap;
     private int mImageThumbSize;
@@ -54,6 +54,8 @@ public class Style1 extends Activity {
     AlertDialog alertView;
 
     boolean isDisplayButton = false;
+
+    boolean isDisplayContextEditWord = false;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,7 @@ public class Style1 extends Activity {
         findViewById(R.id.imageButton11).setOnClickListener(mClientListener);
         RelativeLayout rt = (RelativeLayout)findViewById(R.id.relativeLayout_style);
         ImageView assistive = (ImageView)findViewById(R.id.imageButton12);
+        final TextView context = (TextView)findViewById(R.id.textView3);
         int mScreenWidth = this.getResources().getDisplayMetrics().widthPixels;
         int mScreenHeight = this.getResources().getDisplayMetrics().heightPixels;
         RelativeLayout.LayoutParams assistiveLayout = new RelativeLayout.LayoutParams(mScreenWidth*2/10 -10, mScreenWidth*2/10 -10);
@@ -114,6 +117,32 @@ public class Style1 extends Activity {
 
         PopButtonOnClickListener popListener = new PopButtonOnClickListener(iv1,iv2,iv3);
         assistive.setOnClickListener(popListener);
+
+        final ScrollView sv = (ScrollView)findViewById(R.id.scrollView2);
+        final LinearLayout linear_style = (LinearLayout)findViewById(R.id.linear_style);
+        final View view = LayoutInflater.from(Style1.this).inflate(R.layout.edit_word, null);
+        view.setVisibility(View.GONE);
+        linear_style.addView(view);
+        context.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isDisplayContextEditWord){
+                    view.setVisibility(View.VISIBLE);
+                    EditText et = (EditText) view.findViewById(R.id.editText);
+                    et.setText(context.getText());
+                    sv.post(new Runnable() {
+                        public void run() {
+                            sv.fullScroll(ScrollView.FOCUS_DOWN);
+                        }
+                    });
+                    isDisplayContextEditWord = true;
+
+                }else{
+                    view.setVisibility(View.GONE);
+                    isDisplayContextEditWord = false;
+                }
+            }
+        });
     }
 
     public void popSelectPictureDialog(int id){
