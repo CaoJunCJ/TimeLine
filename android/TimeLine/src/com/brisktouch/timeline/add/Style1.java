@@ -8,6 +8,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -121,6 +122,36 @@ public class Style1 extends Activity {
         final ScrollView sv = (ScrollView)findViewById(R.id.scrollView2);
         final LinearLayout linear_style = (LinearLayout)findViewById(R.id.linear_style);
         final View view = LayoutInflater.from(Style1.this).inflate(R.layout.edit_word, null);
+        ListView listV = (ListView)view.findViewById(R.id.listView);
+        listV.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return 4;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return position;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView tw = null;
+                if(convertView!=null){
+                    tw = (TextView) convertView;
+                }else{
+                    tw = new TextView(Style1.this);
+                }
+                tw.setText("字体 样式");
+                tw.setTextSize(16 + position*2);
+                return tw;
+            }
+        });
         view.setVisibility(View.GONE);
         linear_style.addView(view);
         context.setOnClickListener(new View.OnClickListener() {

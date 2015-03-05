@@ -13,4 +13,7 @@
     <string name="Friday">Friday</string>
     <string name="Saturday">Saturday</string>
     <string name="Sunday">Sunday</string>
+    <string name="word_font">font</string>
+    <string name="word_color">color</string>
+    <string name="word_size">size</string>
 </resources>

@@ -13,4 +13,7 @@
     <string name="Friday">星期五</string>
     <string name="Saturday">星期六</string>
     <string name="Sunday">星期日</string>
+    <string name="word_font">字体</string>
+    <string name="word_color">颜色</string>
+    <string name="word_size">字号</string>
 </resources>
