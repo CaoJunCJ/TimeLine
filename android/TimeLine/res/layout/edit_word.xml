@@ -29,16 +29,16 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" android:background="#ff534343">
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_weight="1">
             <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:id="@+id/imageButton15"
-                    android:background="@drawable/iconfont_zitibianji"
+                    android:background="@drawable/icon_ziti_white"
                     android:layout_marginLeft="15dp"
                     />
             <TextView
@@ -57,10 +57,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_weight="1">
             <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:id="@+id/imageButton16"
-                    android:background="@drawable/iconfont_yanse" android:layout_marginLeft="5dp"/>
+                    android:background="@drawable/icon_yanse_gray" android:layout_marginLeft="5dp"
+                    />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView"
                       android:text="@string/word_color" android:textSize="20dp" android:layout_gravity="center"/>
         </LinearLayout>
@@ -70,25 +71,29 @@
                 android:id="@+id/imageView5" android:background="#ff4c3c3d" android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"/>
         <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content"
-                      android:layout_height="wrap_content" android:layout_weight="1">
-            <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginBottom="5dp">
+            <ImageButton android:layout_width="32dp" android:layout_height="32dp"
                          android:id="@+id/imageButton17" android:layout_marginLeft="5dp"
-                         android:background="@drawable/iconfont_zitidaxiao"/>
+                         android:background="@drawable/icon_zihao_gray"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/textView5" android:text="@string/word_size" android:textSize="20dp"
                       android:layout_gravity="center"/>
         </LinearLayout>
     </LinearLayout>
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/imageView6" android:background="#ff615353"/>
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/listView" android:background="#ff534343"/>
     <ListView
             android:layout_width="wrap_content"
             android:layout_height="200dp"
-            android:id="@+id/listView"/>
+            android:id="@+id/listView2" android:visibility="gone" android:background="#ff534343"/>
     <ListView
             android:layout_width="wrap_content"
             android:layout_height="200dp"
-            android:id="@+id/listView2" android:visibility="gone"/>
-    <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:id="@+id/listView3" android:visibility="gone"/>
+            android:id="@+id/listView3" android:visibility="gone" android:background="#ff534343"/>
 </LinearLayout>

@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences perPreferences = getSharedPreferences("JohnTsai", MODE_PRIVATE);
-        if (perPreferences.getBoolean("isFirstUse", true)) {
+        if (perPreferences.getBoolean("isFirstUse", false)) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, MyActivity.class);
             startActivity(intent);

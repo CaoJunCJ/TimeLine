@@ -7,12 +7,10 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.DataSetObserver;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Point;
+import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.*;
 import android.provider.MediaStore;
@@ -58,6 +56,8 @@ public class Style1 extends Activity {
 
     boolean isDisplayContextEditWord = false;
 
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //hide title bar
@@ -65,6 +65,9 @@ public class Style1 extends Activity {
         //hide status bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.style1);
+
+        final boolean isChina = getResources().getConfiguration().locale.getCountry().equals("CN");
+
         SelectPic mClientListener = new SelectPic();
         findViewById(R.id.imageButton8).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton9).setOnClickListener(mClientListener);
@@ -72,9 +75,9 @@ public class Style1 extends Activity {
         findViewById(R.id.imageButton11).setOnClickListener(mClientListener);
         RelativeLayout rt = (RelativeLayout)findViewById(R.id.relativeLayout_style);
         ImageView assistive = (ImageView)findViewById(R.id.imageButton12);
-        final TextView context = (TextView)findViewById(R.id.textView3);
-        int mScreenWidth = this.getResources().getDisplayMetrics().widthPixels;
-        int mScreenHeight = this.getResources().getDisplayMetrics().heightPixels;
+        final TextView wordContext = (TextView)findViewById(R.id.textView3);
+        final int mScreenWidth = this.getResources().getDisplayMetrics().widthPixels;
+        final int mScreenHeight = this.getResources().getDisplayMetrics().heightPixels;
         RelativeLayout.LayoutParams assistiveLayout = new RelativeLayout.LayoutParams(mScreenWidth*2/10 -10, mScreenWidth*2/10 -10);
         assistiveLayout.setMargins(mScreenWidth*7/10, mScreenHeight*8/10,0,0);
         assistive.setLayoutParams(assistiveLayout);
@@ -123,6 +126,7 @@ public class Style1 extends Activity {
         final LinearLayout linear_style = (LinearLayout)findViewById(R.id.linear_style);
         final View view = LayoutInflater.from(Style1.this).inflate(R.layout.edit_word, null);
         ListView listV = (ListView)view.findViewById(R.id.listView);
+        listV.setDivider(null);
         listV.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
@@ -141,26 +145,66 @@ public class Style1 extends Activity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                TextView tw = null;
-                if(convertView!=null){
-                    tw = (TextView) convertView;
-                }else{
-                    tw = new TextView(Style1.this);
+                Typeface tf = wordContext.getTypeface();
+                Typeface f = Typeface.DEFAULT;
+                if(tf == null){
+                    tf = Typeface.DEFAULT;
                 }
-                tw.setText("字体 样式");
-                tw.setTextSize(16 + position*2);
-                return tw;
+                LinearLayout linearLayout_fontSelect;
+                AssetManager mgr = getAssets();
+                if(convertView!=null){
+                    linearLayout_fontSelect = (LinearLayout)convertView;
+                }else{
+                    linearLayout_fontSelect = (LinearLayout)LayoutInflater.from(Style1.this).inflate(R.layout.edit_word_font_list_item, null);;
+                }
+
+                switch (position){
+                    case 0:
+
+                        break;
+                    case 1:
+                        if(isChina){
+                            f = Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf");
+                        }else{
+                            f = Typeface.createFromAsset(mgr, "Fonts/default/riesling.ttf");
+                        }
+                        break;
+                    case 2:
+                        if(isChina){
+                            f = Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf");
+                        }else{
+                            f = Typeface.createFromAsset(mgr, "Fonts/default/ZpixEX2_EX.ttf");
+                        }
+                        break;
+                    case 3:
+                        if(isChina){
+                            f = Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf");
+                        }else{
+                            f = Typeface.createFromAsset(mgr, "Fonts/default/BAUBODN.TTF");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                if(tf.equals(f)){
+                    linearLayout_fontSelect.findViewById(R.id.imageView7).setVisibility(View.VISIBLE);
+                }
+                TextView textw = (TextView)linearLayout_fontSelect.findViewById(R.id.textVitem);
+                textw.setTypeface(f);
+
+                return linearLayout_fontSelect;
             }
         });
         view.setVisibility(View.GONE);
         linear_style.addView(view);
-        context.setOnClickListener(new View.OnClickListener() {
+        wordContext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!isDisplayContextEditWord){
                     view.setVisibility(View.VISIBLE);
                     EditText et = (EditText) view.findViewById(R.id.editText);
-                    et.setText(context.getText());
+                    et.setText(wordContext.getText());
                     sv.post(new Runnable() {
                         public void run() {
                             sv.fullScroll(ScrollView.FOCUS_DOWN);

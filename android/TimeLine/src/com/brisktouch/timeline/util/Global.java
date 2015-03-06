@@ -10,5 +10,4 @@ public class Global {
     public static JSONObject getJsonData(){
         return jsonData;
     }
-
 }
