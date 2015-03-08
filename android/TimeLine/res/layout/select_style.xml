@@ -19,16 +19,14 @@
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:transitionGroup="false"
-                    android:touchscreenBlocksFocus="false" android:nestedScrollingEnabled="false"
-                    android:measureWithLargestChild="false">
+                    android:layout_height="fill_parent">
                 <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="300dp"
                         android:id="@+id/imageButton" android:background="@drawable/puzzlenote_vertical2"
                         android:longClickable="false" android:adjustViewBounds="false"
                         android:baselineAlignBottom="false" android:clickable="false"
-                        android:nestedScrollingEnabled="false" android:layout_margin="5dp" android:layout_weight="1"/>
+                        android:layout_margin="5dp" android:layout_weight="1"/>
                 <ImageButton android:layout_width="wrap_content" android:layout_height="300dp"
                              android:id="@+id/imageButton2" android:background="@drawable/puzzlenote_vertical3"
                              android:layout_margin="5dp" android:layout_weight="1"/>

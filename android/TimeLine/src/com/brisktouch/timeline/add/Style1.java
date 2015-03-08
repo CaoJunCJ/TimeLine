@@ -66,18 +66,19 @@ public class Style1 extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.style1);
 
-        final boolean isChina = getResources().getConfiguration().locale.getCountry().equals("CN");
-
         SelectPic mClientListener = new SelectPic();
         findViewById(R.id.imageButton8).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton9).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton10).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton11).setOnClickListener(mClientListener);
         RelativeLayout rt = (RelativeLayout)findViewById(R.id.relativeLayout_style);
-        ImageView assistive = (ImageView)findViewById(R.id.imageButton12);
-        final TextView wordContext = (TextView)findViewById(R.id.textView3);
         final int mScreenWidth = this.getResources().getDisplayMetrics().widthPixels;
         final int mScreenHeight = this.getResources().getDisplayMetrics().heightPixels;
+
+        /*
+            assistive touch button
+         */
+        ImageView assistive = (ImageView)findViewById(R.id.imageButton12);
         RelativeLayout.LayoutParams assistiveLayout = new RelativeLayout.LayoutParams(mScreenWidth*2/10 -10, mScreenWidth*2/10 -10);
         assistiveLayout.setMargins(mScreenWidth*7/10, mScreenHeight*8/10,0,0);
         assistive.setLayoutParams(assistiveLayout);
@@ -122,82 +123,15 @@ public class Style1 extends Activity {
         PopButtonOnClickListener popListener = new PopButtonOnClickListener(iv1,iv2,iv3);
         assistive.setOnClickListener(popListener);
 
+
+        // edit word ui
         final ScrollView sv = (ScrollView)findViewById(R.id.scrollView2);
         final LinearLayout linear_style = (LinearLayout)findViewById(R.id.linear_style);
-        final View view = LayoutInflater.from(Style1.this).inflate(R.layout.edit_word, null);
-        ListView listV = (ListView)view.findViewById(R.id.listView);
-        listV.setDivider(null);
-        listV.setAdapter(new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return 4;
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return position;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                Typeface tf = wordContext.getTypeface();
-                Typeface f = Typeface.DEFAULT;
-                if(tf == null){
-                    tf = Typeface.DEFAULT;
-                }
-                LinearLayout linearLayout_fontSelect;
-                AssetManager mgr = getAssets();
-                if(convertView!=null){
-                    linearLayout_fontSelect = (LinearLayout)convertView;
-                }else{
-                    linearLayout_fontSelect = (LinearLayout)LayoutInflater.from(Style1.this).inflate(R.layout.edit_word_font_list_item, null);;
-                }
-
-                switch (position){
-                    case 0:
-
-                        break;
-                    case 1:
-                        if(isChina){
-                            f = Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf");
-                        }else{
-                            f = Typeface.createFromAsset(mgr, "Fonts/default/riesling.ttf");
-                        }
-                        break;
-                    case 2:
-                        if(isChina){
-                            f = Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf");
-                        }else{
-                            f = Typeface.createFromAsset(mgr, "Fonts/default/ZpixEX2_EX.ttf");
-                        }
-                        break;
-                    case 3:
-                        if(isChina){
-                            f = Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf");
-                        }else{
-                            f = Typeface.createFromAsset(mgr, "Fonts/default/BAUBODN.TTF");
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
-                if(tf.equals(f)){
-                    linearLayout_fontSelect.findViewById(R.id.imageView7).setVisibility(View.VISIBLE);
-                }
-                TextView textw = (TextView)linearLayout_fontSelect.findViewById(R.id.textVitem);
-                textw.setTypeface(f);
-
-                return linearLayout_fontSelect;
-            }
-        });
+        final TextView wordContext = (TextView)findViewById(R.id.textView3);
+        final View view = EditWordUtil.getEditWord(this, wordContext);
         view.setVisibility(View.GONE);
         linear_style.addView(view);
+
         wordContext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

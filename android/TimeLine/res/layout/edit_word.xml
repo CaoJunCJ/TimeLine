@@ -33,6 +33,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
+                android:id="@+id/fontLinearLayout"
                 android:layout_height="wrap_content" android:layout_weight="1">
             <ImageButton
                     android:layout_width="32dp"
@@ -45,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv1" android:text="@string/word_font" android:textSize="20dp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" android:textColor="#ffffffff"/>
         </LinearLayout>
         <ImageView
                 android:layout_width="2dp"
@@ -53,6 +54,7 @@
                 android:id="@+id/imageView4" android:background="#ff4c3c3d" android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"/>
         <LinearLayout
+                android:id="@+id/colorLinearLayout"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_weight="1">
@@ -70,8 +72,12 @@
                 android:layout_height="match_parent"
                 android:id="@+id/imageView5" android:background="#ff4c3c3d" android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"/>
-        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content"
-                      android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginBottom="5dp">
+        <LinearLayout
+                android:id="@+id/sizeLinearLayout"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginBottom="5dp">
             <ImageButton android:layout_width="32dp" android:layout_height="32dp"
                          android:id="@+id/imageButton17" android:layout_marginLeft="5dp"
                          android:background="@drawable/icon_zihao_gray"/>
