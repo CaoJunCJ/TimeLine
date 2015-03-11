@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.brisktouch.timeline.R;
+import com.brisktouch.timeline.custom.CircleView;
 
 import java.util.Objects;
 
@@ -22,21 +23,38 @@ public class EditWordUtil {
         //boolean isChina = context.getResources().getConfiguration().locale.getCountry().equals("CN");
         final View view = LayoutInflater.from(context).inflate(R.layout.edit_word, null);
 
-        final LinearLayout fontLinearLayout = (LinearLayout)view.findViewById(R.id.fontLinearLayout);
-        final LinearLayout colorLinearLayout = (LinearLayout)view.findViewById(R.id.colorLinearLayout);
-        final LinearLayout sizeLinearLayout = (LinearLayout)view.findViewById(R.id.sizeLinearLayout);
-
         //font style ListView
         final ListView fontListView = (ListView)view.findViewById(R.id.listView);
+        final ListView sizeListView = (ListView)view.findViewById(R.id.listView3);
+
+        TableRow colorTables[] = {
+                (TableRow)view.findViewById(R.id.tableRow),
+                (TableRow)view.findViewById(R.id.tableRow1),
+                (TableRow)view.findViewById(R.id.tableRow2),
+                (TableRow)view.findViewById(R.id.tableRow3)};
+
+        setColorTablesListener(colorTables, textView);
+
+
+
         fontListView.setDivider(null);
+        sizeListView.setDivider(null);
 
         Typeface[] data = {
                 Typeface.DEFAULT,
                 Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf"),
-                Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf"),
-                Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf")};
+                Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf"),
+                Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf")};
+
+        Float[] floats = {
+                18.0f,
+                20.0f,
+                22.0f,
+                24.0f
+        };
 
         fontListView.setAdapter(new SimpleAdapter(WordStyle.fontStyle, context, data, textView));
+        sizeListView.setAdapter(new SimpleAdapter(WordStyle.sizeStyle, context, floats, textView));
 
         fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,9 +73,28 @@ public class EditWordUtil {
                 textView.setTypeface(((TextView)((LinearLayout)((LinearLayout)fontListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTypeface());
             }
         });
+
+        view.findViewById(R.id.fontLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.fontStyle, view));
+        view.findViewById(R.id.colorLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.colorStyle, view));
+        view.findViewById(R.id.sizeLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.sizeStyle, view));
+
         return view;
     }
 
+    public static void setColorTablesListener(TableRow[] colorTables, final TextView tv){
+        for(TableRow tableRow : colorTables){
+            for(int i=0; i< tableRow.getChildCount(); i++){
+                final CircleView circleView = (CircleView)tableRow.getChildAt(i);
+                circleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tv.setTextColor(circleView.getColor());
+                    }
+                });
+
+            }
+        }
+    }
 
 
     enum WordStyle{
@@ -116,65 +153,90 @@ public class EditWordUtil {
                 }
 
                 TextView tv = (TextView) linearLayout.findViewById(R.id.textVitem);
+                tv.setTextSize(20);
                 tv.setTypeface(tf);
 
             }else if(wordStyle == WordStyle.sizeStyle){
+                if(linearLayout == null){
+                    linearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.edit_word_size_list_item, null);
+                }
+                Float old = textView.getTextSize();
 
+                Float ft = (Float)data[position];
+
+                if(ft.equals(old)){
+                    linearLayout.findViewById(R.id.imageView7).setVisibility(View.VISIBLE);
+                }
+
+                TextView tv = (TextView) linearLayout.findViewById(R.id.textVitem);
+                tv.setText(R.string.word_size);
+                tv.setTextSize(ft);
             }
             return linearLayout;
         }
     }
 
     public static class StyleLinearLayout implements View.OnClickListener {
-
-        View[] v;
         WordStyle wordStyle;
-        View[] listViews;
+        LinearLayout fontLinearLayout;
+        LinearLayout colorLinearLayout;
+        LinearLayout sizeLinearLayout;
 
-        public StyleLinearLayout(View[] v, WordStyle ws){
-            this.v = v;
+        View fontListView;
+        View colorView;
+        View sizeListView;
+        public StyleLinearLayout(WordStyle ws, View main){
             wordStyle = ws;
+            fontLinearLayout = (LinearLayout)main.findViewById(R.id.fontLinearLayout);
+            colorLinearLayout = (LinearLayout)main.findViewById(R.id.colorLinearLayout);
+            sizeLinearLayout = (LinearLayout)main.findViewById(R.id.sizeLinearLayout);
+
+            fontListView = main.findViewById(R.id.listView);
+            colorView = main.findViewById(R.id.colorTable);
+            sizeListView = main.findViewById(R.id.listView3);
         }
 
         @Override
-        public void onClick(View view){
-            for(View v : this.v){
-                if(v == view){
-                    switch (wordStyle){
-                        case fontStyle:
-                            ((LinearLayout)v).getChildAt(0).setBackgroundResource(R.drawable.icon_ziti_white);
-                            break;
-                        case colorStyle:
-                            ((LinearLayout)v).getChildAt(0).setBackgroundResource(R.drawable.icon_yanse_white);
-                            break;
-                        case sizeStyle:
-                            ((LinearLayout)v).getChildAt(0).setBackgroundResource(R.drawable.icon_zihao_white);
-                            break;
-                    }
-                    ((TextView)((LinearLayout)v).getChildAt(1)).setTextColor(Color.WHITE);
-                }else{
-                    switch (wordStyle){
-                        case fontStyle:
-                            ((LinearLayout)v).getChildAt(0).setBackgroundResource(R.drawable.icon_ziti_gray);
-                            break;
-                        case colorStyle:
-                            ((LinearLayout)v).getChildAt(0).setBackgroundResource(R.drawable.icon_yanse_gray);
-                            break;
-                        case sizeStyle:
-                            ((LinearLayout)v).getChildAt(0).setBackgroundResource(R.drawable.icon_zihao_gray);
-                            break;
-                    }
-                    ((TextView)((LinearLayout)v).getChildAt(1)).setTextColor(Color.GRAY);
-                }
+        public void onClick(View view) {
+            switch (wordStyle) {
+                case fontStyle:
+                    //((LinearLayout) view).getChildAt(0).setBackgroundResource(R.drawable.icon_ziti_white);
+                    //((TextView) ((LinearLayout) view).getChildAt(1)).setTextColor(Color.WHITE);
+                    fontLinearLayout.getChildAt(0).setBackgroundResource(R.drawable.icon_ziti_white);
+                    ((TextView)fontLinearLayout.getChildAt(1)).setTextColor(Color.WHITE);
+                    colorLinearLayout.getChildAt(0).setBackgroundResource(R.drawable.icon_yanse_gray);
+                    ((TextView)colorLinearLayout.getChildAt(1)).setTextColor(Color.GRAY);
+                    sizeLinearLayout.getChildAt(0).setBackgroundResource(R.drawable.icon_zihao_gray);
+                    ((TextView)sizeLinearLayout.getChildAt(1)).setTextColor(Color.GRAY);
+                    fontListView.setVisibility(View.VISIBLE);
+                    colorView.setVisibility(View.GONE);
+                    sizeListView.setVisibility(View.GONE);
+                    break;
+                case colorStyle:
+                    fontLinearLayout.getChildAt(0).setBackgroundResource(R.drawable.icon_ziti_gray);
+                    ((TextView)fontLinearLayout.getChildAt(1)).setTextColor(Color.GRAY);
+                    colorLinearLayout.getChildAt(0).setBackgroundResource(R.drawable.icon_yanse_white);
+                    ((TextView)colorLinearLayout.getChildAt(1)).setTextColor(Color.WHITE);
+                    sizeLinearLayout.getChildAt(0).setBackgroundResource(R.drawable.icon_zihao_gray);
+                    ((TextView)sizeLinearLayout.getChildAt(1)).setTextColor(Color.GRAY);
+                    fontListView.setVisibility(View.GONE);
+                    colorView.setVisibility(View.VISIBLE);
+                    sizeListView.setVisibility(View.GONE);
+                    break;
+                case sizeStyle:
+                    fontLinearLayout.getChildAt(0).setBackgroundResource(R.drawable.icon_ziti_gray);
+                    ((TextView)fontLinearLayout.getChildAt(1)).setTextColor(Color.GRAY);
+                    colorLinearLayout.getChildAt(0).setBackgroundResource(R.drawable.icon_yanse_gray);
+                    ((TextView)colorLinearLayout.getChildAt(1)).setTextColor(Color.GRAY);
+                    sizeLinearLayout.getChildAt(0).setBackgroundResource(R.drawable.icon_zihao_white);
+                    ((TextView)sizeLinearLayout.getChildAt(1)).setTextColor(Color.WHITE);
+                    fontListView.setVisibility(View.GONE);
+                    colorView.setVisibility(View.GONE);
+                    sizeListView.setVisibility(View.VISIBLE);
+                    break;
             }
+
         }
-
-        public void displaySelectedListView(){
-            for(View v : listViews){
-
-            }
-        }
-
     }
 
 }

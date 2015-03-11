@@ -17,4 +17,5 @@
     <string name="word_color">颜色</string>
     <string name="word_size">字号</string>
     <string name="font_style">字体 样式</string>
+    <string name="size_style">字体 大小</string>
 </resources>

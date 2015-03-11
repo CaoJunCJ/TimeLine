@@ -17,4 +17,5 @@
     <string name="word_color">color</string>
     <string name="word_size">size</string>
     <string name="font_style">font style</string>
+    <string name="size_style">font size</string>
 </resources>

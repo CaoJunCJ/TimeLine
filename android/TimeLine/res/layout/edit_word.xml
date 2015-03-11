@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res/com.brisktouch.timeline"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:background="#ff62504e">
@@ -12,7 +13,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText" android:layout_weight="10"
-                android:layout_marginLeft="10dp" android:layout_marginRight="5dp"/>
+                android:layout_marginLeft="10dp" android:layout_marginRight="5dp"
+                android:maxHeight="80dp"/>
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,7 +67,8 @@
                     android:background="@drawable/icon_yanse_gray" android:layout_marginLeft="5dp"
                     />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView"
-                      android:text="@string/word_color" android:textSize="20dp" android:layout_gravity="center"/>
+                      android:text="@string/word_color" android:textSize="20dp" android:layout_gravity="center"
+                      android:textColor="#ff888888"/>
         </LinearLayout>
         <ImageView
                 android:layout_width="2dp"
@@ -83,7 +86,7 @@
                          android:background="@drawable/icon_zihao_gray"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/textView5" android:text="@string/word_size" android:textSize="20dp"
-                      android:layout_gravity="center"/>
+                      android:layout_gravity="center" android:textColor="#ff888888"/>
         </LinearLayout>
     </LinearLayout>
     <ImageView
@@ -92,14 +95,148 @@
             android:id="@+id/imageView6" android:background="#ff615353"/>
     <ListView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="220dp"
             android:id="@+id/listView" android:background="#ff534343"/>
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:id="@+id/colorTable" android:visibility="gone">
+        <TableRow
+                android:id="@+id/tableRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp">
+            <com.brisktouch.timeline.custom.CircleView 
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff000000"
+                    android:layout_weight="1" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                    />
+            <com.brisktouch.timeline.custom.CircleView 
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff333333"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff5e423e"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff82634e"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff6b3b4b"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff0d2444"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+        </TableRow>
+        <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_marginLeft="40dp" android:layout_marginRight="40dp">
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff7E6d91"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffc35f6b"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                    />
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffc16300"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff9a6821"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff3a6b8b"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+        </TableRow>
+        <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_marginLeft="15dp" android:layout_marginRight="15dp">
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff717171"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff92a6a7"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ff43acb2"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffa69964"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffa5816b"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffb7a798"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+        </TableRow>
+        <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_marginLeft="40dp" android:layout_marginRight="40dp">
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffbcd7ce"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffded8c0"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffbcbcbc"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffdcdcdc"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+            <com.brisktouch.timeline.custom.CircleView
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    app:cv_color="#ffffffff"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+        </TableRow>
+    </TableLayout>
     <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:id="@+id/listView2" android:visibility="gone" android:background="#ff534343"/>
-    <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
             android:id="@+id/listView3" android:visibility="gone" android:background="#ff534343"/>
 </LinearLayout>
