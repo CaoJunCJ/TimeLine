@@ -31,9 +31,11 @@ public class InitTask extends Thread {
             {
                 "date":"2012.12.5",
                 "things":[
+                    {
                     "context":"title",
                     "time":"12:11"
-                ],
+                    }
+                ]
             }
         ]
     }
@@ -54,7 +56,7 @@ public class InitTask extends Thread {
             JSONArray array = new JSONArray();
             JSONObject j = new JSONObject();
             j.put("context", "welcome to timeLine.");
-            j.put("time",cal.HOUR+":"+cal.MINUTE);
+            j.put("time",cal.get(cal.HOUR_OF_DAY)+":"+cal.get(cal.MINUTE));
             array.put(j);
             theFirstContext.put("date",cal.get(cal.YEAR)+"."+(cal.get(cal.MONTH)+1)+"."+cal.get(cal.DAY_OF_MONTH));
             theFirstContext.put("things",array);

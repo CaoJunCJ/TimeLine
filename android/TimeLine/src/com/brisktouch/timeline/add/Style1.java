@@ -26,10 +26,9 @@ import com.brisktouch.timeline.custom.ArcTranslateAnimation;
 import com.brisktouch.timeline.custom.CircleButton;
 import com.brisktouch.timeline.custom.PopButtonOnClickListener;
 import com.brisktouch.timeline.ui.RecyclingImageView;
-import com.brisktouch.timeline.util.ImageCache;
-import com.brisktouch.timeline.util.ImageNative;
-import com.brisktouch.timeline.util.ImageResizer;
-import com.brisktouch.timeline.util.Utils;
+import com.brisktouch.timeline.util.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.*;
@@ -104,6 +103,7 @@ public class Style1 extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(Style1.this, "Onclick at save", Toast.LENGTH_SHORT).show();
+                save();
             }
         });
 
@@ -152,6 +152,31 @@ public class Style1 extends Activity {
                 }
             }
         });
+    }
+
+    public void save(){
+        try {
+            JSONObject jsonObject = Global.getJsonData();
+            JSONArray jsonData = jsonObject.optJSONArray("data");
+            for (int i = 0; i < jsonData.length(); i++) {
+                JSONObject jsonItem = jsonData.optJSONObject(i);
+                String dateString = jsonItem.optString("date");
+                //String dateTemp[] = dateString.split("\\.");
+                //dateString = xxxx.xx.xx eg. 2001.12.24
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(System.currentTimeMillis());
+                String today = cal.get(cal.YEAR) + "." + (cal.get(cal.MONTH) + 1) + "." + cal.get(cal.DAY_OF_MONTH);
+                if (dateString.equals(today)) {
+                    JSONObject add = new JSONObject();
+                    add.put("context", ((TextView) findViewById(R.id.textView2)).getText().toString());
+                    add.put("time",cal.get(cal.HOUR_OF_DAY)+":"+cal.get(cal.MINUTE));
+                    JSONArray jsonThings = jsonItem.optJSONArray("things");
+                    jsonThings.put(add);
+                    Log.d(TAG, jsonObject.toString(1));
+                    return;
+                }
+            }
+        }catch (Exception e){e.printStackTrace();}
     }
 
     public void popSelectPictureDialog(int id){

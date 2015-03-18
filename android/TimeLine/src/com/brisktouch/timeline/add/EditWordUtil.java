@@ -55,6 +55,20 @@ public class EditWordUtil {
 
         fontListView.setAdapter(new SimpleAdapter(WordStyle.fontStyle, context, data, textView));
         sizeListView.setAdapter(new SimpleAdapter(WordStyle.sizeStyle, context, floats, textView));
+        sizeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO bug, need modify it.
+                for(int index=0;index<=i;index++){
+                    LinearLayout lt = (LinearLayout)sizeListView.getChildAt(index);
+                    if(index!=i){
+                        ((LinearLayout)lt.getChildAt(0)).getChildAt(0).setVisibility(View.INVISIBLE);
+                    }else{
+                        ((LinearLayout)lt.getChildAt(0)).getChildAt(0).setVisibility(View.VISIBLE);
+                    }
+                }
+                textView.setTextSize(((TextView) ((LinearLayout) ((LinearLayout) sizeListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTextSize());
+            }
+        });
 
         fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -77,6 +91,16 @@ public class EditWordUtil {
         view.findViewById(R.id.fontLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.fontStyle, view));
         view.findViewById(R.id.colorLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.colorStyle, view));
         view.findViewById(R.id.sizeLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.sizeStyle, view));
+
+        View acceptButton = view.findViewById(R.id.imageButton13);
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText = (EditText)view.findViewById(R.id.editText);
+                textView.setText(editText.getText());
+                textView.performClick();
+            }
+        });
 
         return view;
     }

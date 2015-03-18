@@ -14,6 +14,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ImageView;
 import com.brisktouch.timeline.R;
+import com.brisktouch.timeline.util.Utils;
 
 public class CircleButton extends ImageView {
 
@@ -122,13 +123,18 @@ public class CircleButton extends ImageView {
     }
 
     private void hidePressedRing() {
-        pressedAnimator.setFloatValues(pressedRingWidth, 0f);
-        pressedAnimator.start();
+        if(pressedAnimator!=null){
+            pressedAnimator.setFloatValues(pressedRingWidth, 0f);
+            pressedAnimator.start();
+        }
+
     }
 
     private void showPressedRing() {
-        pressedAnimator.setFloatValues(animationProgress, pressedRingWidth);
-        pressedAnimator.start();
+        if(pressedAnimator!=null){
+            pressedAnimator.setFloatValues(animationProgress, pressedRingWidth);
+            pressedAnimator.start();
+        }
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -158,8 +164,10 @@ public class CircleButton extends ImageView {
 
         focusPaint.setStrokeWidth(pressedRingWidth);
         final int pressedAnimationTime = getResources().getInteger(ANIMATION_TIME_ID);
-        pressedAnimator = ObjectAnimator.ofFloat(this, "animationProgress", 0f, 0f);
-        pressedAnimator.setDuration(pressedAnimationTime);
+        if(Utils.hasHoneycomb()){
+            pressedAnimator = ObjectAnimator.ofFloat(this, "animationProgress", 0f, 0f);
+            pressedAnimator.setDuration(pressedAnimationTime);
+        }
     }
 
     private int getHighlightColor(int color, int amount) {

@@ -47,7 +47,7 @@ public class MyActivity extends Activity {
             Intent intent = new Intent();
             intent.setClass(MyActivity.this, StyleActivity.class);
             startActivity(intent);
-            //finish();
+            finish();
                 }
 
             });
