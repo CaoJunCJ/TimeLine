@@ -128,30 +128,47 @@ public class Style1 extends Activity {
         final ScrollView sv = (ScrollView)findViewById(R.id.scrollView2);
         final LinearLayout linear_style = (LinearLayout)findViewById(R.id.linear_style);
         final TextView wordContext = (TextView)findViewById(R.id.textView3);
-        final View view = EditWordUtil.getEditWord(this, wordContext);
-        view.setVisibility(View.GONE);
-        linear_style.addView(view);
+        final TextView wordTitle = (TextView)findViewById(R.id.textView2);
 
-        wordContext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isDisplayContextEditWord){
-                    view.setVisibility(View.VISIBLE);
-                    EditText et = (EditText) view.findViewById(R.id.editText);
-                    et.setText(wordContext.getText());
-                    sv.post(new Runnable() {
-                        public void run() {
-                            sv.fullScroll(ScrollView.FOCUS_DOWN);
-                        }
-                    });
-                    isDisplayContextEditWord = true;
+        final EditWordUtil editWordUtil = new EditWordUtil(this);
 
-                }else{
-                    view.setVisibility(View.GONE);
-                    isDisplayContextEditWord = false;
-                }
+        final View editWordView = editWordUtil.getEditWordView();
+        editWordView.setVisibility(View.GONE);
+        linear_style.addView(editWordView);
+
+        wordContext.setOnClickListener(new WordOnclickListener(editWordUtil, editWordView, sv));
+        wordTitle.setOnClickListener(new WordOnclickListener(editWordUtil, editWordView, sv));
+
+    }
+
+    public class WordOnclickListener implements View.OnClickListener{
+        EditWordUtil editWordUtil;
+        View editWordView;
+        ScrollView sv;
+        public WordOnclickListener(EditWordUtil editWordUtil, View editWordView, ScrollView sv){
+            this.editWordUtil = editWordUtil;
+            this.editWordView = editWordView;
+            this.sv = sv;
+        }
+
+        public void onClick(View v) {
+            TextView textView = (TextView)v;
+            editWordUtil.setCurrentSelectTextView(textView);
+            if(!isDisplayContextEditWord){
+                editWordView.setVisibility(View.VISIBLE);
+                EditText et = (EditText) editWordView.findViewById(R.id.editText);
+                et.setText(textView.getText());
+                sv.post(new Runnable() {
+                    public void run() {
+                        sv.fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                });
+                isDisplayContextEditWord = true;
+            }else {
+                editWordView.setVisibility(View.GONE);
+                isDisplayContextEditWord = false;
             }
-        });
+        }
     }
 
     public void save(){
