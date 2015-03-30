@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import com.brisktouch.timeline.MyActivity;
 import com.brisktouch.timeline.R;
+import com.brisktouch.timeline.style.HumanStyleActivity;
 
 /**
  * Created by cerosoft on 1/9/2015.
@@ -30,7 +31,7 @@ public class StyleActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(StyleActivity.this, Style1.class);
+                intent.setClass(StyleActivity.this, HumanStyleActivity.class);
                 startActivity(intent);
                 //finish();
             }

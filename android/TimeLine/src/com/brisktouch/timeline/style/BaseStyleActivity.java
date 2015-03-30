@@ -1,47 +1,43 @@
-package com.brisktouch.timeline.add;
+package com.brisktouch.timeline.style;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.AssetManager;
 import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.graphics.*;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.*;
-import android.view.animation.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import com.brisktouch.timeline.R;
-import android.net.Uri;
-import android.widget.AbsListView.LayoutParams;
-import com.brisktouch.timeline.custom.ArcTranslateAnimation;
 import com.brisktouch.timeline.custom.CircleButton;
+import com.brisktouch.timeline.custom.DragImageView;
 import com.brisktouch.timeline.custom.PopButtonOnClickListener;
 import com.brisktouch.timeline.ui.RecyclingImageView;
-import com.brisktouch.timeline.util.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.brisktouch.timeline.util.ImageCache;
+import com.brisktouch.timeline.util.ImageNative;
+import com.brisktouch.timeline.util.Utils;
 
 import java.io.File;
-import java.util.*;
 import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
- * Created by cerosoft on 1/12/2015.
+ * Created by jim on 3/30/2015.
  */
-
-
-//TODO must be Reconstruction!!!!!
-public class Style1 extends Activity {
-    String TAG = "Style1";
+public abstract class BaseStyleActivity extends Activity {
+    String TAG = "BaseStyle";
     HashMap<Long, List<String>> dateGruopMap;
     HashMap<String, List<String>> folderGruopMap;
     private int mImageThumbSize;
@@ -50,154 +46,86 @@ public class Style1 extends Activity {
     ListView listView;
     ImageListAdapter mImageListAdapter;
     AlertDialog alertView;
+    ImageView assistive;
+    ImageView saveButton;
+    ImageView backButton;
+    ImageView shareButton;
 
-    boolean isDisplayButton = false;
+    public BaseStyleActivity(){
 
-    boolean isDisplayContextEditWord = false;
-
-
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //hide title bar
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //hide status bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.style1);
+        initAssistiveTouchButton();
+    }
 
-        SelectPic mClientListener = new SelectPic();
-        findViewById(R.id.imageButton8).setOnClickListener(mClientListener);
-        findViewById(R.id.imageButton9).setOnClickListener(mClientListener);
-        findViewById(R.id.imageButton10).setOnClickListener(mClientListener);
-        findViewById(R.id.imageButton11).setOnClickListener(mClientListener);
-        RelativeLayout rt = (RelativeLayout)findViewById(R.id.relativeLayout_style);
-        final int mScreenWidth = this.getResources().getDisplayMetrics().widthPixels;
-        final int mScreenHeight = this.getResources().getDisplayMetrics().heightPixels;
-
+    public void initAssistiveTouchButton(){
         /*
             assistive touch button
          */
-        ImageView assistive = (ImageView)findViewById(R.id.imageButton12);
+        assistive = new DragImageView(getApplication(), null);
+        assistive.setBackgroundResource(R.drawable.assistivetouch);
+        final int mScreenWidth = this.getResources().getDisplayMetrics().widthPixels;
+        final int mScreenHeight = this.getResources().getDisplayMetrics().heightPixels;
+
         RelativeLayout.LayoutParams assistiveLayout = new RelativeLayout.LayoutParams(mScreenWidth*2/10 -10, mScreenWidth*2/10 -10);
         assistiveLayout.setMargins(mScreenWidth*7/10, mScreenHeight*8/10,0,0);
         assistive.setLayoutParams(assistiveLayout);
-        final ImageView iv1 = new CircleButton(this);
-        iv1.setLayoutParams(assistiveLayout);
-        iv1.setImageResource(R.drawable.ic_action_undo);
-        iv1.setVisibility(View.INVISIBLE);
-        rt.addView(iv1,1);
-        iv1.setOnClickListener(new View.OnClickListener() {
+        backButton = new CircleButton(this);
+        backButton.setLayoutParams(assistiveLayout);
+        backButton.setImageResource(R.drawable.ic_action_undo);
+        backButton.setVisibility(View.INVISIBLE);
+        //
+        //rt.addView(iv1,1);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO should be create a stack for save activity ,when click back ,pop a activity from stack.
-                Toast.makeText(Style1.this, "Onclick at back", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "Onclick at back", Toast.LENGTH_SHORT).show();
+                back();
             }
         });
 
-        final ImageView iv2 = new CircleButton(this);
-        iv2.setLayoutParams(assistiveLayout);
-        iv2.setImageResource(R.drawable.ic_action_save);
-        iv2.setVisibility(View.INVISIBLE);
-        rt.addView(iv2,1);
-        iv2.setOnClickListener(new View.OnClickListener() {
+        saveButton = new CircleButton(this);
+        saveButton.setLayoutParams(assistiveLayout);
+        saveButton.setImageResource(R.drawable.ic_action_save);
+        saveButton.setVisibility(View.INVISIBLE);
+        //rt.addView(iv2,1);
+        //
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Style1.this, "Onclick at save", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "Onclick at save", Toast.LENGTH_SHORT).show();
                 save();
             }
         });
 
-        final ImageView iv3 = new CircleButton(this);
-        iv3.setLayoutParams(assistiveLayout);
-        iv3.setImageResource(R.drawable.ic_action_share);
-        iv3.setVisibility(View.INVISIBLE);
-        rt.addView(iv3,1);
-        iv3.setOnClickListener(new View.OnClickListener() {
+        shareButton = new CircleButton(this);
+        shareButton.setLayoutParams(assistiveLayout);
+        shareButton.setImageResource(R.drawable.ic_action_share);
+        shareButton.setVisibility(View.INVISIBLE);
+        //rt.addView(iv3,1);
+        //
+        shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Style1.this, "Onclick at share, not implement", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "Onclick at share, not implement", Toast.LENGTH_SHORT).show();
+                share();
             }
         });
 
 
-        PopButtonOnClickListener popListener = new PopButtonOnClickListener(iv1,iv2,iv3);
+        PopButtonOnClickListener popListener = new PopButtonOnClickListener(backButton,saveButton,shareButton);
         assistive.setOnClickListener(popListener);
+    }
 
-
-        // edit word ui
-        final ScrollView sv = (ScrollView)findViewById(R.id.scrollView2);
-        final LinearLayout linear_style = (LinearLayout)findViewById(R.id.linear_style);
-        final TextView wordContext = (TextView)findViewById(R.id.textView3);
-        final TextView wordTitle = (TextView)findViewById(R.id.textView2);
-
-        final EditWordUtil editWordUtil = new EditWordUtil(this);
-
-        final View editWordView = editWordUtil.getEditWordView();
-        editWordView.setVisibility(View.GONE);
-        linear_style.addView(editWordView);
-
-        wordContext.setOnClickListener(new WordOnclickListener(editWordUtil, editWordView, sv));
-        wordTitle.setOnClickListener(new WordOnclickListener(editWordUtil, editWordView, sv));
+    public abstract void share();
+    public abstract void save();
+    public void back(){
 
     }
 
-    public class WordOnclickListener implements View.OnClickListener{
-        EditWordUtil editWordUtil;
-        View editWordView;
-        ScrollView sv;
-        public WordOnclickListener(EditWordUtil editWordUtil, View editWordView, ScrollView sv){
-            this.editWordUtil = editWordUtil;
-            this.editWordView = editWordView;
-            this.sv = sv;
-        }
-
-        public void onClick(View v) {
-            TextView textView = (TextView)v;
-            editWordUtil.setCurrentSelectTextView(textView);
-            if(!isDisplayContextEditWord){
-                editWordView.setVisibility(View.VISIBLE);
-                EditText et = (EditText) editWordView.findViewById(R.id.editText);
-                et.setText(textView.getText());
-                sv.post(new Runnable() {
-                    public void run() {
-                        sv.fullScroll(ScrollView.FOCUS_DOWN);
-                    }
-                });
-                isDisplayContextEditWord = true;
-            }else {
-                editWordView.setVisibility(View.GONE);
-                isDisplayContextEditWord = false;
-            }
-        }
-    }
-
-    public void save(){
-        try {
-            JSONObject jsonObject = Global.getJsonData();
-            JSONArray jsonData = jsonObject.optJSONArray("data");
-            for (int i = 0; i < jsonData.length(); i++) {
-                JSONObject jsonItem = jsonData.optJSONObject(i);
-                String dateString = jsonItem.optString("date");
-                //String dateTemp[] = dateString.split("\\.");
-                //dateString = xxxx.xx.xx eg. 2001.12.24
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(System.currentTimeMillis());
-                String today = cal.get(cal.YEAR) + "." + (cal.get(cal.MONTH) + 1) + "." + cal.get(cal.DAY_OF_MONTH);
-                if (dateString.equals(today)) {
-                    JSONObject add = new JSONObject();
-                    add.put("style","style1");
-
-                    add.put("context", ((TextView) findViewById(R.id.textView2)).getText().toString());
-                    add.put("time",cal.get(cal.HOUR_OF_DAY)+":"+cal.get(cal.MINUTE));
-                    JSONArray jsonThings = jsonItem.optJSONArray("things");
-                    jsonThings.put(add);
-                    Log.d(TAG, jsonObject.toString(1));
-                    Toast.makeText(Style1.this, "Save Success", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-        }catch (Exception e){e.printStackTrace();}
-    }
 
     public void popSelectPictureDialog(int id){
 
@@ -209,7 +137,7 @@ public class Style1 extends Activity {
                     return (o1.getKey()).compareTo(o2.getKey());
                 }
             });
-            Log.d(Style1.class.getName(),"infoIds size:"+infoIds.size());
+            Log.d(TAG,"infoIds size:"+infoIds.size());
 
             mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
             mImageThumbSpacing = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_spacing);
@@ -219,17 +147,14 @@ public class Style1 extends Activity {
             mImageFetcher.setLoadingImage(R.drawable.empty_photo);
             mImageFetcher.addImageCache(cacheParams);
 
-            LinearLayout main = new LinearLayout(Style1.this);
+            LinearLayout main = new LinearLayout(getApplication());
             main.setOrientation(LinearLayout.VERTICAL);
             main.setBackgroundColor(Color.parseColor("#ffffffff"));
 
-
-
-
-            listView = new ListView(Style1.this);
+            listView = new ListView(getApplication());
             listView.setBackgroundColor(Color.parseColor("#ffffffff"));
             listView.setCacheColorHint(0);
-            mImageListAdapter = new ImageListAdapter(Style1.this, infoIds, listView);
+            mImageListAdapter = new ImageListAdapter(getApplication(), infoIds, listView);
             mImageListAdapter.setChangeImageId(id);
             listView.setAdapter(mImageListAdapter);
 
@@ -258,7 +183,7 @@ public class Style1 extends Activity {
             main.addView(listView);
 
 
-            alertView = new AlertDialog.Builder(Style1.this).setView(main).create();
+            alertView = new AlertDialog.Builder(this).setView(main).create();
         }
 
         if(alertView!=null){
@@ -268,9 +193,8 @@ public class Style1 extends Activity {
 
     }
 
+
     public class SelectPic implements View.OnClickListener {
-
-
 
         private Handler mHandler = new Handler(){
             public void handleMessage(Message msg){
@@ -285,14 +209,12 @@ public class Style1 extends Activity {
             folderGruopMap = new HashMap<String, List<String>>();
         }
 
-
-
         public void onClick(View v) {
             if(mImageListAdapter!=null){
                 mImageListAdapter.setChangeImageId(v.getId());
             }
 
-            Log.d(Style1.class.getName(),"onclick");
+            Log.d(TAG,"onclick");
             if(alertView == null){
                 getImage(v.getId());
             }else{
@@ -303,7 +225,7 @@ public class Style1 extends Activity {
 
         private void getImage(final int id){
             if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-                Toast.makeText(Style1.this, "Not External Storage Card", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "Not External Storage Card", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -313,11 +235,11 @@ public class Style1 extends Activity {
                 @Override
                 public void run() {
                     Uri mImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                    ContentResolver mContentResolver = Style1.this.getContentResolver();
+                    ContentResolver mContentResolver = getApplication().getContentResolver();
 
                     Cursor mCursor = mContentResolver.query(mImageUri, null,
                             MediaStore.Images.Media.MIME_TYPE + "=? or "
-                    + MediaStore.Images.Media.MIME_TYPE + "=?",
+                                    + MediaStore.Images.Media.MIME_TYPE + "=?",
                             new String[]{"image/jpeg", "image/png"}, MediaStore.Images.Media.DEFAULT_SORT_ORDER);
 
                     while(mCursor.moveToNext()){
@@ -415,7 +337,6 @@ public class Style1 extends Activity {
 
     }
 
-
     public class ImageListAdapter extends BaseAdapter {
         List<Map.Entry<Long, List<String>>> list;
         Context context;
@@ -427,7 +348,6 @@ public class Style1 extends Activity {
             this.context = c;
             this.mListView = mListView;
         }
-
         public void setChangeImageId(int id){
             changeImageId = id;
         }
@@ -464,8 +384,8 @@ public class Style1 extends Activity {
             holder.textView.setText(timeFormat.format(new Date(dateTime)));
             int mNumColumns = context.getResources().getDisplayMetrics().widthPixels/10*9/mImageThumbSize;
             holder.gridView.setNumColumns(mNumColumns);
-            holder.gridView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-            holder.gridView.setAdapter(new GroupAdapter(Style1.this, list.get(index).getValue(), holder.gridView));
+            holder.gridView.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT));
+            holder.gridView.setAdapter(new GroupAdapter(getApplication(), list.get(index).getValue(), holder.gridView));
             holder.gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int scrollState) {
@@ -491,7 +411,7 @@ public class Style1 extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //Toast.makeText(Style1.this, "OnClick at" + position, Toast.LENGTH_SHORT).show();
                     String path = list.get(index).getValue().get(position);
-                    Log.d("path:",path);
+                    Log.d("path:", path);
                     ImageButton mImageButton = (ImageButton)((Activity)context).findViewById(changeImageId);
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     //options.inJustDecodeBounds = true;
@@ -516,10 +436,9 @@ public class Style1 extends Activity {
             //LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
             LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) holder.textView.getLayoutParams();
             int height = row * mImageThumbSize + textParams.height + 80;
-            convertView.setLayoutParams(new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, height));
+            convertView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, height));
             return convertView;
         }
-
     }
 
     class ListHolder

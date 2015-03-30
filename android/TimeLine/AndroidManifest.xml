@@ -7,7 +7,7 @@
     <uses-configuration android:minSdkVersion="7"/>
     <uses-configuration android:targetSdkVersion="21"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+    <application android:label="@string/app_name" android:icon="@drawable/icon_lr">
 
         <activity android:name=".MainActivity"
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
@@ -36,6 +36,11 @@
 
         <activity android:name=".add.Style1"
                   android:label="style1"
+                  android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".style.HumanStyleActivity"
+                  android:label="humanStyle"
                   android:screenOrientation="portrait">
         </activity>
 
