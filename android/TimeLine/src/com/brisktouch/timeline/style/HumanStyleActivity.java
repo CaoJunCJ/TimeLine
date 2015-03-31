@@ -2,6 +2,7 @@ package com.brisktouch.timeline.style;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,90 +19,43 @@ import java.util.Calendar;
  * Created by jim on 3/30/2015.
  */
 public class HumanStyleActivity extends BaseStyleActivity {
-    String TAG = "HumanStyle";
-    boolean isDisplayButton = false;
 
-    boolean isDisplayContextEditWord = false;
-
-
+    String TAG = "HumanStyleActivity";
+    LinearLayout humanStyleLinearLayout;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //hide title bar
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //hide status bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.human_style);
+
+        humanStyleLinearLayout = (LinearLayout)LayoutInflater.from(getApplication()).inflate(R.layout.human_style, null);
+
+        scrollView.addView(humanStyleLinearLayout);
+
+        setContentView(maxOutsideLayout);
+
+        addAssistiveTouchButton();
 
         SelectPic mClientListener = new SelectPic();
         findViewById(R.id.imageButton8).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton9).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton10).setOnClickListener(mClientListener);
         findViewById(R.id.imageButton11).setOnClickListener(mClientListener);
-        RelativeLayout rt = (RelativeLayout)findViewById(R.id.relativeLayout_style);
 
-        /*
-            assistive touch button
-         */
-        rt.addView(assistive);
+        initEditWordView();
 
-        rt.addView(backButton,1);
+        humanStyleLinearLayout.addView(editWordView);
 
-        rt.addView(shareButton,1);
-
-        rt.addView(saveButton,1);
-
-
-
-        // edit word ui
-        final ScrollView sv = (ScrollView)findViewById(R.id.scrollView2);
-        final LinearLayout linear_style = (LinearLayout)findViewById(R.id.linear_style);
         final TextView wordContext = (TextView)findViewById(R.id.textView3);
         final TextView wordTitle = (TextView)findViewById(R.id.textView2);
 
-        final EditWordUtil editWordUtil = new EditWordUtil(this);
-
-        final View editWordView = editWordUtil.getEditWordView();
-        editWordView.setVisibility(View.GONE);
-        linear_style.addView(editWordView);
-
-        wordContext.setOnClickListener(new WordOnclickListener(editWordUtil, editWordView, sv));
-        wordTitle.setOnClickListener(new WordOnclickListener(editWordUtil, editWordView, sv));
+        wordContext.setOnClickListener(wordOnclickListener);
+        wordTitle.setOnClickListener(wordOnclickListener);
 
     }
+
+
 
     public void share(){
 
-    }
-
-    public class WordOnclickListener implements View.OnClickListener{
-        EditWordUtil editWordUtil;
-        View editWordView;
-        ScrollView sv;
-        public WordOnclickListener(EditWordUtil editWordUtil, View editWordView, ScrollView sv){
-            this.editWordUtil = editWordUtil;
-            this.editWordView = editWordView;
-            this.sv = sv;
-        }
-
-        public void onClick(View v) {
-            TextView textView = (TextView)v;
-            editWordUtil.setCurrentSelectTextView(textView);
-            if(!isDisplayContextEditWord){
-                editWordView.setVisibility(View.VISIBLE);
-                EditText et = (EditText) editWordView.findViewById(R.id.editText);
-                et.setText(textView.getText());
-                sv.post(new Runnable() {
-                    public void run() {
-                        sv.fullScroll(ScrollView.FOCUS_DOWN);
-                    }
-                });
-                isDisplayContextEditWord = true;
-            }else {
-                editWordView.setVisibility(View.GONE);
-                isDisplayContextEditWord = false;
-            }
-        }
     }
 
     public void save(){

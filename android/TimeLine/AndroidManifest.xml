@@ -44,5 +44,10 @@
                   android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name=".style.SceneryStyleActivity"
+                  android:label="sceneryStyle"
+                  android:screenOrientation="portrait">
+        </activity>
+
     </application>
 </manifest>

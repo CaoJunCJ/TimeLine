@@ -16,11 +16,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import com.brisktouch.timeline.R;
+import com.brisktouch.timeline.add.EditWordUtil;
 import com.brisktouch.timeline.custom.CircleButton;
 import com.brisktouch.timeline.custom.DragImageView;
 import com.brisktouch.timeline.custom.PopButtonOnClickListener;
@@ -50,6 +49,16 @@ public abstract class BaseStyleActivity extends Activity {
     ImageView saveButton;
     ImageView backButton;
     ImageView shareButton;
+    RelativeLayout maxOutsideLayout;
+    ScrollView scrollView;
+    EditWordUtil editWordUtil;
+    View editWordView;
+    WordOnclickListener wordOnclickListener;
+
+    boolean isDisplayContextEditWord = false;
+
+    int mScreenWidth;
+    int mScreenHeight;
 
     public BaseStyleActivity(){
 
@@ -57,7 +66,41 @@ public abstract class BaseStyleActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //hide title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //hide status bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        mScreenWidth = getResources().getDisplayMetrics().widthPixels;
+        mScreenHeight = getResources().getDisplayMetrics().heightPixels;
+
+        maxOutsideLayout = new RelativeLayout(getApplication());
+        maxOutsideLayout.setBackgroundColor(Color.WHITE);
+        maxOutsideLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        scrollView = new ScrollView(getApplication());
+        maxOutsideLayout.addView(scrollView);
+    }
+
+    public void initEditWordView(){
+
+        editWordUtil = new EditWordUtil(this);
+
+        editWordView = editWordUtil.getEditWordView();
+        editWordView.setVisibility(View.GONE);
+
+        wordOnclickListener = new WordOnclickListener(editWordUtil, editWordView, scrollView);
+
+    }
+
+    public void addAssistiveTouchButton(){
         initAssistiveTouchButton();
+        maxOutsideLayout.addView(assistive);
+
+        maxOutsideLayout.addView(backButton,1);
+
+        maxOutsideLayout.addView(shareButton,1);
+
+        maxOutsideLayout.addView(saveButton,1);
     }
 
     public void initAssistiveTouchButton(){
@@ -66,8 +109,6 @@ public abstract class BaseStyleActivity extends Activity {
          */
         assistive = new DragImageView(getApplication(), null);
         assistive.setBackgroundResource(R.drawable.assistivetouch);
-        final int mScreenWidth = this.getResources().getDisplayMetrics().widthPixels;
-        final int mScreenHeight = this.getResources().getDisplayMetrics().heightPixels;
 
         RelativeLayout.LayoutParams assistiveLayout = new RelativeLayout.LayoutParams(mScreenWidth*2/10 -10, mScreenWidth*2/10 -10);
         assistiveLayout.setMargins(mScreenWidth*7/10, mScreenHeight*8/10,0,0);
@@ -154,7 +195,7 @@ public abstract class BaseStyleActivity extends Activity {
             listView = new ListView(getApplication());
             listView.setBackgroundColor(Color.parseColor("#ffffffff"));
             listView.setCacheColorHint(0);
-            mImageListAdapter = new ImageListAdapter(getApplication(), infoIds, listView);
+            mImageListAdapter = new ImageListAdapter(this, infoIds, listView);
             mImageListAdapter.setChangeImageId(id);
             listView.setAdapter(mImageListAdapter);
 
@@ -193,6 +234,35 @@ public abstract class BaseStyleActivity extends Activity {
 
     }
 
+    public class WordOnclickListener implements View.OnClickListener{
+        EditWordUtil editWordUtil;
+        View editWordView;
+        ScrollView sv;
+        public WordOnclickListener(EditWordUtil editWordUtil, View editWordView, ScrollView sv){
+            this.editWordUtil = editWordUtil;
+            this.editWordView = editWordView;
+            this.sv = sv;
+        }
+
+        public void onClick(View v) {
+            TextView textView = (TextView)v;
+            editWordUtil.setCurrentSelectTextView(textView);
+            if(!isDisplayContextEditWord){
+                editWordView.setVisibility(View.VISIBLE);
+                EditText et = (EditText) editWordView.findViewById(R.id.editText);
+                et.setText(textView.getText());
+                sv.post(new Runnable() {
+                    public void run() {
+                        sv.fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                });
+                isDisplayContextEditWord = true;
+            }else {
+                editWordView.setVisibility(View.GONE);
+                isDisplayContextEditWord = false;
+            }
+        }
+    }
 
     public class SelectPic implements View.OnClickListener {
 
@@ -412,7 +482,7 @@ public abstract class BaseStyleActivity extends Activity {
                     //Toast.makeText(Style1.this, "OnClick at" + position, Toast.LENGTH_SHORT).show();
                     String path = list.get(index).getValue().get(position);
                     Log.d("path:", path);
-                    ImageButton mImageButton = (ImageButton)((Activity)context).findViewById(changeImageId);
+                    ImageView mImageButton = (ImageView)((Activity)context).findViewById(changeImageId);
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     //options.inJustDecodeBounds = true;
                     //BitmapFactory.decodeFile(path, options);

@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import com.brisktouch.timeline.MyActivity;
 import com.brisktouch.timeline.R;
 import com.brisktouch.timeline.style.HumanStyleActivity;
+import com.brisktouch.timeline.style.SceneryStyleActivity;
 
 /**
  * Created by cerosoft on 1/9/2015.
@@ -26,12 +27,23 @@ public class StyleActivity extends Activity {
         //hide status bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.select_style);
-        ImageButton image = (ImageButton) findViewById(R.id.imageButton);
-        image.setOnClickListener(new View.OnClickListener() {
+        ImageButton humanStyleButton = (ImageButton) findViewById(R.id.imageButton);
+        humanStyleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(StyleActivity.this, HumanStyleActivity.class);
+                startActivity(intent);
+                //finish();
+            }
+        });
+
+        ImageButton sceneryStyleButton = (ImageButton) findViewById(R.id.imageButton3);
+        sceneryStyleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(StyleActivity.this, SceneryStyleActivity.class);
                 startActivity(intent);
                 //finish();
             }
