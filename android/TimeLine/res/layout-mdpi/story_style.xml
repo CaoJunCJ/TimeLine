@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:gravity="center_horizontal" android:background="#ffffffff">
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView11" android:adjustViewBounds="true"
+            android:maxHeight="300dp" android:minHeight="250dp" android:minWidth="250dp"
+            android:layout_marginTop="25dp" android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp" android:src="@drawable/story" android:scaleType="fitXY"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/Love_your_life"
+            android:id="@+id/textView12" android:textColor="#b8000000" android:layout_marginTop="50dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/author_name"
+            android:id="@+id/textView13" android:textColor="#8d000000" android:layout_marginTop="50dp"/>
+</LinearLayout>

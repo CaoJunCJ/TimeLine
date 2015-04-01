@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/imageView9" android:maxHeight="250dp"
-            android:minHeight="150dp" android:adjustViewBounds="true" android:src="@drawable/scenery_top"
+            android:minHeight="150dp" android:adjustViewBounds="true" android:src="@drawable/nice"
             android:scaleType="fitXY"/>
     <LinearLayout
             android:id="@+id/TeletextLinearLayout"
@@ -25,12 +25,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Scenery mdpi"
+                    android:text="@string/scenery"
                     android:id="@+id/textView8" android:textColor="#ff6cb3ff" android:textSize="30sp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="寻访· 美景"
+                    android:text="@string/scenery_small_title"
                     android:id="@+id/textView6" android:textColor="#ff6cb3ff" android:singleLine="true"
                     android:textSize="18sp" android:layout_marginTop="5dp"/>
         </LinearLayout>
@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Abby"
+                    android:text="@string/head_name"
                     android:id="@+id/textView11"
                     android:layout_gravity="center_horizontal" android:layout_marginTop="5dp" android:maxLength="8"/>
         </LinearLayout>

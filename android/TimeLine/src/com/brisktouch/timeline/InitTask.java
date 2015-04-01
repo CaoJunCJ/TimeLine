@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Environment;
 import android.util.Log;
+import com.brisktouch.timeline.util.Global;
 import com.brisktouch.timeline.util.Tool;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,6 +49,7 @@ public class InitTask extends Thread {
         this.mJson = json;
         this.folderName = "brisktouch";
         this.jsonFileName = "data.json";
+        /*
         try{
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(System.currentTimeMillis());
@@ -63,7 +65,7 @@ public class InitTask extends Thread {
             data.put(theFirstContext);
             mJson.put("data", data);
         }catch (Exception e){e.printStackTrace();}
-
+        */
 
     }
 
@@ -77,8 +79,23 @@ public class InitTask extends Thread {
             }
             File jsonFile = new File(folder, jsonFileName);
             if(!jsonFile.exists()){
+                Log.d(tag, "file not exists , create");
                 OutputStream os = null;
                 try{
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTimeInMillis(System.currentTimeMillis());
+                    JSONArray data = new JSONArray();
+                    JSONObject theFirstContext = new JSONObject();
+                    JSONArray array = new JSONArray();
+                    JSONObject j = new JSONObject();
+                    j.put("context", "welcome to timeLine.");
+                    j.put("time",cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE)+":"+cal.get(Calendar.SECOND));
+                    array.put(j);
+                    theFirstContext.put("date",cal.get(Calendar.YEAR)+"."+(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.DAY_OF_MONTH));
+                    theFirstContext.put("things",array);
+                    data.put(theFirstContext);
+                    mJson.put("data", data);
+
                     os = new FileOutputStream(jsonFile);
                     os.write(mJson.toString(1).getBytes());
                     os.flush();
@@ -90,7 +107,21 @@ public class InitTask extends Thread {
                             os.close();
                     }catch (Exception e){e.printStackTrace();}
                 }
-
+            }else{
+                FileInputStream inputStream = null;
+                try {
+                    inputStream = new FileInputStream(jsonFile);
+                    byte[] data = new byte[(int)jsonFile.length()];
+                    inputStream.read(data);
+                    mJson = new JSONObject(new String(data,"utf-8"));
+                    Global.setJsonData(mJson);
+                }catch (Exception e){e.printStackTrace();}
+                finally {
+                    if(inputStream!=null)
+                        try {
+                            inputStream.close();
+                        }catch (Exception e){e.printStackTrace();}
+                }
             }
         }
 

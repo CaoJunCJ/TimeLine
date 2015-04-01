@@ -12,8 +12,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import com.brisktouch.timeline.MyActivity;
 import com.brisktouch.timeline.R;
-import com.brisktouch.timeline.style.HumanStyleActivity;
-import com.brisktouch.timeline.style.SceneryStyleActivity;
+import com.brisktouch.timeline.style.*;
 
 /**
  * Created by cerosoft on 1/9/2015.
@@ -38,6 +37,17 @@ public class StyleActivity extends Activity {
             }
         });
 
+        ImageButton storyStyleButton = (ImageButton) findViewById(R.id.imageButton2);
+        storyStyleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(StyleActivity.this, StoryStyleActivity.class);
+                startActivity(intent);
+                //finish();
+            }
+        });
+
         ImageButton sceneryStyleButton = (ImageButton) findViewById(R.id.imageButton3);
         sceneryStyleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +58,43 @@ public class StyleActivity extends Activity {
                 //finish();
             }
         });
+
+        ImageButton drinkStyleButton = (ImageButton) findViewById(R.id.imageButton4);
+        drinkStyleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(StyleActivity.this, DrinkStyleActivity.class);
+                startActivity(intent);
+                //finish();
+            }
+        });
+
+
+        ImageButton travelStyleButton = (ImageButton) findViewById(R.id.imageButton5);
+        travelStyleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(StyleActivity.this, TravelStyleActivity.class);
+                startActivity(intent);
+                //finish();
+            }
+        });
+
+        ImageButton foodStyleButton = (ImageButton) findViewById(R.id.imageButton6);
+        foodStyleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(StyleActivity.this, FoodStyleActivity.class);
+                startActivity(intent);
+                //finish();
+            }
+        });
+
+
+
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

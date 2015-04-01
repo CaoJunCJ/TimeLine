@@ -18,4 +18,13 @@
     <string name="word_size">size</string>
     <string name="font_style">font style</string>
     <string name="size_style">font size</string>
+    <string name="Love_your_life">LOVE YOUR LIFE</string>
+    <string name="author_name">Jane</string>
+    <string name="scenery">Scenery</string>
+    <string name="scenery_small_title">Search • Beautiful</string>
+    <string name="head_name">anny</string>
+    <string name="coffee">COFFEE</string>
+    <string name="coffee_small_title">FRAGRANCE</string>
+    <string name="sense_of_taste">Sense of taste</string>
+    <string name="travel_title">Wonderful Travel</string>
 </resources>

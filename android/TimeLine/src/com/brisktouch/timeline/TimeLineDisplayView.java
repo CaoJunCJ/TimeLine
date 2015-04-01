@@ -252,6 +252,7 @@ class TimeLineDisplayView extends TextView {
 		canvas.drawText(time , x - 35, baseline, p);
 	}
 
+	/*
 	public boolean onTouchEvent(MotionEvent event) {
 		//firstVisiblePosition is current screen the first item.
 		//int firstVisiblePosition = listview.getFirstVisiblePosition();
@@ -270,6 +271,49 @@ class TimeLineDisplayView extends TextView {
 			}
 		}
 		return super.onTouchEvent(event);
+	}
+	*/
+	long downTimeMillis;
+
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		//Log.i(TAG, "dispatchTouchEvent");
+		switch(ev.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				//Log.i(TAG, "ACTION_DOWN");
+				downTimeMillis = System.currentTimeMillis();
+				break;
+			case MotionEvent.ACTION_UP:
+				//Log.i(TAG, "ACTION_UP");
+				if(((System.currentTimeMillis()-downTimeMillis)>1500)){
+					int top = this.getTop();
+
+					float x = ev.getRawX();
+					float y = ev.getRawY();
+					y -= topHeight;
+					y -= top;
+					for (String key : rectMap.keySet()){
+						RectF r = rectMap.get(key);
+						if(r.contains(x, y)){
+							Log.i(TAG, "long touch, and time :" + key);
+						}
+					}
+				}else{
+					int top = this.getTop();
+
+					float x = ev.getRawX();
+					float y = ev.getRawY();
+					y -= topHeight;
+					y -= top;
+					for (String key : rectMap.keySet()){
+						RectF r = rectMap.get(key);
+						if(r.contains(x, y)){
+							Log.i(TAG, "short touch, and time :" + key);
+						}
+					}
+				}
+				break;
+		}
+		return true;
 	}
 
 	public int getStatusBarHeight(){

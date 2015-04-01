@@ -13,14 +13,14 @@ public class MainActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences perPreferences = getSharedPreferences("JohnTsai", MODE_PRIVATE);
+        SharedPreferences perPreferences = getSharedPreferences("TimeLineByJim", MODE_PRIVATE);
+        new InitTask(this,null, Global.getJsonData()).start();
         if (perPreferences.getBoolean("isFirstUse", false)) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, MyActivity.class);
             startActivity(intent);
             finish();
         }else{
-            new InitTask(this,null, Global.getJsonData()).start();
             SharedPreferences.Editor editor = perPreferences.edit();
             editor.putBoolean("isFirstUse", false);
             editor.commit();

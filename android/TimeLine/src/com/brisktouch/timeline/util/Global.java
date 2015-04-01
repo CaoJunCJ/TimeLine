@@ -10,4 +10,7 @@ public class Global {
     public static JSONObject getJsonData(){
         return jsonData;
     }
+    public static void setJsonData(JSONObject j){
+        jsonData = j;
+    }
 }

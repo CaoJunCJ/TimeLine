@@ -14,6 +14,8 @@ import com.brisktouch.timeline.custom.CircleView;
 import com.brisktouch.timeline.util.Utils;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by caojim on 15/3/7.
@@ -28,9 +30,15 @@ public class EditWordUtil {
     private SimpleAdapter fontListAdapter;
     private SimpleAdapter sizeListAdapter;
 
+    private TextViewAction textAction = TextViewAction.Normal;
+
     public EditWordUtil(Context context){
         this.context = context;
         init();
+    }
+
+    public void setTextAction(TextViewAction textAction){
+        this.textAction = textAction;
     }
 
 
@@ -126,11 +134,67 @@ public class EditWordUtil {
                     if(Utils.hasCUPCAKE()){
                         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     }
-                    currentSelectTextView.setText(editText.getText());
+                    String result;
+                    String temp = editText.getText().toString();
+                    switch (textAction){
+                        case Normal:
+                            currentSelectTextView.setText(editText.getText());
+                            break;
+                        case SplitChar:
+                            result = "";
+                            char[] chars = temp.toCharArray();
+                            for(int i=0;i<chars.length;i++){
+                                if(i==chars.length-1){
+                                    result = result + chars[i];
+                                }else{
+                                    result = result + chars[i] + '\n';
+                                }
+                            }
+                            currentSelectTextView.setText(result);
+                            break;
+                        case SplitWord:
+                            result = "";
+                            if(isChineseCharacter(temp)){
+                                char[] charArray = temp.toCharArray();
+                                for(int i=0;i<charArray.length;i++){
+                                    if(i==charArray.length-1){
+                                        result = result + charArray[i];
+                                    }else{
+                                        result = result + charArray[i] + '\n';
+                                    }
+                                }
+                            }else{
+                                String[] strings = temp.split("\\s+");
+                                for(int i=0;i<strings.length;i++){
+                                    if(i==strings.length-1){
+                                        result = result + strings[i];
+                                    }else{
+                                        result = result + strings[i] + '\n';
+                                    }
+                                }
+                            }
+                            currentSelectTextView.setText(result);
+                            break;
+                        default:
+                            currentSelectTextView.setText(editText.getText());
+                            break;
+                    }
+
                     currentSelectTextView.performClick();
                 }
             });
 
+    }
+
+    public static boolean isChineseCharacter(String str){
+        if(str == null)
+            return false;
+        Pattern p_str = Pattern.compile("[\\u4e00-\\u9fa5]+");
+        Matcher m = p_str.matcher(str);
+        if(m.find()&&m.group(0).equals(str)){
+            return true;
+        }
+        return false;
     }
 
     public View getEditWordView(){ return editWord;}
@@ -156,6 +220,12 @@ public class EditWordUtil {
         fontStyle,
         colorStyle,
         sizeStyle
+    }
+
+    public enum TextViewAction {
+        Normal,
+        SplitChar,
+        SplitWord
     }
 
     public class SimpleAdapter extends BaseAdapter{

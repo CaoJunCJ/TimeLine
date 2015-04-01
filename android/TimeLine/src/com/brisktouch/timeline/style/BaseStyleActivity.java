@@ -78,6 +78,7 @@ public abstract class BaseStyleActivity extends Activity {
         maxOutsideLayout.setBackgroundColor(Color.WHITE);
         maxOutsideLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         scrollView = new ScrollView(getApplication());
+        scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         maxOutsideLayout.addView(scrollView);
     }
 

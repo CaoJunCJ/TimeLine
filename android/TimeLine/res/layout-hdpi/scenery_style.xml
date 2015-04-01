@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/imageView9" android:maxHeight="250dp"
-            android:minHeight="150dp" android:adjustViewBounds="true" android:src="@drawable/scenery_top"
+            android:minHeight="150dp" android:adjustViewBounds="true" android:src="@drawable/coffee_a"
             android:scaleType="fitXY"/>
     <LinearLayout
             android:id="@+id/TeletextLinearLayout"

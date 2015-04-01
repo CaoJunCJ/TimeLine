@@ -49,5 +49,25 @@
                   android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name=".style.StoryStyleActivity"
+                  android:label="storyStyle"
+                  android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".style.DrinkStyleActivity"
+                  android:label="drinkStyle"
+                  android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".style.FoodStyleActivity"
+                  android:label="foodStyle"
+                  android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".style.TravelStyleActivity"
+                  android:label="travelStyle"
+                  android:screenOrientation="portrait">
+        </activity>
+
     </application>
 </manifest>

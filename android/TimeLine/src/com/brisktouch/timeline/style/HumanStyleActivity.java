@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.*;
 import com.brisktouch.timeline.R;
 import com.brisktouch.timeline.add.EditWordUtil;
+import com.brisktouch.timeline.util.FileUtil;
 import com.brisktouch.timeline.util.Global;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -69,16 +70,17 @@ public class HumanStyleActivity extends BaseStyleActivity {
                 //dateString = xxxx.xx.xx eg. 2001.12.24
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(System.currentTimeMillis());
-                String today = cal.get(cal.YEAR) + "." + (cal.get(cal.MONTH) + 1) + "." + cal.get(cal.DAY_OF_MONTH);
+                String today = cal.get(Calendar.YEAR) + "." + (cal.get(Calendar.MONTH) + 1) + "." + cal.get(Calendar.DAY_OF_MONTH);
                 if (dateString.equals(today)) {
                     JSONObject add = new JSONObject();
-                    add.put("style","style1");
+                    add.put("style",TAG);
 
                     add.put("context", ((TextView) findViewById(R.id.textView2)).getText().toString());
-                    add.put("time",cal.get(cal.HOUR_OF_DAY)+":"+cal.get(cal.MINUTE));
+                    add.put("time",cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE)+":"+cal.get(Calendar.SECOND));
                     JSONArray jsonThings = jsonItem.optJSONArray("things");
                     jsonThings.put(add);
                     Log.d(TAG, jsonObject.toString(1));
+                    FileUtil.getInstance().saveJsonToFile();
                     Toast.makeText(getApplication(), "Save Success", Toast.LENGTH_SHORT).show();
                     return;
                 }
