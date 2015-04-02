@@ -19,6 +19,10 @@ public class DrinkStyleActivity extends BaseStyleActivity{
 
         drinkStyleLinearLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.drink_style, null);
 
+        LinearLayout drink = (LinearLayout) drinkStyleLinearLayout.findViewById(R.id.drinkStyleLinearLayout);
+
+        drink.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
+
         scrollView.addView(drinkStyleLinearLayout);
 
         setContentView(maxOutsideLayout);

@@ -23,6 +23,10 @@ public class SceneryStyleActivity extends BaseStyleActivity{
 
         sceneryStyleLinearLayout = (LinearLayout)LayoutInflater.from(getApplication()).inflate(R.layout.scenery_style, null);
 
+        LinearLayout scenery = (LinearLayout)sceneryStyleLinearLayout.findViewById(R.id.sceneryStyleLinearLayout);
+
+        scenery.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
+
         scrollView.addView(sceneryStyleLinearLayout);
 
         setContentView(maxOutsideLayout);

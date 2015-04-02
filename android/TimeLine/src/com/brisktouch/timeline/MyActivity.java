@@ -32,6 +32,7 @@ public class MyActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ListView listview = new ListView(this);
+        //listview.setVerticalScrollBarEnabled(true);
         BaseAdapter adapter = new ListAdapter(json, this);
         listview.setBackgroundColor(Color.WHITE);
         listview.setAdapter(adapter);

@@ -29,6 +29,10 @@ public class HumanStyleActivity extends BaseStyleActivity {
 
         humanStyleLinearLayout = (LinearLayout)LayoutInflater.from(getApplication()).inflate(R.layout.human_style, null);
 
+        LinearLayout human = (LinearLayout)humanStyleLinearLayout.findViewById(R.id.hunmanStyleLinearLayout);
+
+        human.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
+
         scrollView.addView(humanStyleLinearLayout);
 
         setContentView(maxOutsideLayout);
@@ -63,14 +67,14 @@ public class HumanStyleActivity extends BaseStyleActivity {
         try {
             JSONObject jsonObject = Global.getJsonData();
             JSONArray jsonData = jsonObject.optJSONArray("data");
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(System.currentTimeMillis());
+            String today = cal.get(Calendar.YEAR) + "." + (cal.get(Calendar.MONTH) + 1) + "." + cal.get(Calendar.DAY_OF_MONTH);
             for (int i = 0; i < jsonData.length(); i++) {
                 JSONObject jsonItem = jsonData.optJSONObject(i);
                 String dateString = jsonItem.optString("date");
                 //String dateTemp[] = dateString.split("\\.");
                 //dateString = xxxx.xx.xx eg. 2001.12.24
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(System.currentTimeMillis());
-                String today = cal.get(Calendar.YEAR) + "." + (cal.get(Calendar.MONTH) + 1) + "." + cal.get(Calendar.DAY_OF_MONTH);
                 if (dateString.equals(today)) {
                     JSONObject add = new JSONObject();
                     add.put("style",TAG);
@@ -85,6 +89,22 @@ public class HumanStyleActivity extends BaseStyleActivity {
                     return;
                 }
             }
+            JSONObject newDate = new JSONObject();
+            newDate.put("date", today);
+            JSONArray newThings = new JSONArray();
+            JSONObject newTime = new JSONObject();
+            newTime.put("style",TAG);
+
+            newTime.put("context", ((TextView) findViewById(R.id.textView2)).getText().toString());
+            newTime.put("time",cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE)+":"+cal.get(Calendar.SECOND));
+            newThings.put(newTime);
+            newDate.put("things", newThings);
+            jsonData.put(newDate);
+            Log.d(TAG, jsonObject.toString(1));
+            FileUtil.getInstance().saveJsonToFile();
+            Toast.makeText(getApplication(), "Save Success", Toast.LENGTH_SHORT).show();
+            return;
+
         }catch (Exception e){e.printStackTrace();}
     }
 }

@@ -5,6 +5,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
+import com.brisktouch.timeline.util.CustomJSONArray;
+import com.brisktouch.timeline.util.FileUtil;
 import com.brisktouch.timeline.util.Tool;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,6 +26,7 @@ import android.view.Window;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,6 +48,9 @@ class TimeLineDisplayView extends TextView {
 
 	public static boolean isInitData = false;
 
+	int screenWidth = 0;
+	int screenHeight = 0;
+
 	private Paint p;
 	private JSONObject json;
 	private int currentLength = 0;
@@ -53,6 +59,9 @@ class TimeLineDisplayView extends TextView {
 	private HashMap<String, RectF> rectMap;
 
 	private int topHeight;
+
+	private String needReDrawByTime = null;
+	private int DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
 
 	public TimeLineDisplayView(Context context, JSONObject json) {
 		super(context);
@@ -86,8 +95,8 @@ class TimeLineDisplayView extends TextView {
 		if(!isInitData) {
 			Activity parent = (Activity) getContext();
 			DisplayMetrics dms = parent.getResources().getDisplayMetrics();
-			int screenWidth = dms.widthPixels;
-			int screenHeight = dms.heightPixels;
+			screenWidth = dms.widthPixels;
+			screenHeight = dms.heightPixels;
 			DATELINE_LENGTH = screenHeight / 11;
 			DATELINE_RADIUS = screenWidth / 16;
 			TIMELINE_RADIUS = screenWidth / 48;
@@ -95,7 +104,15 @@ class TimeLineDisplayView extends TextView {
 			DISPLAY_DATE_STRING_X = screenWidth / 3;
 			THING_X = screenWidth / 2;
 			THING_Y = screenHeight / 11;
+
+			//for debug
+			//THING_Y = 100;
+			//DATELINE_LENGTH = 100;
+
 			TIME_THING_INTERVAL = screenHeight / 26;
+
+			DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
+
 			BIG_WORD_SIZE = screenWidth/20;
 			SMALL_WORD_SIZE = screenWidth/26;
 			Log.i(TAG, "screenWidth :" + screenWidth);
@@ -131,7 +148,12 @@ class TimeLineDisplayView extends TextView {
 			drawLine(MARGIN_RIGHT, currentLength, DATELINE_LENGTH -4, canvas);
 			currentLength += 2;
 			drawTime(MARGIN_RIGHT, currentLength, canvas);
-			drawThing(MARGIN_RIGHT, currentLength - TIMELINE_RADIUS, context, time, canvas);
+			if(needReDrawByTime!=null && needReDrawByTime.equals(time)){
+				drawThingByDeleteAnimation(MARGIN_RIGHT, currentLength - TIMELINE_RADIUS, context, time, canvas);
+			}else{
+				drawThing(MARGIN_RIGHT, currentLength - TIMELINE_RADIUS, context, time, canvas);
+			}
+
 		}
 		currentLength += 2;
 		drawLine(MARGIN_RIGHT, currentLength, DATELINE_LENGTH -2, canvas);
@@ -212,12 +234,11 @@ class TimeLineDisplayView extends TextView {
 
 		if(!rectMap.containsKey(time)){
 			rectMap.put(time, r1);
-		}
-		/*else{
+		}else{
 			rectMap.remove(time);
 			rectMap.put(time, r1);
 		}
-		*/
+
 		canvas.drawRoundRect(r1, 10, 10, p);
 
 		Path path = new Path();
@@ -252,6 +273,69 @@ class TimeLineDisplayView extends TextView {
 		canvas.drawText(time , x - 35, baseline, p);
 	}
 
+	private void drawThingByDeleteAnimation(int x, int y, String context, String time, Canvas canvas){
+		if(screenWidth == 0){
+			Activity parent = (Activity) getContext();
+			screenWidth = parent.getResources().getDisplayMetrics().widthPixels;
+		}
+
+		float f = 0.9f -(((float)DeleteAnimationTIME_THING_INTERVAL/screenWidth)*1.6f);
+		//Log.d(TAG, "float f :" + f);
+		p.setAntiAlias(true);
+		p.setColor(Color.parseColor("#F08080"));
+		p.setAlpha((int)(f*255));
+		p.setStrokeWidth(2);
+		p.setStyle(Style.STROKE);
+		RectF r1 = new RectF();
+		r1.left = x + DeleteAnimationTIME_THING_INTERVAL;
+		r1.top = y - THING_Y/2;
+		r1.right = x + DeleteAnimationTIME_THING_INTERVAL + THING_X;
+		r1.bottom = y + THING_Y/2;
+
+		if(!rectMap.containsKey(time)){
+			rectMap.put(time, r1);
+		}else{
+			rectMap.remove(time);
+			rectMap.put(time, r1);
+		}
+
+		canvas.drawRoundRect(r1, 10, 10, p);
+
+		Path path = new Path();
+		path.moveTo(x + DeleteAnimationTIME_THING_INTERVAL, y - 6);
+		path.lineTo(x + DeleteAnimationTIME_THING_INTERVAL - 10, y);
+		path.lineTo(x + DeleteAnimationTIME_THING_INTERVAL, y + 6);
+		canvas.drawPath(path, p);
+
+		p.setColor(Color.WHITE);
+		canvas.drawLine(x + DeleteAnimationTIME_THING_INTERVAL, y - 5, x + DeleteAnimationTIME_THING_INTERVAL, y + 5, p);
+
+		p.reset();
+		p.setAntiAlias(true);
+		p.setColor(Color.parseColor("#FFE4E1"));
+		p.setAlpha((int)(f*255));
+		canvas.drawRoundRect(r1, 10, 10, p);
+		canvas.drawPath(path, p);
+
+		p.reset();
+
+		p.setTextSize(BIG_WORD_SIZE);
+		FontMetricsInt fontMetrics = p.getFontMetricsInt();
+		float baseline = r1.top + (r1.bottom - r1.top - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
+		p.setAntiAlias(true);
+		p.setColor(Color.BLACK);
+		p.setAlpha((int)(f*255));
+		p.setTypeface(Typeface.DEFAULT_BOLD);
+		p.setTextAlign(Paint.Align.CENTER);
+		canvas.drawText(context, r1.centerX(), baseline , p);
+		p.setColor(Color.GRAY);
+		p.setTextSize(SMALL_WORD_SIZE);
+		p.setTypeface(Typeface.DEFAULT);
+		fontMetrics = p.getFontMetricsInt();
+		baseline = r1.top + (r1.bottom - r1.top - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
+		canvas.drawText(time , x - 35, baseline, p);
+	}
+
 	/*
 	public boolean onTouchEvent(MotionEvent event) {
 		//firstVisiblePosition is current screen the first item.
@@ -273,6 +357,8 @@ class TimeLineDisplayView extends TextView {
 		return super.onTouchEvent(event);
 	}
 	*/
+
+	/*
 	long downTimeMillis;
 
 	public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -311,6 +397,154 @@ class TimeLineDisplayView extends TextView {
 						}
 					}
 				}
+				break;
+		}
+		return true;
+	}
+	*/
+
+	float startX;
+	float startY;
+	float movingX;
+	float movingY;
+	float endX;
+	float endY;
+
+	boolean clickAtThing = false;
+
+	String useTimeDate = "";
+	protected void resetTouchEvenData(){
+		startX = 0f;
+		startY = 0f;
+		movingX = 0f;
+		movingY = 0f;
+		endX = 0f;
+		endY = 0f;
+		clickAtThing = false;
+		useTimeDate = "";
+		DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
+	}
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		//Log.i(TAG, "dispatchTouchEvent");
+		switch(ev.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				resetTouchEvenData();
+				//Log.i(TAG, "ACTION_DOWN");
+				int top = this.getTop();
+
+				float x = ev.getRawX();
+				float y = ev.getRawY();
+				y -= topHeight;
+				y -= top;
+				startX = x;
+				startY = y;
+				movingX = startX;
+				movingY = startY;
+				for (String key : rectMap.keySet()){
+					RectF r = rectMap.get(key);
+					if(r.contains(x, y)){
+						//Log.i(TAG, "long touch, and time :" + key);
+						clickAtThing = true;
+						useTimeDate = key;
+						needReDrawByTime = useTimeDate;
+						Log.d(TAG, "r top:" + r.top);
+						Log.d(TAG, "r bottom:" + r.bottom);
+						Log.d(TAG, "currentMoveY:"+startY);
+						break;
+					}
+				}
+				break;
+			case MotionEvent.ACTION_MOVE:
+				int currentMoveTop = this.getTop();
+
+				float currentMoveX = ev.getRawX();
+				float currentMoveY = ev.getRawY();
+				currentMoveY -= topHeight;
+				currentMoveY -= currentMoveTop;
+
+				if(clickAtThing){
+					////boolean outRect = true;
+					for (String key : rectMap.keySet()){
+						RectF r = rectMap.get(key);
+						//why do this, because the even was intercept by ViewGroup .wait, maybe use MotionEvent.ACTION_CANCEL.
+						//RectF r1 = new RectF(r.left+15, r.top +15, r.right -15, r.bottom -15 );
+						//Log.d(TAG, "r top:" + r1.top);
+						//Log.d(TAG, "r bottom:" + r1.bottom);
+						//Log.d(TAG, "currentMoveY:"+currentMoveY);
+						if(r.contains(currentMoveX, currentMoveY)&& key.equals(useTimeDate)){
+							//outRect = false;
+							if(currentMoveX>=movingX){
+								//call onDraw
+								float offset = currentMoveX - movingX;
+								DeleteAnimationTIME_THING_INTERVAL += offset;
+
+								postInvalidate();
+
+								movingX = currentMoveX;
+								movingY = currentMoveY;
+								break;
+							}
+						}
+					}
+					//Log.i(TAG, "outRect:"+outRect);
+					//touch from up to down , was intercept by ViewGroup so ...
+					//if(outRect){
+					//	TIME_THING_INTERVAL = oldTIME_THING_INTERVAL;
+					//	postInvalidate();
+					//	clickAtThing = false;
+					//}
+				}
+				//Log.i(TAG, "ACTION_MOVE");
+				break;
+			case MotionEvent.ACTION_UP:
+				//Log.i(TAG, "ACTION_UP");
+
+
+				float currentUpX = ev.getRawX();
+
+				needReDrawByTime = null;
+				if(clickAtThing){
+					if(screenWidth == 0){
+						Activity parent = (Activity) getContext();
+						screenWidth = parent.getResources().getDisplayMetrics().widthPixels;
+					}
+					if(currentUpX - startX > screenWidth/2){
+						//Log.d(TAG, "currentUpX:"+currentUpX);
+						//Log.d(TAG, "startX:"+startX);
+						//Log.d(TAG, "screenWidth/2:"+screenWidth/2);
+						//Log.d(TAG, "remove this thing");
+						//modify json data.(remove this jsonobject by time)
+
+						JSONArray array = json.optJSONArray("things");
+						ArrayList<JSONObject> list = new ArrayList<JSONObject>();
+						for(int i=0; i < array.length(); i++){
+							JSONObject timeThing = array.optJSONObject(i);
+							String time = timeThing.optString("time");
+							if(!time.equals(useTimeDate))
+								list.add(timeThing);
+						}
+						JSONArray newArray = new JSONArray(list);
+						json.remove("things");
+						try {
+							json.put("things", newArray);
+							//save to file.
+							//FileUtil.getInstance().saveJsonToFile();
+						}catch (Exception e){e.printStackTrace();}
+
+					}
+					DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
+					invalidate();
+				}
+				break;
+
+			case MotionEvent.ACTION_CANCEL:
+				needReDrawByTime = null;
+				if(clickAtThing){
+
+					DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
+					invalidate();
+				}
+				//Log.i(TAG, "ACTION_CANCEL");
 				break;
 		}
 		return true;

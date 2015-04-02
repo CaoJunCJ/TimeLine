@@ -18,6 +18,10 @@ public class StoryStyleActivity  extends BaseStyleActivity {
 
         storyStyleLinearLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.story_style, null);
 
+        LinearLayout story = (LinearLayout)storyStyleLinearLayout.findViewById(R.id.storyStyleLinearLayout);
+
+        story.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
+
         scrollView.addView(storyStyleLinearLayout);
 
         setContentView(maxOutsideLayout);
