@@ -1,12 +1,15 @@
 package com.brisktouch.timeline;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
+import com.brisktouch.timeline.style.*;
 import com.brisktouch.timeline.util.CustomJSONArray;
 import com.brisktouch.timeline.util.FileUtil;
+import com.brisktouch.timeline.util.Global;
 import com.brisktouch.timeline.util.Tool;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -70,7 +73,7 @@ class TimeLineDisplayView extends TextView {
 		this.json = json;
 		height += 20;
 		height += DATELINE_RADIUS*2;
-		JSONArray array = json.optJSONArray("things");
+		JSONArray array = json.optJSONArray(Global.JSON_KEY_THINGS);
 		for(int i=0; i < array.length(); i++){
 			height += DATELINE_LENGTH;
 			height += TIMELINE_RADIUS*2;
@@ -102,7 +105,10 @@ class TimeLineDisplayView extends TextView {
 			TIMELINE_RADIUS = screenWidth / 48;
 			MARGIN_RIGHT = (int) (screenWidth / 4.8);
 			DISPLAY_DATE_STRING_X = screenWidth / 3;
+
 			THING_X = screenWidth / 2;
+			THING_X = screenWidth * 6 / 10;
+
 			THING_Y = screenHeight / 11;
 
 			//for debug
@@ -135,23 +141,24 @@ class TimeLineDisplayView extends TextView {
 	protected void onDraw(Canvas canvas){
 		super.onDraw(canvas);
 		currentLength = 0;
-		String date = json.optString("date");
-		JSONArray array = json.optJSONArray("things");
+		String date = json.optString(Global.JSON_KEY_DATE);
+		JSONArray array = json.optJSONArray(Global.JSON_KEY_THINGS);
 		drawLine(MARGIN_RIGHT, currentLength, 20, canvas);
 		drawDate(MARGIN_RIGHT, currentLength, date, canvas);
 		for(int i=0; i < array.length(); i++){
 			JSONObject timeThing = array.optJSONObject(i);
-			String time = timeThing.optString("time");
-			String context = timeThing.optString("context");
+			String time = timeThing.optString(Global.JSON_KEY_TIME);
+			String title = timeThing.optString(Global.JSON_KEY_TITLE);
 			//Log.i(TAG, "time is " + time);
 			currentLength += 2;
 			drawLine(MARGIN_RIGHT, currentLength, DATELINE_LENGTH -4, canvas);
 			currentLength += 2;
 			drawTime(MARGIN_RIGHT, currentLength, canvas);
+
 			if(needReDrawByTime!=null && needReDrawByTime.equals(time)){
-				drawThingByDeleteAnimation(MARGIN_RIGHT, currentLength - TIMELINE_RADIUS, context, time, canvas);
+				drawThingByDeleteAnimation(MARGIN_RIGHT, currentLength - TIMELINE_RADIUS, title, time, canvas);
 			}else{
-				drawThing(MARGIN_RIGHT, currentLength - TIMELINE_RADIUS, context, time, canvas);
+				drawThing(MARGIN_RIGHT, currentLength - TIMELINE_RADIUS, title, time, canvas);
 			}
 
 		}
@@ -221,9 +228,10 @@ class TimeLineDisplayView extends TextView {
 		currentLength += length;
 	}
 	
-	private void drawThing(int x, int y, String context, String time, Canvas canvas){
+	private void drawThing(int x, int y, String title, String time, Canvas canvas){
 		p.setAntiAlias(true);
-		p.setColor(Color.parseColor("#F08080"));
+		//p.setColor(Color.parseColor("#F08080"));
+		p.setColor(Color.parseColor("#0099CC"));
 		p.setStrokeWidth(2);
 		p.setStyle(Style.STROKE);
 		RectF r1 = new RectF();
@@ -252,7 +260,8 @@ class TimeLineDisplayView extends TextView {
 
 		p.reset();
 		p.setAntiAlias(true);
-		p.setColor(Color.parseColor("#FFE4E1"));
+		//p.setColor(Color.parseColor("#FFE4E1"));
+		p.setColor(Color.parseColor("#FFFFFF"));
 		canvas.drawRoundRect(r1, 10, 10, p);
 		canvas.drawPath(path, p);
 
@@ -261,19 +270,22 @@ class TimeLineDisplayView extends TextView {
 		FontMetricsInt fontMetrics = p.getFontMetricsInt();
 		float baseline = r1.top + (r1.bottom - r1.top - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
 		p.setAntiAlias(true);
-		p.setColor(Color.BLACK);
+		//p.setColor(Color.BLACK);
+		p.setColor(Color.parseColor("#33B5E5"));
 		p.setTypeface(Typeface.DEFAULT_BOLD);
 		p.setTextAlign(Paint.Align.CENTER);
-		canvas.drawText(context, r1.centerX(), baseline , p);
+		canvas.drawText(title, r1.centerX(), baseline , p);
 		p.setColor(Color.GRAY);
 		p.setTextSize(SMALL_WORD_SIZE);
 		p.setTypeface(Typeface.DEFAULT);
 		fontMetrics = p.getFontMetricsInt();
 		baseline = r1.top + (r1.bottom - r1.top - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
-		canvas.drawText(time , x - 35, baseline, p);
+		String[] timeSpit = time.split(":");
+		String hourAndMinute = timeSpit[0] + ":" + timeSpit[1];
+		canvas.drawText(hourAndMinute , x - 35, baseline, p);
 	}
 
-	private void drawThingByDeleteAnimation(int x, int y, String context, String time, Canvas canvas){
+	private void drawThingByDeleteAnimation(int x, int y, String title, String time, Canvas canvas){
 		if(screenWidth == 0){
 			Activity parent = (Activity) getContext();
 			screenWidth = parent.getResources().getDisplayMetrics().widthPixels;
@@ -282,7 +294,8 @@ class TimeLineDisplayView extends TextView {
 		float f = 0.9f -(((float)DeleteAnimationTIME_THING_INTERVAL/screenWidth)*1.6f);
 		//Log.d(TAG, "float f :" + f);
 		p.setAntiAlias(true);
-		p.setColor(Color.parseColor("#F08080"));
+		//p.setColor(Color.parseColor("#F08080"));
+		p.setColor(Color.parseColor("#0099CC"));
 		p.setAlpha((int)(f*255));
 		p.setStrokeWidth(2);
 		p.setStyle(Style.STROKE);
@@ -308,11 +321,13 @@ class TimeLineDisplayView extends TextView {
 		canvas.drawPath(path, p);
 
 		p.setColor(Color.WHITE);
+		//p.setAlpha((int)(f*255));
 		canvas.drawLine(x + DeleteAnimationTIME_THING_INTERVAL, y - 5, x + DeleteAnimationTIME_THING_INTERVAL, y + 5, p);
 
 		p.reset();
 		p.setAntiAlias(true);
-		p.setColor(Color.parseColor("#FFE4E1"));
+		//p.setColor(Color.parseColor("#FFE4E1"));
+		p.setColor(Color.parseColor("#FFFFFF"));
 		p.setAlpha((int)(f*255));
 		canvas.drawRoundRect(r1, 10, 10, p);
 		canvas.drawPath(path, p);
@@ -323,17 +338,20 @@ class TimeLineDisplayView extends TextView {
 		FontMetricsInt fontMetrics = p.getFontMetricsInt();
 		float baseline = r1.top + (r1.bottom - r1.top - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
 		p.setAntiAlias(true);
-		p.setColor(Color.BLACK);
+		//p.setColor(Color.BLACK);
+		p.setColor(Color.parseColor("#33B5E5"));
 		p.setAlpha((int)(f*255));
 		p.setTypeface(Typeface.DEFAULT_BOLD);
 		p.setTextAlign(Paint.Align.CENTER);
-		canvas.drawText(context, r1.centerX(), baseline , p);
+		canvas.drawText(title, r1.centerX(), baseline , p);
 		p.setColor(Color.GRAY);
 		p.setTextSize(SMALL_WORD_SIZE);
 		p.setTypeface(Typeface.DEFAULT);
 		fontMetrics = p.getFontMetricsInt();
 		baseline = r1.top + (r1.bottom - r1.top - fontMetrics.bottom + fontMetrics.top)/2 - fontMetrics.top;
-		canvas.drawText(time , x - 35, baseline, p);
+		String[] timeSpit = time.split(":");
+		String hourAndMinute = timeSpit[0] + ":" + timeSpit[1];
+		canvas.drawText(hourAndMinute , x - 35, baseline, p);
 	}
 
 	/*
@@ -411,6 +429,7 @@ class TimeLineDisplayView extends TextView {
 	float endY;
 
 	boolean clickAtThing = false;
+	boolean isMove = false;
 
 	String useTimeDate = "";
 	protected void resetTouchEvenData(){
@@ -421,6 +440,7 @@ class TimeLineDisplayView extends TextView {
 		endX = 0f;
 		endY = 0f;
 		clickAtThing = false;
+		isMove = false;
 		useTimeDate = "";
 		DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
 	}
@@ -455,6 +475,7 @@ class TimeLineDisplayView extends TextView {
 				}
 				break;
 			case MotionEvent.ACTION_MOVE:
+				isMove = true;
 				int currentMoveTop = this.getTop();
 
 				float currentMoveX = ev.getRawX();
@@ -515,18 +536,18 @@ class TimeLineDisplayView extends TextView {
 						//Log.d(TAG, "remove this thing");
 						//modify json data.(remove this jsonobject by time)
 
-						JSONArray array = json.optJSONArray("things");
+						JSONArray array = json.optJSONArray(Global.JSON_KEY_THINGS);
 						ArrayList<JSONObject> list = new ArrayList<JSONObject>();
 						for(int i=0; i < array.length(); i++){
 							JSONObject timeThing = array.optJSONObject(i);
-							String time = timeThing.optString("time");
+							String time = timeThing.optString(Global.JSON_KEY_TIME);
 							if(!time.equals(useTimeDate))
 								list.add(timeThing);
 						}
 						JSONArray newArray = new JSONArray(list);
-						json.remove("things");
+						json.remove(Global.JSON_KEY_THINGS);
 						try {
-							json.put("things", newArray);
+							json.put(Global.JSON_KEY_THINGS, newArray);
 							//save to file.
 							//FileUtil.getInstance().saveJsonToFile();
 						}catch (Exception e){e.printStackTrace();}
@@ -534,6 +555,10 @@ class TimeLineDisplayView extends TextView {
 					}
 					DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
 					invalidate();
+					if(!isMove){
+						//jump to style activity
+						jumpToStyleActivity(useTimeDate);
+					}
 				}
 				break;
 
@@ -548,6 +573,52 @@ class TimeLineDisplayView extends TextView {
 				break;
 		}
 		return true;
+	}
+
+	enum StyleActivityEnum {
+		DrinkStyleActivity,
+		FoodStyleActivity,
+		HumanStyleActivity,
+		SceneryStyleActivity,
+		StoryStyleActivity,
+		TravelStyleActivity
+	}
+
+	public void jumpToStyleActivity(String useTimeDate){
+		JSONArray array = json.optJSONArray(Global.JSON_KEY_THINGS);
+		for(int i=0; i < array.length(); i++){
+			JSONObject timeThing = array.optJSONObject(i);
+			String time = timeThing.optString(Global.JSON_KEY_TIME);
+			if(time.equals(useTimeDate)){
+				String style = timeThing.optString(Global.JSON_KEY_STYLE);
+				StyleActivityEnum enumval = StyleActivityEnum.valueOf(style);
+				Intent intent = new Intent();
+				switch (enumval){
+					case DrinkStyleActivity:
+						intent.setClass(getContext(), DrinkStyleActivity.class);
+						break;
+					case FoodStyleActivity:
+						intent.setClass(getContext(), FoodStyleActivity.class);
+						break;
+					case HumanStyleActivity:
+						intent.setClass(getContext(), HumanStyleActivity.class);
+						break;
+					case SceneryStyleActivity:
+						intent.setClass(getContext(), SceneryStyleActivity.class);
+						break;
+					case StoryStyleActivity:
+						intent.setClass(getContext(), StoryStyleActivity.class);
+						break;
+					case TravelStyleActivity:
+						intent.setClass(getContext(), TravelStyleActivity.class);
+						break;
+
+				}
+				getContext().startActivity(intent);
+				//((Activity)getContext()).finish();
+				break;
+			}
+		}
 	}
 
 	public int getStatusBarHeight(){

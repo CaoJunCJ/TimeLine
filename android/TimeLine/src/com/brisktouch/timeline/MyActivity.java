@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -35,6 +36,7 @@ public class MyActivity extends Activity {
         //listview.setVerticalScrollBarEnabled(true);
         BaseAdapter adapter = new ListAdapter(json, this);
         listview.setBackgroundColor(Color.WHITE);
+        listview.setBackgroundColor(Color.parseColor("#F9F9F9"));
         listview.setAdapter(adapter);
         listview.setDivider(null);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -52,6 +54,5 @@ public class MyActivity extends Activity {
                 }
 
             });
-
     }
 }

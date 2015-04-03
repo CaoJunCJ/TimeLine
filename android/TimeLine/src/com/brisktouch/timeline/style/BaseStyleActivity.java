@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,13 +22,14 @@ import android.view.*;
 import android.widget.*;
 import com.brisktouch.timeline.R;
 import com.brisktouch.timeline.add.EditWordUtil;
+import com.brisktouch.timeline.add.StyleActivity;
 import com.brisktouch.timeline.custom.CircleButton;
 import com.brisktouch.timeline.custom.DragImageView;
 import com.brisktouch.timeline.custom.PopButtonOnClickListener;
 import com.brisktouch.timeline.ui.RecyclingImageView;
-import com.brisktouch.timeline.util.ImageCache;
-import com.brisktouch.timeline.util.ImageNative;
-import com.brisktouch.timeline.util.Utils;
+import com.brisktouch.timeline.util.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -60,6 +63,8 @@ public abstract class BaseStyleActivity extends Activity {
     int mScreenWidth;
     int mScreenHeight;
 
+    SelectPic mClientListener;
+
     public BaseStyleActivity(){
 
     }
@@ -80,6 +85,7 @@ public abstract class BaseStyleActivity extends Activity {
         scrollView = new ScrollView(getApplication());
         scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         maxOutsideLayout.addView(scrollView);
+        mClientListener = new SelectPic();
     }
 
     public void initEditWordView(){
@@ -162,10 +168,109 @@ public abstract class BaseStyleActivity extends Activity {
         assistive.setOnClickListener(popListener);
     }
 
+    public void setAllImageViewOnClickListener(ViewGroup viewGroup){
+        //use setAllImageViewAndTextViewOnClickListener(ViewGroup viewGroup);
+        throw new RuntimeException("Not implements");
+    }
+
+    public void setAllTextViewOnClickListener(ViewGroup viewGroup){
+        throw new RuntimeException("Not implements");
+    }
+
+    public void setAllImageViewAndTextViewOnClickListener(ViewGroup viewGroup){
+        for(int i = 0; i < viewGroup.getChildCount(); i++){
+            View view = viewGroup.getChildAt(i);
+            if(view instanceof ViewGroup){
+                setAllImageViewAndTextViewOnClickListener((ViewGroup) view);
+            }
+
+            if(view instanceof ImageView){
+                view.setOnClickListener(mClientListener);
+            }
+
+            if(view instanceof TextView){
+                view.setOnClickListener(wordOnclickListener);
+            }
+        }
+    }
+
     public abstract void share();
     public abstract void save();
-    public void back(){
+    public void save(String style, String title, ViewGroup viewGroup){
+        //maybe create two async task to do it.
 
+        //save imagefile to sdcard
+        ArrayList<ImageView> list = getAllImageViewFromViewGroup(viewGroup);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        for(int i = 0; i < list.size(); i++){
+            Bitmap image = ((BitmapDrawable)list.get(i).getDrawable()).getBitmap();
+            FileUtil.getInstance().saveBitmap(image, i+".jpg", cal);
+        }
+
+        ArrayList<String> strings = getAllTextViewStringFromViewGroup(viewGroup);
+
+        //modify json data and save to sdcard
+        try {
+            JSONObject jsonObject = Global.getJsonData();
+            JSONArray jsonData = jsonObject.optJSONArray(Global.JSON_KEY_DATA);
+            //dateString = xxxx.xx.xx eg. 2001.12.24
+            String today = String.format("%s.%s.%s",
+                    cal.get(Calendar.YEAR),
+                    (cal.get(Calendar.MONTH) + 1),
+                    cal.get(Calendar.DAY_OF_MONTH)
+            );
+            for (int i = 0; i < jsonData.length(); i++) {
+                JSONObject jsonItem = jsonData.optJSONObject(i);
+                String dateString = jsonItem.optString(Global.JSON_KEY_DATE);
+                if (dateString.equals(today)) {
+                    JSONObject add = new JSONObject();
+                    add.put(Global.JSON_KEY_STYLE, style);
+                    add.put(Global.JSON_KEY_TITLE, title);
+                    add.put(Global.JSON_KEY_TIME,String.format("%s:%s:%s",
+                            cal.get(Calendar.HOUR_OF_DAY),
+                            cal.get(Calendar.MINUTE),
+                            cal.get(Calendar.SECOND)));
+                    JSONArray jsonArrayStrings = new JSONArray(strings);
+                    add.put(Global.JSON_KEY_STRINGS,jsonArrayStrings );
+
+                    JSONArray jsonThings = jsonItem.optJSONArray(Global.JSON_KEY_THINGS);
+                    jsonThings.put(add);
+                    Log.d(TAG, jsonObject.toString(1));
+                    FileUtil.getInstance().saveJsonToFile();
+                    Toast.makeText(getApplication(), "Save Success", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            JSONObject newDate = new JSONObject();
+            newDate.put(Global.JSON_KEY_DATE, today);
+            JSONArray newThings = new JSONArray();
+            JSONObject newTime = new JSONObject();
+            newTime.put(Global.JSON_KEY_STYLE,style);
+
+            newTime.put(Global.JSON_KEY_TITLE, title);
+            newTime.put(Global.JSON_KEY_TIME, String.format("%s:%s:%s",
+                    cal.get(Calendar.HOUR_OF_DAY),
+                    cal.get(Calendar.MINUTE),
+                    cal.get(Calendar.SECOND)));
+            JSONArray jsonArrayStrings = new JSONArray(strings);
+            newTime.put(Global.JSON_KEY_STRINGS, jsonArrayStrings );
+
+            newThings.put(newTime);
+            newDate.put(Global.JSON_KEY_THINGS, newThings);
+            jsonData.put(newDate);
+            Log.d(TAG, jsonObject.toString(1));
+            FileUtil.getInstance().saveJsonToFile();
+            Toast.makeText(getApplication(), "Save Success", Toast.LENGTH_SHORT).show();
+            return;
+
+        }catch (Exception e){e.printStackTrace();}
+    }
+    public void back(){
+        Intent intent = new Intent();
+        intent.setClass(this, StyleActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -509,6 +614,45 @@ public abstract class BaseStyleActivity extends Activity {
             int height = row * mImageThumbSize + textParams.height + 80;
             convertView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, height));
             return convertView;
+        }
+    }
+
+    public ArrayList<ImageView> getAllImageViewFromViewGroup(ViewGroup group){
+        ArrayList<ImageView> list = new ArrayList<ImageView>();
+        iterateViewGroupFindImageView(group, list);
+        return list;
+    }
+
+    public void iterateViewGroupFindImageView(ViewGroup group, ArrayList<ImageView> list){
+        for(int i = 0; i < group.getChildCount(); i++){
+            View view = group.getChildAt(i);
+            if(view instanceof ViewGroup){
+                iterateViewGroupFindImageView((ViewGroup)view, list);
+            }
+
+            if(view instanceof ImageView){
+                list.add((ImageView)view);
+            }
+        }
+    }
+
+    public ArrayList<String> getAllTextViewStringFromViewGroup(ViewGroup group){
+        ArrayList<String> list = new ArrayList<String>();
+        iterateViewGroupFindTextView(group, list);
+        return list;
+    }
+
+
+    public void iterateViewGroupFindTextView(ViewGroup group, ArrayList<String> list){
+        for(int i = 0; i < group.getChildCount(); i++){
+            View view = group.getChildAt(i);
+            if(view instanceof ViewGroup){
+                iterateViewGroupFindTextView((ViewGroup) view, list);
+            }
+
+            if(view instanceof TextView){
+                list.add(((TextView)view).getText().toString());
+            }
         }
     }
 

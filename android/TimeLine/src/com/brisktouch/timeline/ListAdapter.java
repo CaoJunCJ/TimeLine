@@ -1,6 +1,7 @@
 package com.brisktouch.timeline;
 
 import android.widget.*;
+import com.brisktouch.timeline.util.Global;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -43,13 +44,14 @@ public class ListAdapter extends BaseAdapter {
 			tv = (TimeLineDisplayView)convertView;
 		}
 		tv.setData(date);
-		tv.setBackgroundColor(Color.WHITE);
+		//tv.setBackgroundColor(Color.WHITE);
+		tv.setBackgroundColor(Color.parseColor("#F9F9F9"));
 		tv.setHeight(tv.getCurrentLength());
 		return tv;
 	}
 	
 	public ListAdapter(JSONObject json,Context c){
-		data = json.optJSONArray("data");
+		data = json.optJSONArray(Global.JSON_KEY_DATA);
 		this.context = c;
 	}
 }

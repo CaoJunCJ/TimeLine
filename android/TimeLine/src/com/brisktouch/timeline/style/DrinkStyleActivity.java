@@ -13,13 +13,15 @@ public class DrinkStyleActivity extends BaseStyleActivity{
 
     String TAG = "DrinkStyleActivity";
     LinearLayout drinkStyleLinearLayout;
+    TextView title;
+    LinearLayout drink;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         drinkStyleLinearLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.drink_style, null);
 
-        LinearLayout drink = (LinearLayout) drinkStyleLinearLayout.findViewById(R.id.drinkStyleLinearLayout);
+        drink = (LinearLayout) drinkStyleLinearLayout.findViewById(R.id.drinkStyleLinearLayout);
 
         drink.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
 
@@ -29,30 +31,21 @@ public class DrinkStyleActivity extends BaseStyleActivity{
 
         addAssistiveTouchButton();
 
-        BaseStyleActivity.SelectPic mClientListener = new BaseStyleActivity.SelectPic();
-        findViewById(R.id.imageView12).setOnClickListener(mClientListener);
-        findViewById(R.id.imageView13).setOnClickListener(mClientListener);
-        findViewById(R.id.imageView14).setOnClickListener(mClientListener);
-        findViewById(R.id.imageView15).setOnClickListener(mClientListener);
+
 
         initEditWordView();
 
         drinkStyleLinearLayout.addView(editWordView);
 
-        TextView title = (TextView)findViewById(R.id.textView14);
-        TextView desc = (TextView)findViewById(R.id.textView15);
-        TextView authorName = (TextView)findViewById(R.id.textView16);
+        title = (TextView)findViewById(R.id.textView14);
 
-
-        title.setOnClickListener(wordOnclickListener);
-        desc.setOnClickListener(wordOnclickListener);
-        authorName.setOnClickListener(wordOnclickListener);
+        setAllImageViewAndTextViewOnClickListener(drink);
 
     }
 
     @Override
     public void save() {
-
+        super.save(TAG, title.getText().toString(), drink);
     }
 
     @Override

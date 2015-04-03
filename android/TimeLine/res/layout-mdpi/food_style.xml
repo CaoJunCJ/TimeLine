@@ -4,40 +4,46 @@
               android:layout_height="match_parent" android:background="#ffffffff" android:orientation="vertical">
 
     <LinearLayout
-            android:orientation="horizontal"
-            android:id="@+id/foodLinearLayout1"
+            android:id="@+id/foodStyleLinearLayout"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_weight="1">
-        <ImageView
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/foodLinearLayout1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imageView16" android:layout_weight="1" android:src="@drawable/food_a"
-                android:scaleType="fitXY"/>
-        <FrameLayout
+                android:layout_height="wrap_content" android:layout_weight="1">
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView16" android:layout_weight="1" android:src="@drawable/food_a"
+                    android:scaleType="fitXY"/>
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_weight="1">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/sense_of_taste"
+                        android:id="@+id/textView17" android:layout_gravity="center" android:textColor="#53000000"/>
+            </FrameLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:id="@+id/foodLinearLayout2"
                 android:layout_height="match_parent" android:layout_weight="1">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/sense_of_taste"
-                    android:id="@+id/textView17" android:layout_gravity="center" android:textColor="#53000000"/>
-        </FrameLayout>
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:id="@+id/foodLinearLayout2"
-            android:layout_height="match_parent" android:layout_weight="1">
-        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                     android:layout_weight="1">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/author_name"
-                      android:id="@+id/textView18" android:layout_gravity="center_vertical|right" android:textColor="#53000000"
-                      android:layout_marginRight="5dp"/>
-        </FrameLayout>
-        <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
-                   android:id="@+id/imageView19" android:layout_weight="1" android:src="@drawable/food_b"
-                   android:scaleType="fitXY"/>
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                         android:layout_weight="1">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/author_name"
+                          android:id="@+id/textView18" android:layout_gravity="center_vertical|right" android:textColor="#53000000"
+                          android:layout_marginRight="5dp"/>
+            </FrameLayout>
+            <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+                       android:id="@+id/imageView19" android:layout_weight="1" android:src="@drawable/food_b"
+                       android:scaleType="fitXY"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

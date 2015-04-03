@@ -16,13 +16,19 @@ import com.brisktouch.timeline.add.EditWordUtil;
 public class FoodStyleActivity extends BaseStyleActivity{
     String TAG = "FoodStyleActivity";
     LinearLayout foodStyleLinearLayout;
+    LinearLayout food;
+    TextView title;
+    TextView authorName;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         foodStyleLinearLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.food_style, null);
-        foodStyleLinearLayout.findViewById(R.id.foodLinearLayout1).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight/2));
-        foodStyleLinearLayout.findViewById(R.id.foodLinearLayout2).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight / 2));
+
+        food = (LinearLayout) foodStyleLinearLayout.findViewById(R.id.foodStyleLinearLayout);
+
+        food.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
+
 
         scrollView.addView(foodStyleLinearLayout);
 
@@ -30,7 +36,6 @@ public class FoodStyleActivity extends BaseStyleActivity{
 
         addAssistiveTouchButton();
 
-        SelectPic mClientListener = new SelectPic();
         findViewById(R.id.imageView16).setOnClickListener(mClientListener);
         findViewById(R.id.imageView19).setOnClickListener(mClientListener);
 
@@ -38,8 +43,8 @@ public class FoodStyleActivity extends BaseStyleActivity{
 
         foodStyleLinearLayout.addView(editWordView);
 
-        TextView title = (TextView)findViewById(R.id.textView17);
-        TextView authorName = (TextView)findViewById(R.id.textView18);
+        title = (TextView)findViewById(R.id.textView17);
+        authorName = (TextView)findViewById(R.id.textView18);
 
         String authorNameString = getResources().getString(R.string.author_name);
         String titleString = getResources().getString(R.string.sense_of_taste);
@@ -119,7 +124,7 @@ public class FoodStyleActivity extends BaseStyleActivity{
 
     @Override
     public void save() {
-
+        super.save(TAG, title.getText().toString(), food);
     }
 
     @Override

@@ -17,13 +17,15 @@ import com.brisktouch.timeline.add.EditWordUtil;
 public class SceneryStyleActivity extends BaseStyleActivity{
     String TAG = "SceneryStyleActivity";
     LinearLayout sceneryStyleLinearLayout;
+    LinearLayout scenery;
+    TextView title;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         sceneryStyleLinearLayout = (LinearLayout)LayoutInflater.from(getApplication()).inflate(R.layout.scenery_style, null);
 
-        LinearLayout scenery = (LinearLayout)sceneryStyleLinearLayout.findViewById(R.id.sceneryStyleLinearLayout);
+        scenery = (LinearLayout)sceneryStyleLinearLayout.findViewById(R.id.sceneryStyleLinearLayout);
 
         scenery.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
 
@@ -33,32 +35,19 @@ public class SceneryStyleActivity extends BaseStyleActivity{
 
         addAssistiveTouchButton();
 
-        SelectPic mClientListener = new SelectPic();
-        findViewById(R.id.imageView9).setOnClickListener(mClientListener);
-        findViewById(R.id.imageView10).setOnClickListener(mClientListener);
-
         initEditWordView();
 
         sceneryStyleLinearLayout.addView(editWordView);
 
-        TextView wordContext = (TextView)findViewById(R.id.textView9);
-        TextView smallTitle = (TextView)findViewById(R.id.textView6);
-        TextView title = (TextView)findViewById(R.id.textView8);
-        TextView headImageName = (TextView)findViewById(R.id.textView11);
-        TextView authorName = (TextView)findViewById(R.id.textView10);
+        title = (TextView)findViewById(R.id.textView8);
 
-
-        wordContext.setOnClickListener(wordOnclickListener);
-        smallTitle.setOnClickListener(wordOnclickListener);
-        title.setOnClickListener(wordOnclickListener);
-        headImageName.setOnClickListener(wordOnclickListener);
-        authorName.setOnClickListener(wordOnclickListener);
+        setAllImageViewAndTextViewOnClickListener(scenery);
 
     }
 
     @Override
     public void save() {
-
+        super.save(TAG, title.getText().toString(), scenery);
     }
 
     @Override

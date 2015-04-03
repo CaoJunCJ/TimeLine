@@ -33,7 +33,7 @@ public class InitTask extends Thread {
                 "date":"2012.12.5",
                 "things":[
                     {
-                    "context":"title",
+                    "title":"title",
                     "time":"12:11"
                     }
                 ]
@@ -88,13 +88,19 @@ public class InitTask extends Thread {
                     JSONObject theFirstContext = new JSONObject();
                     JSONArray array = new JSONArray();
                     JSONObject j = new JSONObject();
-                    j.put("context", "welcome to timeLine.");
-                    j.put("time",cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE)+":"+cal.get(Calendar.SECOND));
+                    j.put(Global.JSON_KEY_TITLE, "welcome to timeLine.");
+                    j.put(Global.JSON_KEY_TIME, String.format("%s:%s:%s",
+                            cal.get(Calendar.HOUR_OF_DAY),
+                            cal.get(Calendar.MINUTE),
+                            cal.get(Calendar.SECOND)));
                     array.put(j);
-                    theFirstContext.put("date",cal.get(Calendar.YEAR)+"."+(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.DAY_OF_MONTH));
-                    theFirstContext.put("things",array);
+                    theFirstContext.put(Global.JSON_KEY_DATE, String.format("%s.%s.%s",
+                            cal.get(Calendar.YEAR),
+                            (cal.get(Calendar.MONTH)+1),
+                            cal.get(Calendar.DAY_OF_MONTH)));
+                    theFirstContext.put(Global.JSON_KEY_THINGS, array);
                     data.put(theFirstContext);
-                    mJson.put("data", data);
+                    mJson.put(Global.JSON_KEY_DATA, data);
 
                     os = new FileOutputStream(jsonFile);
                     os.write(mJson.toString(1).getBytes());

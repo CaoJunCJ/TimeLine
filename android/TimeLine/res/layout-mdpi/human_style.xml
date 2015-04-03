@@ -16,7 +16,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/imageButton8"
-                        android:src="@drawable/p2221352090" android:scaleType="fitXY" android:adjustViewBounds="true"
+                        android:src="@drawable/human1" android:scaleType="fitXY" android:adjustViewBounds="true"
                         android:maxHeight="150dp" android:maxWidth="200dp" android:minHeight="100dp"
                         android:minWidth="100dp" android:layout_weight="1" android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp" android:layout_marginRight="5dp"
@@ -25,7 +25,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/imageButton9"
-                        android:adjustViewBounds="true" android:src="@drawable/p2221351999" android:scaleType="fitXY"
+                        android:adjustViewBounds="true" android:src="@drawable/human2" android:scaleType="fitXY"
                         android:maxHeight="150dp" android:maxWidth="200dp" android:minHeight="100dp"
                         android:minWidth="100dp" android:layout_weight="1" android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp" android:layout_marginRight="10dp"
@@ -39,7 +39,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/imageButton10" android:layout_weight="1"
-                        android:src="@drawable/p2221353377" android:scaleType="fitXY" android:adjustViewBounds="true"
+                        android:src="@drawable/human3" android:scaleType="fitXY" android:adjustViewBounds="true"
                         android:maxHeight="150dp" android:maxWidth="200dp" android:minHeight="100dp"
                         android:minWidth="100dp" android:layout_marginLeft="10dp" android:layout_marginTop="5dp"
                         android:layout_marginRight="5dp" android:layout_marginBottom="5dp"/>
@@ -48,7 +48,7 @@
                         android:layout_height="match_parent"
                         android:id="@+id/imageButton11" android:layout_weight="1" android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp" android:layout_marginRight="10dp" android:layout_marginBottom="5dp"
-                        android:src="@drawable/p2221352087" android:scaleType="fitXY" android:adjustViewBounds="true"
+                        android:src="@drawable/human4" android:scaleType="fitXY" android:adjustViewBounds="true"
                         android:maxHeight="150dp" android:maxWidth="200dp" android:minHeight="100dp"
                         android:minWidth="100dp"/>
             </LinearLayout>

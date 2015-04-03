@@ -12,13 +12,15 @@ import com.brisktouch.timeline.R;
 public class StoryStyleActivity  extends BaseStyleActivity {
     String TAG = "StoryStyleActivity";
     LinearLayout storyStyleLinearLayout;
+    LinearLayout story;
+    TextView title;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         storyStyleLinearLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.story_style, null);
 
-        LinearLayout story = (LinearLayout)storyStyleLinearLayout.findViewById(R.id.storyStyleLinearLayout);
+        story = (LinearLayout)storyStyleLinearLayout.findViewById(R.id.storyStyleLinearLayout);
 
         story.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
 
@@ -28,25 +30,18 @@ public class StoryStyleActivity  extends BaseStyleActivity {
 
         addAssistiveTouchButton();
 
-        SelectPic mClientListener = new SelectPic();
-        findViewById(R.id.imageView11).setOnClickListener(mClientListener);
-
         initEditWordView();
 
         storyStyleLinearLayout.addView(editWordView);
 
-        TextView title = (TextView)findViewById(R.id.textView12);
-        TextView authorName = (TextView)findViewById(R.id.textView13);
+        title = (TextView)findViewById(R.id.textView12);
 
-
-        title.setOnClickListener(wordOnclickListener);
-        authorName.setOnClickListener(wordOnclickListener);
-
+        setAllImageViewAndTextViewOnClickListener(story);
     }
 
     @Override
     public void save() {
-
+        super.save(TAG, title.getText().toString(), story);
     }
 
     @Override
