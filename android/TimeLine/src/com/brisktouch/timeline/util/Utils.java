@@ -17,6 +17,7 @@
 package com.brisktouch.timeline.util;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.StrictMode;
@@ -71,6 +72,19 @@ API等级21：Android 5.0-5.0.2 Lollipop  棒棒糖
  */
 public class Utils {
     private Utils() {};
+
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
 
 
     @TargetApi(VERSION_CODES.HONEYCOMB)

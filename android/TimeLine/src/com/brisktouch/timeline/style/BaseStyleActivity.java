@@ -6,10 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Point;
+import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,7 +50,8 @@ public abstract class BaseStyleActivity extends Activity {
     ImageView backButton;
     ImageView shareButton;
     RelativeLayout maxOutsideLayout;
-    ScrollView scrollView;
+    //ScrollView scrollView;
+    LinearLayout scrollView;
     EditWordUtil editWordUtil;
     View editWordView;
     WordOnclickListener wordOnclickListener;
@@ -82,8 +80,9 @@ public abstract class BaseStyleActivity extends Activity {
         maxOutsideLayout = new RelativeLayout(getApplication());
         maxOutsideLayout.setBackgroundColor(Color.WHITE);
         maxOutsideLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        scrollView = new ScrollView(getApplication());
-        scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        //scrollView = new ScrollView(getApplication());
+        scrollView = new LinearLayout(getApplication());
+        scrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         maxOutsideLayout.addView(scrollView);
         mClientListener = new SelectPic();
     }
@@ -95,6 +94,17 @@ public abstract class BaseStyleActivity extends Activity {
         editWordView = editWordUtil.getEditWordView();
         editWordView.setVisibility(View.GONE);
 
+
+        //maybe remove at after time.
+        /*
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
+        Log.d(TAG, "sv.setOnTouchListener");
+        */
         wordOnclickListener = new WordOnclickListener(editWordUtil, editWordView, scrollView);
 
     }
@@ -343,8 +353,8 @@ public abstract class BaseStyleActivity extends Activity {
     public class WordOnclickListener implements View.OnClickListener{
         EditWordUtil editWordUtil;
         View editWordView;
-        ScrollView sv;
-        public WordOnclickListener(EditWordUtil editWordUtil, View editWordView, ScrollView sv){
+        ViewGroup sv;
+        public WordOnclickListener(EditWordUtil editWordUtil, View editWordView, ViewGroup sv){
             this.editWordUtil = editWordUtil;
             this.editWordView = editWordView;
             this.sv = sv;
@@ -356,14 +366,33 @@ public abstract class BaseStyleActivity extends Activity {
             if(!isDisplayContextEditWord){
                 editWordView.setVisibility(View.VISIBLE);
                 EditText et = (EditText) editWordView.findViewById(R.id.editText);
-                et.setText(textView.getText());
-                sv.post(new Runnable() {
+
+                String value = textView.getText().toString();
+
+                et.setText(value);
+
+
+
+                int w = mScreenWidth * 10/12 - 50;
+
+                et.measure(0, 0);
+                int height = et.getMeasuredHeight();
+                int width = et.getMeasuredWidth();
+                int h = (int)((float)width/w * et.getLineHeight() );
+                if(h>190)
+                    h = 190;
+
+
+                /*sv.post(new Runnable() {
                     public void run() {
                         sv.fullScroll(ScrollView.FOCUS_DOWN);
                     }
-                });
+                });*/
+                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 290 + h));
+                ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.BOTTOM);
                 isDisplayContextEditWord = true;
             }else {
+                ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.TOP);
                 editWordView.setVisibility(View.GONE);
                 isDisplayContextEditWord = false;
             }

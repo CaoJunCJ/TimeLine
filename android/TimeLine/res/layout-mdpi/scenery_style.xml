@@ -29,13 +29,14 @@
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" android:layout_weight="2" android:layout_marginLeft="20dp"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="10dp">
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/scenery"
-                        android:id="@+id/textView8" android:textColor="#ff6cb3ff" android:textSize="30sp"/>
+                        android:id="@+id/textView8" android:textColor="#ff6cb3ff" android:textSize="30sp"
+                        android:layout_marginTop="5dp"/>
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -47,7 +48,7 @@
                     android:orientation="vertical"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content" android:layout_marginRight="20dp"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="10dp">
                 <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
@@ -60,7 +61,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/head_name"
                         android:id="@+id/textView11"
-                        android:layout_gravity="center_horizontal" android:layout_marginTop="5dp" android:maxLength="8"/>
+                        android:layout_gravity="center_horizontal" android:layout_marginTop="1dp" android:maxLength="8"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

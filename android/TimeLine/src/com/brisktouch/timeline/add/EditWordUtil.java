@@ -82,6 +82,11 @@ public class EditWordUtil {
                     Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf")};
 
             Float[] floats = {
+                    13.0f,
+                    14.0f,
+                    15.0f,
+                    16.0f,
+                    17.0f,
                     18.0f,
                     20.0f,
                     22.0f,
@@ -94,11 +99,19 @@ public class EditWordUtil {
             sizeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     //TODO bug, need modify it.  =====>fix
-
+                    /*
                     for(int index = 0; index < sizeListView.getAdapter().getCount() ; index++){
                         LinearLayout lt = (LinearLayout)sizeListView.getChildAt(index);
                         ((LinearLayout)lt.getChildAt(0)).getChildAt(0).setVisibility(View.INVISIBLE);
+                        //NULLPOINTEXCEPTION ......
                     }
+                    */
+                    IterateViewGroup.iterateViewGroup(sizeListView, new IterateViewGroup.IterateViewCallBack() {
+                        @Override
+                        public void callBack(View v) {
+                            v.setVisibility(View.INVISIBLE);
+                        }
+                    }, IterateViewGroup.ViewClassType.IMAGEVIEW);
                     ((LinearLayout)((LinearLayout)view).getChildAt(0)).getChildAt(0).setVisibility(View.VISIBLE);
                     currentSelectTextView.setTextSize(((TextView) ((LinearLayout) ((LinearLayout) sizeListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTextSize());
                 }
@@ -183,6 +196,20 @@ public class EditWordUtil {
                     currentSelectTextView.performClick();
                 }
             });
+
+        View hideSoftKeyBoard = editWord.findViewById(R.id.imageButton14);
+        hideSoftKeyBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText editText = (EditText)editWord.findViewById(R.id.editText);
+                editText.clearFocus();
+                InputMethodManager imm = (InputMethodManager) context
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(Utils.hasCUPCAKE()){
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                }
+            }
+        });
 
     }
 

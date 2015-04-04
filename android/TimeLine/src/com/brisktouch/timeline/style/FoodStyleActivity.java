@@ -1,8 +1,10 @@
 package com.brisktouch.timeline.style;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -88,9 +90,10 @@ public class FoodStyleActivity extends BaseStyleActivity{
     public class CustomWordOnclickListener implements View.OnClickListener{
         EditWordUtil editWordUtil;
         View editWordView;
-        ScrollView sv;
+        ViewGroup sv;
         boolean isChar;
-        public CustomWordOnclickListener(EditWordUtil editWordUtil, View editWordView, ScrollView sv, boolean isChar){
+
+        public CustomWordOnclickListener(EditWordUtil editWordUtil, View editWordView, ViewGroup sv, boolean isChar){
             this.editWordUtil = editWordUtil;
             this.editWordView = editWordView;
             this.sv = sv;
@@ -108,14 +111,33 @@ public class FoodStyleActivity extends BaseStyleActivity{
             if(!isDisplayContextEditWord){
                 editWordView.setVisibility(View.VISIBLE);
                 EditText et = (EditText) editWordView.findViewById(R.id.editText);
-                et.setText(textView.getText());
-                sv.post(new Runnable() {
+
+                String value = textView.getText().toString();
+
+                et.setText(value);
+
+
+
+                int w = mScreenWidth * 10/12 - 50;
+
+                et.measure(0, 0);
+                int height = et.getMeasuredHeight();
+                int width = et.getMeasuredWidth();
+                int h = (int)((float)width/w * et.getLineHeight() );
+                if(h>190)
+                    h = 190;
+
+
+                /*sv.post(new Runnable() {
                     public void run() {
                         sv.fullScroll(ScrollView.FOCUS_DOWN);
                     }
-                });
+                });*/
+                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 290 + h));
+                ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.BOTTOM);
                 isDisplayContextEditWord = true;
             }else {
+                ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.TOP);
                 editWordView.setVisibility(View.GONE);
                 isDisplayContextEditWord = false;
             }

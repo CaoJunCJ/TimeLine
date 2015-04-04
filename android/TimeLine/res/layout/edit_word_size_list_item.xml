@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content" android:background="#ff534343">
 
     <LinearLayout
             android:orientation="horizontal"
@@ -20,7 +20,7 @@
                 android:text="@string/size_style" android:layout_marginLeft="20dp" android:textSize="24dp"
                 android:layout_gravity="center_vertical"/>
     </LinearLayout>
-    <ImageView
+    <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:id="@+id/imageView8" android:layout_gravity="bottom|right" android:background="#ff615353"

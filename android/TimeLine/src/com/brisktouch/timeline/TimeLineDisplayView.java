@@ -430,6 +430,7 @@ class TimeLineDisplayView extends TextView {
 
 	boolean clickAtThing = false;
 	boolean isMove = false;
+	long startTimeMillis;
 
 	String useTimeDate = "";
 	protected void resetTouchEvenData(){
@@ -441,6 +442,7 @@ class TimeLineDisplayView extends TextView {
 		endY = 0f;
 		clickAtThing = false;
 		isMove = false;
+		startTimeMillis = 0L;
 		useTimeDate = "";
 		DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
 	}
@@ -450,6 +452,7 @@ class TimeLineDisplayView extends TextView {
 			case MotionEvent.ACTION_DOWN:
 				resetTouchEvenData();
 				//Log.i(TAG, "ACTION_DOWN");
+				startTimeMillis = System.currentTimeMillis();
 				int top = this.getTop();
 
 				float x = ev.getRawX();
@@ -555,7 +558,7 @@ class TimeLineDisplayView extends TextView {
 					}
 					DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
 					invalidate();
-					if(!isMove){
+					if(!isMove || (System.currentTimeMillis() - startTimeMillis)<300){
 						//jump to style activity
 						jumpToStyleActivity(useTimeDate);
 					}
