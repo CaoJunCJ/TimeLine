@@ -17,9 +17,11 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.brisktouch.timeline.MyActivity;
 import com.brisktouch.timeline.R;
 import com.brisktouch.timeline.add.EditWordUtil;
 import com.brisktouch.timeline.add.StyleActivity;
+import com.brisktouch.timeline.custom.BrowseNativeImageUtil;
 import com.brisktouch.timeline.custom.CircleButton;
 import com.brisktouch.timeline.custom.DragImageView;
 import com.brisktouch.timeline.custom.PopButtonOnClickListener;
@@ -37,19 +39,19 @@ import java.util.*;
  */
 public abstract class BaseStyleActivity extends Activity {
     String TAG = "BaseStyle";
-    HashMap<Long, List<String>> dateGruopMap;
-    HashMap<String, List<String>> folderGruopMap;
-    private int mImageThumbSize;
-    private int mImageThumbSpacing;
-    private ImageNative mImageFetcher;
-    ListView listView;
-    ImageListAdapter mImageListAdapter;
-    AlertDialog alertView;
+    //HashMap<Long, List<String>> dateGruopMap;
+    //HashMap<String, List<String>> folderGruopMap;
+    //private int mImageThumbSize;
+    //private int mImageThumbSpacing;
+    //private ImageNative mImageFetcher;
+    //ListView listView;
+    //ImageListAdapter mImageListAdapter;
+    //AlertDialog alertView;
     ImageView assistive;
     ImageView saveButton;
     ImageView backButton;
     ImageView shareButton;
-    RelativeLayout maxOutsideLayout;
+    public RelativeLayout maxOutsideLayout;
     //ScrollView scrollView;
     LinearLayout scrollView;
     EditWordUtil editWordUtil;
@@ -63,11 +65,17 @@ public abstract class BaseStyleActivity extends Activity {
 
     SelectPic mClientListener;
 
-    public BaseStyleActivity(){
+    BrowseNativeImageUtil browseNativeImageUtil;
 
+    View browseNativeImageView;
+
+    public boolean nativeImageListDisplay = false;
+
+    public BaseStyleActivity(){
     }
 
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         //hide title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -85,6 +93,29 @@ public abstract class BaseStyleActivity extends Activity {
         scrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         maxOutsideLayout.addView(scrollView);
         mClientListener = new SelectPic();
+        addBrowseNativeImageView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(browseNativeImageUtil!=null)
+            browseNativeImageUtil.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(browseNativeImageUtil!=null)
+            browseNativeImageUtil.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(browseNativeImageUtil!=null)
+            browseNativeImageUtil.onDestroy();
+
     }
 
     public void initEditWordView(){
@@ -94,17 +125,6 @@ public abstract class BaseStyleActivity extends Activity {
         editWordView = editWordUtil.getEditWordView();
         editWordView.setVisibility(View.GONE);
 
-
-        //maybe remove at after time.
-        /*
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return true;
-            }
-        });
-        Log.d(TAG, "sv.setOnTouchListener");
-        */
         wordOnclickListener = new WordOnclickListener(editWordUtil, editWordView, scrollView);
 
     }
@@ -284,6 +304,94 @@ public abstract class BaseStyleActivity extends Activity {
     }
 
 
+
+
+    public class WordOnclickListener implements View.OnClickListener{
+        EditWordUtil editWordUtil;
+        View editWordView;
+        ViewGroup sv;
+        public WordOnclickListener(EditWordUtil editWordUtil, View editWordView, ViewGroup sv){
+            this.editWordUtil = editWordUtil;
+            this.editWordView = editWordView;
+            this.sv = sv;
+        }
+
+        public void onClick(View v) {
+            TextView textView = (TextView)v;
+            editWordUtil.setCurrentSelectTextView(textView);
+            if(!isDisplayContextEditWord){
+                editWordView.setVisibility(View.VISIBLE);
+                EditText et = (EditText) editWordView.findViewById(R.id.editText);
+
+                String value = textView.getText().toString();
+
+                et.setText(value);
+
+
+
+                int w = mScreenWidth * 10/12 - 50;
+
+                et.measure(0, 0);
+                int height = et.getMeasuredHeight();
+                int width = et.getMeasuredWidth();
+                int h = (int)((float)width/w * et.getLineHeight() );
+                if(h>190)
+                    h = 190;
+
+
+                /*sv.post(new Runnable() {
+                    public void run() {
+                        sv.fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                });*/
+                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 290 + h));
+                ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.BOTTOM);
+                isDisplayContextEditWord = true;
+            }else {
+                ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.TOP);
+                editWordView.setVisibility(View.GONE);
+                isDisplayContextEditWord = false;
+            }
+        }
+    }
+
+    public void addBrowseNativeImageView(){
+        browseNativeImageUtil = new BrowseNativeImageUtil(this);
+    }
+
+    public class SelectPic implements View.OnClickListener {
+        public void onClick(View v) {
+            if(!browseNativeImageUtil.isInit()){
+                browseNativeImageUtil.init();
+                maxOutsideLayout.addView(browseNativeImageUtil.getView());
+            }
+
+            if(!nativeImageListDisplay){
+                browseNativeImageUtil.showView();
+                browseNativeImageUtil.setChangeImageId(v.getId());
+                nativeImageListDisplay = true;
+            }else{
+                browseNativeImageUtil.hideView();
+                browseNativeImageUtil.setChangeImageId(v.getId());
+                nativeImageListDisplay = false;
+            }
+
+        }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(nativeImageListDisplay){
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                browseNativeImageUtil.hideView();
+                nativeImageListDisplay = false;
+                return false;
+            }
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+    /*
+
     public void popSelectPictureDialog(int id){
 
         if(alertView == null){
@@ -348,55 +456,6 @@ public abstract class BaseStyleActivity extends Activity {
         }
 
 
-    }
-
-    public class WordOnclickListener implements View.OnClickListener{
-        EditWordUtil editWordUtil;
-        View editWordView;
-        ViewGroup sv;
-        public WordOnclickListener(EditWordUtil editWordUtil, View editWordView, ViewGroup sv){
-            this.editWordUtil = editWordUtil;
-            this.editWordView = editWordView;
-            this.sv = sv;
-        }
-
-        public void onClick(View v) {
-            TextView textView = (TextView)v;
-            editWordUtil.setCurrentSelectTextView(textView);
-            if(!isDisplayContextEditWord){
-                editWordView.setVisibility(View.VISIBLE);
-                EditText et = (EditText) editWordView.findViewById(R.id.editText);
-
-                String value = textView.getText().toString();
-
-                et.setText(value);
-
-
-
-                int w = mScreenWidth * 10/12 - 50;
-
-                et.measure(0, 0);
-                int height = et.getMeasuredHeight();
-                int width = et.getMeasuredWidth();
-                int h = (int)((float)width/w * et.getLineHeight() );
-                if(h>190)
-                    h = 190;
-
-
-                /*sv.post(new Runnable() {
-                    public void run() {
-                        sv.fullScroll(ScrollView.FOCUS_DOWN);
-                    }
-                });*/
-                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 290 + h));
-                ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.BOTTOM);
-                isDisplayContextEditWord = true;
-            }else {
-                ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.TOP);
-                editWordView.setVisibility(View.GONE);
-                isDisplayContextEditWord = false;
-            }
-        }
     }
 
     public class SelectPic implements View.OnClickListener {
@@ -502,7 +561,7 @@ public abstract class BaseStyleActivity extends Activity {
             this.context = c;
             this.mGridView = mGridView;
             mImageViewLayoutParams = new GridView.LayoutParams(
-                    mImageThumbSize, mImageThumbSize);
+                    GridView.LayoutParams.WRAP_CONTENT, mImageThumbSize);
         }
 
         @Override
@@ -525,7 +584,7 @@ public abstract class BaseStyleActivity extends Activity {
             ImageView imageView;
             if (convertView == null) { // if it's not recycled, instantiate and initialize
                 imageView = new RecyclingImageView(context);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 imageView.setLayoutParams(mImageViewLayoutParams);
             } else { // Otherwise re-use the converted view
                 imageView = (ImageView) convertView;
@@ -536,6 +595,7 @@ public abstract class BaseStyleActivity extends Activity {
             //mImageFetcher.loadImage(Images.imageThumbUrls[position - mNumColumns], imageView);
             //imageView.setLayoutParams(mImageViewLayoutParams);
             mImageFetcher.setImageSize(mImageThumbSize ,mImageThumbSize);
+            imageView.setBackgroundColor(Color.GREEN);
             mImageFetcher.loadImage(list.get(position), imageView);
             return imageView;
         }
@@ -627,7 +687,7 @@ public abstract class BaseStyleActivity extends Activity {
                     Bitmap bitmap = BitmapFactory.decodeFile(path, options);
                     //int width = bitmap.getWidth();
                     mImageButton.setBackgroundColor(Color.WHITE);
-                    mImageButton.setScaleType(ImageView.ScaleType.CENTER_CROP );
+                    mImageButton.setScaleType(ImageView.ScaleType.FIT_XY );
                     mImageButton.setImageBitmap(bitmap);
                     alertView.dismiss();
                 }
@@ -645,6 +705,13 @@ public abstract class BaseStyleActivity extends Activity {
             return convertView;
         }
     }
+
+    class ListHolder
+    {
+        public TextView textView;
+        public GridView gridView;
+    }
+    */
 
     public ArrayList<ImageView> getAllImageViewFromViewGroup(ViewGroup group){
         ArrayList<ImageView> list = new ArrayList<ImageView>();
@@ -683,11 +750,5 @@ public abstract class BaseStyleActivity extends Activity {
                 list.add(((TextView)view).getText().toString());
             }
         }
-    }
-
-    class ListHolder
-    {
-        public TextView textView;
-        public GridView gridView;
     }
 }

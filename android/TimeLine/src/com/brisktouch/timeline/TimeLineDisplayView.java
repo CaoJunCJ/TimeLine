@@ -36,7 +36,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 class TimeLineDisplayView extends TextView {
-	public static String TAG = "TestView";
+	public static String TAG = "TimeLineDisplayView";
 	public static int DATELINE_LENGTH = 70;
 	public static int DATELINE_RADIUS = 30;
 	public static int TIMELINE_RADIUS = 10;
