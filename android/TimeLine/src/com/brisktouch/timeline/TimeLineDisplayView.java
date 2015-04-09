@@ -2,15 +2,13 @@ package com.brisktouch.timeline;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import com.brisktouch.timeline.style.*;
-import com.brisktouch.timeline.util.CustomJSONArray;
-import com.brisktouch.timeline.util.FileUtil;
-import com.brisktouch.timeline.util.Global;
-import com.brisktouch.timeline.util.Tool;
+import com.brisktouch.timeline.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -594,6 +592,21 @@ class TimeLineDisplayView extends TextView {
 			String time = timeThing.optString(Global.JSON_KEY_TIME);
 			if(time.equals(useTimeDate)){
 				String style = timeThing.optString(Global.JSON_KEY_STYLE);
+				JSONArray strings = timeThing.optJSONArray(Global.JSON_KEY_STRINGS);
+
+				ArrayList<String[]> listStrings = new ArrayList<String[]>();
+				for(int j = 0; j< strings.length(); j++){
+					String[] temp = new String[4];
+					JSONObject jsonObject = strings.optJSONObject(j);
+					temp[0] = jsonObject.optString(Global.JSON_KEY_FONT_TEXT);
+					temp[1] = jsonObject.optString(Global.JSON_KEY_FONT_FAMILY);
+					temp[2] = String.valueOf(jsonObject.optDouble(Global.JSON_KEY_FONT_SIZE));
+					temp[3] = String.valueOf(jsonObject.optInt(Global.JSON_KEY_FONT_COLOR));
+					listStrings.add(temp);
+				}
+
+				IntentObjectData intentObjectData = new IntentObjectData();
+				intentObjectData.list = listStrings;
 				StyleActivityEnum enumval = StyleActivityEnum.valueOf(style);
 				Intent intent = new Intent();
 				switch (enumval){
@@ -617,6 +630,11 @@ class TimeLineDisplayView extends TextView {
 						break;
 
 				}
+				Bundle bundle = new Bundle();
+				intentObjectData.date = json.optString(Global.JSON_KEY_DATE);
+				intentObjectData.time = time;
+				bundle.putSerializable("data", intentObjectData);
+				intent.putExtras(bundle);
 				getContext().startActivity(intent);
 				//((Activity)getContext()).finish();
 				break;

@@ -44,4 +44,22 @@ public class IterateViewGroup {
 
         }
     }
+
+    public static void iterateViewGroup(ViewGroup group, IterateViewCallBack textViewCallBack,
+                                        IterateViewCallBack imageViewCallBack){
+        for(int i = 0; i < group.getChildCount(); i++){
+            View view = group.getChildAt(i);
+            if(view instanceof ViewGroup){
+                iterateViewGroup((ViewGroup) view, textViewCallBack, imageViewCallBack);
+            }
+
+            if(view instanceof TextView){
+                textViewCallBack.callBack(view);
+            }
+
+            if(view instanceof ImageView){
+                imageViewCallBack.callBack(view);
+            }
+        }
+    }
 }

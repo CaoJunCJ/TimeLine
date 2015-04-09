@@ -21,6 +21,7 @@ public class StoryStyleActivity  extends BaseStyleActivity {
         storyStyleLinearLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.story_style, null);
 
         story = (LinearLayout)storyStyleLinearLayout.findViewById(R.id.storyStyleLinearLayout);
+        reLoadByJsonData(story);
 
         story.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
 

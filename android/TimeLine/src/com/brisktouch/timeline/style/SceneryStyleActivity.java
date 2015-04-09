@@ -25,6 +25,7 @@ public class SceneryStyleActivity extends BaseStyleActivity{
         sceneryStyleLinearLayout = (LinearLayout)LayoutInflater.from(getApplication()).inflate(R.layout.scenery_style, null);
 
         scenery = (LinearLayout)sceneryStyleLinearLayout.findViewById(R.id.sceneryStyleLinearLayout);
+        reLoadByJsonData(scenery);
 
         scenery.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
 

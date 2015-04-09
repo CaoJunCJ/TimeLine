@@ -89,7 +89,7 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
         mListView.setLayoutParams(listViewParams);
         mListView.setBackgroundColor(Color.WHITE);
         mListView.setFocusable(false);
-        getImage();
+        //getImage();
         List<Map.Entry<Long, List<String>>> infoIds = new ArrayList<Map.Entry<Long, List<String>>>(dateGruopMap.entrySet());
         Collections.sort(infoIds, new Comparator<Map.Entry<Long, List<String>>>() {
             public int compare(Map.Entry<Long, List<String>> o1,
@@ -142,8 +142,8 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
             }else{
                 dateGruopMap.get(day).add(path);
             }
-
         }
+
     }
 
     public void onResume() {

@@ -33,6 +33,7 @@ public class HumanStyleActivity extends BaseStyleActivity {
         humanStyleLinearLayout = (LinearLayout)LayoutInflater.from(getApplication()).inflate(R.layout.human_style, null);
 
         human = (LinearLayout)humanStyleLinearLayout.findViewById(R.id.hunmanStyleLinearLayout);
+        reLoadByJsonData(human);
 
         human.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
 

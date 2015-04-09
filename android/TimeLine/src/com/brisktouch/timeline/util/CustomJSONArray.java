@@ -3,10 +3,12 @@ package com.brisktouch.timeline.util;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.Serializable;
+
 /**
  * Created by jim on 4/2/2015.
  */
-public class CustomJSONArray extends JSONArray {
+public class CustomJSONArray extends JSONArray implements Serializable{
     @Override
     public Object remove(int index) {
 

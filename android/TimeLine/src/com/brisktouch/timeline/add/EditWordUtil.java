@@ -75,7 +75,7 @@ public class EditWordUtil {
             fontListView.setDivider(null);
             sizeListView.setDivider(null);
 
-            Typeface[] data = {
+            Typeface[] typeFaceData = {
                     Typeface.DEFAULT,
                     Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf"),
                     Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf"),
@@ -92,7 +92,7 @@ public class EditWordUtil {
                     22.0f,
                     24.0f
             };
-            fontListAdapter = new SimpleAdapter(WordStyle.fontStyle, context, data);
+            fontListAdapter = new SimpleAdapter(WordStyle.fontStyle, context, typeFaceData);
             sizeListAdapter = new SimpleAdapter(WordStyle.sizeStyle, context, floats);
             fontListView.setAdapter(fontListAdapter);
             sizeListView.setAdapter(sizeListAdapter);
@@ -129,6 +129,23 @@ public class EditWordUtil {
                     ((LinearLayout)((LinearLayout)view).getChildAt(0)).getChildAt(0).setVisibility(View.VISIBLE);
                     //next code: listView -> itemView(edit_word_font_list_item.xml) ->  LinearLayout -> LinearLayout -> TextView
                     currentSelectTextView.setTypeface(((TextView)((LinearLayout)((LinearLayout)fontListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTypeface());
+                    switch (i){
+                        case 0:
+                            currentSelectTextView.setTag("DEFAULT");
+                            break;
+                        case 1:
+                            currentSelectTextView.setTag("Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf");
+                            break;
+                        case 2:
+                            currentSelectTextView.setTag("Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf");
+                            break;
+                        case 3:
+                            currentSelectTextView.setTag("Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf");
+                            break;
+                        default:
+                            currentSelectTextView.setTag("DEFAULT");
+                            break;
+                    }
                 }
             });
 

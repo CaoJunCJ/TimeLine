@@ -37,6 +37,11 @@ public class Global {
     public static final String JSON_KEY_STYLE = "style";
     public static final String JSON_KEY_STRINGS = "strings";
 
+    public static final String JSON_KEY_FONT_TEXT = "font_text";
+    public static final String JSON_KEY_FONT_SIZE = "font_size";
+    public static final String JSON_KEY_FONT_FAMILY = "font_family";
+    public static final String JSON_KEY_FONT_COLOR = "font_color";
+
     private static JSONObject jsonData = new JSONObject();
     public static JSONObject getJsonData(){
         return jsonData;

@@ -21,6 +21,7 @@ public class TravelStyleActivity extends BaseStyleActivity {
         travelStyleLinearLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.travel_style, null);
 
         travel = (LinearLayout)travelStyleLinearLayout.findViewById(R.id.travelLinearLayout);
+        reLoadByJsonData(travel);
 
         LinearLayout.LayoutParams travelLayouParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight-25);
 

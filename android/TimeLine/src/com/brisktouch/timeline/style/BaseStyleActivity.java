@@ -20,6 +20,7 @@ import android.widget.*;
 import com.brisktouch.timeline.MyActivity;
 import com.brisktouch.timeline.R;
 import com.brisktouch.timeline.add.EditWordUtil;
+import com.brisktouch.timeline.add.IterateViewGroup;
 import com.brisktouch.timeline.add.StyleActivity;
 import com.brisktouch.timeline.custom.BrowseNativeImageUtil;
 import com.brisktouch.timeline.custom.CircleButton;
@@ -238,7 +239,7 @@ public abstract class BaseStyleActivity extends Activity {
             FileUtil.getInstance().saveBitmap(image, i+".jpg", cal);
         }
 
-        ArrayList<String> strings = getAllTextViewStringFromViewGroup(viewGroup);
+        ArrayList<JSONObject> strings = getAllTextViewStringFromViewGroup(viewGroup);
 
         //modify json data and save to sdcard
         try {
@@ -390,6 +391,52 @@ public abstract class BaseStyleActivity extends Activity {
 
         return super.onKeyDown(keyCode, event);
     }
+
+    int textViewIndex = 0;
+    int imageViewIndex = 0;
+
+    public void reLoadByJsonData(ViewGroup viewGroup){
+        Intent intent = getIntent();
+        IntentObjectData intentObjectData = (IntentObjectData)intent.getSerializableExtra("data");
+        if(intentObjectData!=null){
+            final ArrayList<String[]> strings = (ArrayList<String[]>)intentObjectData.list;
+            final String time = intentObjectData.time;
+            final String date = intentObjectData.date;
+            final List<File> files = FileUtil.getInstance().getImagesFilePath(date, time);
+            IterateViewGroup.iterateViewGroup(viewGroup,
+                    new IterateViewGroup.IterateViewCallBack(){
+                        public void callBack(View v){
+                            //text view call back
+                            TextView textView = (TextView)v;
+                            String[] item = strings.get(textViewIndex);
+                            String text = item[0];
+                            String family = item[1];
+                            float size = Float.parseFloat(item[2]);
+                            int color = Integer.parseInt(item[3]);
+                            textView.setText(text);
+                            textView.setTextColor(color);
+                            textView.setTextSize(size);
+                            if(!family.equals("DEFAULT")){
+                                Typeface tf = Typeface.createFromAsset(getAssets(), family);
+                                textView.setTypeface(tf);
+                            }
+                            textViewIndex++;
+                        }
+                    },
+                    new IterateViewGroup.IterateViewCallBack(){
+                        public void callBack(View v){
+                            //image view call back
+                            ImageView imageView = (ImageView)v;
+                            imageView.setImageBitmap(BitmapFactory.decodeFile(files.get(imageViewIndex).getAbsolutePath()));
+                            imageViewIndex++;
+                        }
+                    }
+            );
+        }
+    }
+
+
+
     /*
 
     public void popSelectPictureDialog(int id){
@@ -732,14 +779,14 @@ public abstract class BaseStyleActivity extends Activity {
         }
     }
 
-    public ArrayList<String> getAllTextViewStringFromViewGroup(ViewGroup group){
-        ArrayList<String> list = new ArrayList<String>();
+    public ArrayList<JSONObject> getAllTextViewStringFromViewGroup(ViewGroup group){
+        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
         iterateViewGroupFindTextView(group, list);
         return list;
     }
 
 
-    public void iterateViewGroupFindTextView(ViewGroup group, ArrayList<String> list){
+    public void iterateViewGroupFindTextView(ViewGroup group, ArrayList<JSONObject> list){
         for(int i = 0; i < group.getChildCount(); i++){
             View view = group.getChildAt(i);
             if(view instanceof ViewGroup){
@@ -747,8 +794,55 @@ public abstract class BaseStyleActivity extends Activity {
             }
 
             if(view instanceof TextView){
-                list.add(((TextView)view).getText().toString());
+                try {
+                    TextView textView = (TextView) view;
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(Global.JSON_KEY_FONT_TEXT, textView.getText().toString());
+                    jsonObject.put(Global.JSON_KEY_FONT_SIZE, textView.getTextSize());
+                    String fontFamily = (String)textView.getTag();
+                    if(fontFamily==null)
+                        fontFamily = "DEFAULT";
+                    jsonObject.put(Global.JSON_KEY_FONT_FAMILY, fontFamily);
+                    jsonObject.put(Global.JSON_KEY_FONT_COLOR, textView.getCurrentTextColor());
+                    list.add(jsonObject);
+                }catch (Exception e){e.printStackTrace();}
             }
         }
     }
+
+    /*
+    Typeface[] typeFaceData = null;
+
+    public String getFamilyByTypeFace(Typeface typeface){
+        if(typeFaceData == null){
+            Typeface t1 = Typeface.DEFAULT;
+            Typeface t2 = Typeface.createFromAsset(getApplicationContext().getAssets(), "Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf");
+            Typeface t3 = Typeface.createFromAsset(getApplicationContext().getAssets(), "Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf");
+            Typeface t4 = Typeface.createFromAsset(getApplicationContext().getAssets(), "Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf");
+            typeFaceData = new Typeface[]{t1, t2, t3, t4};
+        }
+
+        if(typeface == null){
+            return "DEFAULT";
+        }
+
+        if(typeface.equals(typeFaceData[0])){
+            return "DEFAULT";
+        }
+
+        if(typeface.equals(typeFaceData[1])){
+            return "Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf";
+        }
+
+        if(typeface.equals(typeFaceData[2])){
+            return "Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf";
+        }
+
+        if(typeface.equals(typeFaceData[3])){
+            return "Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf";
+        }
+
+        return "DEFAULT";
+    }
+    */
 }

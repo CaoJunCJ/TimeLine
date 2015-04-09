@@ -28,6 +28,7 @@ public class FoodStyleActivity extends BaseStyleActivity{
         foodStyleLinearLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.food_style, null);
 
         food = (LinearLayout) foodStyleLinearLayout.findViewById(R.id.foodStyleLinearLayout);
+        reLoadByJsonData(food);
 
         food.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
 
