@@ -3,7 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.brisktouch.timeline.add.MyImageView
+    <com.brisktouch.timeline.Awilldelete.MyImageView
             android:id="@+id/group_image"
             android:src="@drawable/friends_sends_pictures_no"
             android:scaleType="fitXY"

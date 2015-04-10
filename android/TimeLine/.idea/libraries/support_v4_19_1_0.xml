@@ -2,6 +2,7 @@
   <library name="support-v4-19.1.0">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/support-v4-19.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/renderscript-v8.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.brisktouch.timeline.R;
-import com.brisktouch.timeline.add.EditWordUtil;
+import com.brisktouch.timeline.custom.EditWordUtil;
 
 /**
  * Created by jim on 3/30/2015.
@@ -152,6 +151,6 @@ public class FoodStyleActivity extends BaseStyleActivity{
 
     @Override
     public void share() {
-
+        foggyCurrentScreen();
     }
 }

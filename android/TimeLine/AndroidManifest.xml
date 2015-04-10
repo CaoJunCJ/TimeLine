@@ -39,7 +39,7 @@
                   android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".add.StyleActivity"
+        <activity android:name=".style.StyleActivity"
                   android:label="@string/style_activity_name"
                   android:screenOrientation="portrait">
         </activity>

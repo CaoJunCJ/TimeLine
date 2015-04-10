@@ -1,4 +1,4 @@
-package com.brisktouch.timeline.test;
+package com.brisktouch.timeline.custom;
 
 import java.util.ArrayList;
 import java.util.HashMap;

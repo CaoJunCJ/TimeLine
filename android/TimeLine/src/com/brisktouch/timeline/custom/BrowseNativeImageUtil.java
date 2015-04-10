@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.brisktouch.timeline.R;
 import com.brisktouch.timeline.style.BaseStyleActivity;
-import com.brisktouch.timeline.test.ListViewAdapter;
 import com.brisktouch.timeline.util.ImageCache;
 import com.brisktouch.timeline.util.ImageNative;
 

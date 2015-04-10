@@ -1,4 +1,4 @@
-package com.brisktouch.timeline.add;
+package com.brisktouch.timeline.custom;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.brisktouch.timeline.R;
-import com.brisktouch.timeline.custom.CircleView;
+import com.brisktouch.timeline.util.IterateViewGroup;
 import com.brisktouch.timeline.util.Utils;
 
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

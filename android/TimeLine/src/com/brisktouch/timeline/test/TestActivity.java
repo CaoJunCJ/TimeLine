@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.brisktouch.timeline.R;
+import com.brisktouch.timeline.custom.ListViewAdapter;
 import com.brisktouch.timeline.util.ImageCache;
 import com.brisktouch.timeline.util.ImageNative;
 

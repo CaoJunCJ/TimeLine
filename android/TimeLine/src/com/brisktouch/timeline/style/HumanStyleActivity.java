@@ -1,21 +1,14 @@
 package com.brisktouch.timeline.style;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.brisktouch.timeline.R;
-import com.brisktouch.timeline.add.EditWordUtil;
-import com.brisktouch.timeline.util.FileUtil;
-import com.brisktouch.timeline.util.Global;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Calendar;
+import com.brisktouch.timeline.util.Utils;
+import stackblur.StackBlurManager;
 
 /**
  * Created by jim on 3/30/2015.
@@ -60,6 +53,6 @@ public class HumanStyleActivity extends BaseStyleActivity {
 
     @Override
     public void share(){
-
+        foggyCurrentScreen();
     }
 }

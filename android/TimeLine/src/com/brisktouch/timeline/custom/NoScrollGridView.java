@@ -1,4 +1,4 @@
-package com.brisktouch.timeline.test;
+package com.brisktouch.timeline.custom;
 
 import android.content.Context;
 import android.util.AttributeSet;

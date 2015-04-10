@@ -6,10 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import com.brisktouch.timeline.add.StyleActivity;
 import com.brisktouch.timeline.custom.CircleButton;
 
 /**

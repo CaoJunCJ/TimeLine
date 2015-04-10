@@ -1,14 +1,14 @@
 package com.brisktouch.timeline.style;
 
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.*;
 import com.brisktouch.timeline.R;
-import com.brisktouch.timeline.add.EditWordUtil;
+import com.brisktouch.timeline.util.Utils;
+import stackblur.StackBlurManager;
 
 /**
  * Created by jim on 3/30/2015.
@@ -52,6 +52,6 @@ public class SceneryStyleActivity extends BaseStyleActivity{
 
     @Override
     public void share() {
-
+        foggyCurrentScreen();
     }
 }

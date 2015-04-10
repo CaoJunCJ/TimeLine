@@ -51,6 +51,6 @@ public class DrinkStyleActivity extends BaseStyleActivity{
 
     @Override
     public void share() {
-
+        foggyCurrentScreen();
     }
 }

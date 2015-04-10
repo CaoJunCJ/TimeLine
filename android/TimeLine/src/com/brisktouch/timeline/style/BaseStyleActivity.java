@@ -1,38 +1,26 @@
 package com.brisktouch.timeline.style;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
+import android.os.*;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import com.brisktouch.timeline.MyActivity;
 import com.brisktouch.timeline.R;
-import com.brisktouch.timeline.add.EditWordUtil;
-import com.brisktouch.timeline.add.IterateViewGroup;
-import com.brisktouch.timeline.add.StyleActivity;
+import com.brisktouch.timeline.custom.EditWordUtil;
+import com.brisktouch.timeline.util.IterateViewGroup;
 import com.brisktouch.timeline.custom.BrowseNativeImageUtil;
 import com.brisktouch.timeline.custom.CircleButton;
 import com.brisktouch.timeline.custom.DragImageView;
 import com.brisktouch.timeline.custom.PopButtonOnClickListener;
-import com.brisktouch.timeline.ui.RecyclingImageView;
 import com.brisktouch.timeline.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import stackblur.StackBlurManager;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -72,6 +60,8 @@ public abstract class BaseStyleActivity extends Activity {
 
     public boolean nativeImageListDisplay = false;
 
+    LinearLayout stackBlurImageView;
+
     public BaseStyleActivity(){
     }
 
@@ -95,6 +85,11 @@ public abstract class BaseStyleActivity extends Activity {
         maxOutsideLayout.addView(scrollView);
         mClientListener = new SelectPic();
         addBrowseNativeImageView();
+
+        stackBlurImageView = (LinearLayout)LayoutInflater.from(getApplication()).inflate(R.layout.share, null);;
+        stackBlurImageView.setLayoutParams(new RelativeLayout.LayoutParams(mScreenWidth, mScreenHeight));
+        stackBlurImageView.setVisibility(View.INVISIBLE);
+        maxOutsideLayout.addView(stackBlurImageView);
     }
 
     @Override
@@ -227,6 +222,25 @@ public abstract class BaseStyleActivity extends Activity {
 
     public abstract void share();
     public abstract void save();
+    public void foggyCurrentScreen(){
+        assistive.setVisibility(View.INVISIBLE);
+        saveButton.setVisibility(View.INVISIBLE);
+        shareButton.setVisibility(View.INVISIBLE);
+        backButton.setVisibility(View.INVISIBLE);
+        Bitmap bitmap = getCurrentImage();
+        StackBlurManager _stackBlurManager = new StackBlurManager(bitmap);
+        int radius = 4*5;
+        Bitmap newBitmap = _stackBlurManager.process(radius);
+
+        //stackBlurImageView.setImageBitmap(newBitmap);
+        BitmapDrawable background = new BitmapDrawable(newBitmap);
+        if(Utils.hasJellyBean()){
+            stackBlurImageView.setBackground(background);
+        }else{
+            stackBlurImageView.setBackgroundDrawable(background);
+        }
+        stackBlurImageView.setVisibility(View.VISIBLE);
+    }
     public void save(String style, String title, ViewGroup viewGroup){
         //maybe create two async task to do it.
 
@@ -435,6 +449,18 @@ public abstract class BaseStyleActivity extends Activity {
         }
     }
 
+
+    public Bitmap getCurrentImage() {
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        int w = display.getWidth();
+        int h = display.getHeight();
+        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        View decorview = this.getWindow().getDecorView();
+        decorview.setDrawingCacheEnabled(true);
+        bitmap = decorview.getDrawingCache();
+        return bitmap;
+    }
 
 
     /*

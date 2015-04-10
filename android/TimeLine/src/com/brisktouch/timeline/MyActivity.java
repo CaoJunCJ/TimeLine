@@ -1,18 +1,13 @@
 package com.brisktouch.timeline;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.view.WindowManager;
-import com.brisktouch.timeline.add.StyleActivity;
-import com.brisktouch.timeline.test.TestData;
+import com.brisktouch.timeline.style.StyleActivity;
 import com.brisktouch.timeline.util.Global;
 import org.json.JSONObject;
 import android.widget.Button;
@@ -23,7 +18,6 @@ public class MyActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
-
     String TAG = "MyActivity";
     @Override
     public void onCreate(Bundle savedInstanceState) {

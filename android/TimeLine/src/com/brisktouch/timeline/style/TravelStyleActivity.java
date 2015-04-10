@@ -52,6 +52,6 @@ public class TravelStyleActivity extends BaseStyleActivity {
 
     @Override
     public void share() {
-
+        foggyCurrentScreen();
     }
 }

@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dip"
             android:src="@drawable/empty_photo"/>
-    <com.brisktouch.timeline.test.NoScrollGridView
+    <com.brisktouch.timeline.custom.NoScrollGridView
             android:id="@+id/listview_item_gridview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

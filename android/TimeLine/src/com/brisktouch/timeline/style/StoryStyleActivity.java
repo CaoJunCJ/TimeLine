@@ -1,10 +1,20 @@
 package com.brisktouch.timeline.style;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.brisktouch.timeline.R;
+import com.brisktouch.timeline.util.Utils;
+import stackblur.StackBlurManager;
 
 /**
  * Created by jim on 3/30/2015.
@@ -38,6 +48,7 @@ public class StoryStyleActivity  extends BaseStyleActivity {
         title = (TextView)findViewById(R.id.textView12);
 
         setAllImageViewAndTextViewOnClickListener(story);
+
     }
 
     @Override
@@ -47,6 +58,8 @@ public class StoryStyleActivity  extends BaseStyleActivity {
 
     @Override
     public void share() {
-
+        foggyCurrentScreen();
     }
+
+
 }

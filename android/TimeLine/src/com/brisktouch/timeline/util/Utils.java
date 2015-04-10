@@ -21,7 +21,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.StrictMode;
-import com.brisktouch.timeline.add.Style1;
 import com.brisktouch.timeline.ui.ImageGridActivity;
 
 

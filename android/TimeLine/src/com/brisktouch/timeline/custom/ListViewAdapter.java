@@ -1,4 +1,4 @@
-package com.brisktouch.timeline.test;
+package com.brisktouch.timeline.custom;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.brisktouch.timeline.R;
-import com.brisktouch.timeline.custom.BrowseNativeImageUtil;
 
 
 /**

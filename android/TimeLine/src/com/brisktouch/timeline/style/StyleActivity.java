@@ -1,4 +1,4 @@
-package com.brisktouch.timeline.add;
+package com.brisktouch.timeline.style;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import com.brisktouch.timeline.MyActivity;
 import com.brisktouch.timeline.R;
-import com.brisktouch.timeline.style.*;
 
 /**
  * Created by cerosoft on 1/9/2015.
