@@ -89,6 +89,17 @@ public abstract class BaseStyleActivity extends Activity {
         stackBlurImageView = (LinearLayout)LayoutInflater.from(getApplication()).inflate(R.layout.share, null);;
         stackBlurImageView.setLayoutParams(new RelativeLayout.LayoutParams(mScreenWidth, mScreenHeight));
         stackBlurImageView.setVisibility(View.INVISIBLE);
+        stackBlurImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "stackBlurImageView onclick");
+                assistive.setVisibility(View.VISIBLE);
+                saveButton.setVisibility(View.VISIBLE);
+                shareButton.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.VISIBLE);
+                stackBlurImageView.setVisibility(View.INVISIBLE);
+            }
+        });
         maxOutsideLayout.addView(stackBlurImageView);
     }
 
@@ -350,10 +361,11 @@ public abstract class BaseStyleActivity extends Activity {
                 int height = et.getMeasuredHeight();
                 int width = et.getMeasuredWidth();
                 int h = (int)((float)width/w * et.getLineHeight() );
-                if(h>190)
-                    h = 190;
+                //old > 100
+                if(h>(80-40))
+                    h = (80-40);
 
-
+                Log.d(TAG, "h="+h);
                 /*sv.post(new Runnable() {
                     public void run() {
                         sv.fullScroll(ScrollView.FOCUS_DOWN);

@@ -582,7 +582,8 @@ class TimeLineDisplayView extends TextView {
 		HumanStyleActivity,
 		SceneryStyleActivity,
 		StoryStyleActivity,
-		TravelStyleActivity
+		TravelStyleActivity,
+		NONE,
 	}
 
 	public void jumpToStyleActivity(String useTimeDate){
@@ -628,6 +629,10 @@ class TimeLineDisplayView extends TextView {
 					case TravelStyleActivity:
 						intent.setClass(getContext(), TravelStyleActivity.class);
 						break;
+					case NONE:
+						return;
+					default:
+						return;
 
 				}
 				Bundle bundle = new Bundle();

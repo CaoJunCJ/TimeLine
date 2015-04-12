@@ -89,6 +89,7 @@ public class InitTask extends Thread {
                     JSONArray array = new JSONArray();
                     JSONObject j = new JSONObject();
                     j.put(Global.JSON_KEY_TITLE, "welcome to timeLine.");
+                    j.put(Global.JSON_KEY_STYLE, "NONE");
                     j.put(Global.JSON_KEY_TIME, String.format("%s:%s:%s",
                             cal.get(Calendar.HOUR_OF_DAY),
                             cal.get(Calendar.MINUTE),

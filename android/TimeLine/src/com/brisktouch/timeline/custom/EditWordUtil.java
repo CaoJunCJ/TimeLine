@@ -112,14 +112,16 @@ public class EditWordUtil {
                         }
                     }, IterateViewGroup.ViewClassType.IMAGEVIEW);
                     ((LinearLayout)((LinearLayout)view).getChildAt(0)).getChildAt(0).setVisibility(View.VISIBLE);
-                    currentSelectTextView.setTextSize(((TextView) ((LinearLayout) ((LinearLayout) sizeListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTextSize());
+                    TextView tv = (TextView)((LinearLayout) ((LinearLayout) view).getChildAt(0)).getChildAt(1);
+                    currentSelectTextView.setTextSize(tv.getTextSize());
+                    //currentSelectTextView.setTextSize(((TextView) ((LinearLayout) ((LinearLayout) sizeListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTextSize());
                 }
             });
 
             fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    //TODO bug, need modify it.  =======>fix
+                    //TODO bug, need modify it.  like up side.
                     for(int index = 0; index < fontListView.getAdapter().getCount() ; index++){
                         LinearLayout lt = (LinearLayout)fontListView.getChildAt(index);
                         ((LinearLayout)lt.getChildAt(0)).getChildAt(0).setVisibility(View.INVISIBLE);
