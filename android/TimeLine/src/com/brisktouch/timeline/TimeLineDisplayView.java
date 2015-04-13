@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import com.brisktouch.timeline.style.*;
 import com.brisktouch.timeline.util.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.cjson.JSONArray;
+import org.cjson.JSONObject;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -28,7 +27,6 @@ import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import java.util.HashMap;
@@ -88,6 +86,18 @@ class TimeLineDisplayView extends TextView {
 
 	}
 
+	public void calculateHeight(){
+		height = 0;
+		height += 20;
+		height += DATELINE_RADIUS*2;
+		JSONArray array = json.optJSONArray(Global.JSON_KEY_THINGS);
+		for(int i=0; i < array.length(); i++){
+			height += DATELINE_LENGTH;
+			height += TIMELINE_RADIUS*2;
+		}
+		height += DATELINE_LENGTH;
+	}
+
 	public void setData(JSONObject json){
 		this.json = json;
 	}
@@ -138,9 +148,13 @@ class TimeLineDisplayView extends TextView {
 	
 	protected void onDraw(Canvas canvas){
 		super.onDraw(canvas);
+		if(json==null)
+			return;
 		currentLength = 0;
 		String date = json.optString(Global.JSON_KEY_DATE);
 		JSONArray array = json.optJSONArray(Global.JSON_KEY_THINGS);
+		if(array == null)
+			return;
 		drawLine(MARGIN_RIGHT, currentLength, 20, canvas);
 		drawDate(MARGIN_RIGHT, currentLength, date, canvas);
 		for(int i=0; i < array.length(); i++){
@@ -538,25 +552,46 @@ class TimeLineDisplayView extends TextView {
 						//modify json data.(remove this jsonobject by time)
 
 						JSONArray array = json.optJSONArray(Global.JSON_KEY_THINGS);
-						ArrayList<JSONObject> list = new ArrayList<JSONObject>();
 						for(int i=0; i < array.length(); i++){
 							JSONObject timeThing = array.optJSONObject(i);
 							String time = timeThing.optString(Global.JSON_KEY_TIME);
-							if(!time.equals(useTimeDate))
-								list.add(timeThing);
+							if(time.equals(useTimeDate)){
+								array.remove(i);
+								break;
+							}
 						}
-						JSONArray newArray = new JSONArray(list);
-						json.remove(Global.JSON_KEY_THINGS);
 						try {
-							json.put(Global.JSON_KEY_THINGS, newArray);
+							if(array.length()==0){
+								ArrayList<JSONObject> _list = new ArrayList<JSONObject>();
+								JSONObject _main = Global.getJsonData();
+								JSONArray _data = _main.optJSONArray(Global.JSON_KEY_DATA);
+								for(int j =0; j < _data.length(); j++){
+									JSONObject _temp = _data.optJSONObject(j);
+									if(_temp.optString(Global.JSON_KEY_DATE).equals(json.optString(Global.JSON_KEY_DATE))){
+										_data.remove(j);
+										break;
+									}
+								}
+								//height = 0;
+								//setHeight(0);
+								this._listAdapter.notifyDataSetChanged();
+							}else{
+								calculateHeight();
+								setHeight(height);
+								DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
+								invalidate();
+							}
+
+
 							//save to file.
 							//FileUtil.getInstance().saveJsonToFile();
 						}catch (Exception e){e.printStackTrace();}
 
+					}else{
+						DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
+						invalidate();
 					}
-					DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
-					invalidate();
-					if(!isMove || (System.currentTimeMillis() - startTimeMillis)<300){
+					if(!isMove && (System.currentTimeMillis() - startTimeMillis)<200){
 						//jump to style activity
 						jumpToStyleActivity(useTimeDate);
 					}
@@ -574,6 +609,12 @@ class TimeLineDisplayView extends TextView {
 				break;
 		}
 		return true;
+	}
+
+	ListAdapter _listAdapter;
+
+	public void setListAdapter(ListAdapter _listAdapter){
+		this._listAdapter = _listAdapter;
 	}
 
 	enum StyleActivityEnum {

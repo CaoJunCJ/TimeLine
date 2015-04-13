@@ -9,7 +9,7 @@ import android.widget.ListView;
 import android.view.WindowManager;
 import com.brisktouch.timeline.style.StyleActivity;
 import com.brisktouch.timeline.util.Global;
-import org.json.JSONObject;
+import org.cjson.JSONObject;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
@@ -28,11 +28,12 @@ public class MyActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ListView listview = new ListView(this);
         //listview.setVerticalScrollBarEnabled(true);
-        BaseAdapter adapter = new ListAdapter(json, this);
+        ListAdapter adapter = new ListAdapter(json, this);
         listview.setBackgroundColor(Color.WHITE);
         listview.setBackgroundColor(Color.parseColor("#F9F9F9"));
         listview.setAdapter(adapter);
         listview.setDivider(null);
+        adapter.setListView(listview);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(listview);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.mycustomtitle);
@@ -44,6 +45,7 @@ public class MyActivity extends Activity {
             Intent intent = new Intent();
             intent.setClass(MyActivity.this, StyleActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             finish();
                 }
 

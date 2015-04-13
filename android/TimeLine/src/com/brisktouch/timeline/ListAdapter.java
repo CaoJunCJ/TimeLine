@@ -1,13 +1,13 @@
 package com.brisktouch.timeline;
 
+import android.util.Log;
 import android.widget.*;
 import com.brisktouch.timeline.util.Global;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.cjson.JSONArray;
+import org.cjson.JSONObject;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +17,7 @@ public class ListAdapter extends BaseAdapter {
 	private JSONArray data;
 	private Context context;
 	private HashMap<Integer, TimeLineDisplayView> map;
+	private ListView listView;
 	String TAG = "ListAdapter";
 	@Override
 	public int getCount() {
@@ -39,15 +40,28 @@ public class ListAdapter extends BaseAdapter {
 		JSONObject date = data.optJSONObject(index);
 		if(null == convertView){
 			tv = new TimeLineDisplayView(context, date);
-
 		}else{
 			tv = (TimeLineDisplayView)convertView;
 		}
 		tv.setData(date);
+		tv.setListAdapter(this);
 		//tv.setBackgroundColor(Color.WHITE);
 		tv.setBackgroundColor(Color.parseColor("#F9F9F9"));
+		tv.calculateHeight();
 		tv.setHeight(tv.getCurrentLength());
+		//Log.d(TAG, "Date size:" + date.optJSONArray(Global.JSON_KEY_THINGS).length());
+		//Log.d(TAG, "height:" + tv.getCurrentLength());
 		return tv;
+	}
+
+	public void setListView(ListView listView){
+		this.listView = listView;
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		data = Global.getJsonData().optJSONArray(Global.JSON_KEY_DATA);
+		super.notifyDataSetChanged();
 	}
 	
 	public ListAdapter(JSONObject json,Context c){

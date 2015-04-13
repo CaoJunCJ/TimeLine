@@ -3,9 +3,9 @@ package com.brisktouch.timeline.test;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.cjson.JSONArray;
+import org.cjson.JSONException;
+import org.cjson.JSONObject;
 
 public class TestData {
 	private JSONObject json;

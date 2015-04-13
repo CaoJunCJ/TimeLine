@@ -1,6 +1,6 @@
 package com.brisktouch.timeline.util;
 
-import org.json.JSONObject;
+import org.cjson.JSONObject;
 
 /**
  * Created by jim on 2/13/2015.

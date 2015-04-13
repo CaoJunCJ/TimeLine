@@ -6,8 +6,8 @@ import android.os.Environment;
 import android.util.Log;
 import com.brisktouch.timeline.util.Global;
 import com.brisktouch.timeline.util.Tool;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.cjson.JSONArray;
+import org.cjson.JSONObject;
 
 import java.io.*;
 

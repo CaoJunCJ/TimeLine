@@ -108,6 +108,9 @@ public class Utils {
     }
 
     public static boolean hasCUPCAKE(){ return Build.VERSION.SDK_INT >= VERSION_CODES.CUPCAKE;}
+    public static boolean hasECLAIR() {
+        return Build.VERSION.SDK_INT >= VERSION_CODES.ECLAIR;
+    }
 
     public static boolean hasFroyo() {
         // Can use static final constants like FROYO, declared in later versions

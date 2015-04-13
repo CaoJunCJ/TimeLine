@@ -1,7 +1,7 @@
 package com.brisktouch.timeline.util;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import org.cjson.JSONArray;
+import org.cjson.JSONException;
 
 import java.io.Serializable;
 
@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class CustomJSONArray extends JSONArray implements Serializable{
     @Override
     public Object remove(int index) {
-
         JSONArray output = new JSONArray();
         int len = this.length();
         for (int i = 0; i < len; i++)   {
@@ -25,5 +24,9 @@ public class CustomJSONArray extends JSONArray implements Serializable{
         }
         return output;
         //return this; If you need the input array in case of a failed attempt to remove an item.
+    }
+
+    public void clear(){
+
     }
 }

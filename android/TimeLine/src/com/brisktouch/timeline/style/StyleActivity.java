@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import com.brisktouch.timeline.MyActivity;
 import com.brisktouch.timeline.R;
+import com.brisktouch.timeline.util.Utils;
 
 /**
  * Created by cerosoft on 1/9/2015.
@@ -32,6 +33,7 @@ public class StyleActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(StyleActivity.this, HumanStyleActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                 //finish();
             }
         });
@@ -43,6 +45,7 @@ public class StyleActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(StyleActivity.this, StoryStyleActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                 //finish();
             }
         });
@@ -54,6 +57,7 @@ public class StyleActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(StyleActivity.this, SceneryStyleActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                 //finish();
             }
         });
@@ -65,6 +69,7 @@ public class StyleActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(StyleActivity.this, DrinkStyleActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                 //finish();
             }
         });
@@ -77,6 +82,7 @@ public class StyleActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(StyleActivity.this, TravelStyleActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                 //finish();
             }
         });
@@ -88,6 +94,7 @@ public class StyleActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(StyleActivity.this, FoodStyleActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                 //finish();
             }
         });
@@ -101,6 +108,8 @@ public class StyleActivity extends Activity {
             Intent intent = new Intent();
             intent.setClass(StyleActivity.this, MyActivity.class);
             startActivity(intent);
+            //if(Utils.hasECLAIR())
+                //overridePendingTransition(R.anim.out_to_left, R.anim.in_from_right);
             finish();
         }
         return false;

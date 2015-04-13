@@ -16,8 +16,8 @@ import com.brisktouch.timeline.custom.CircleButton;
 import com.brisktouch.timeline.custom.DragImageView;
 import com.brisktouch.timeline.custom.PopButtonOnClickListener;
 import com.brisktouch.timeline.util.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.cjson.JSONArray;
+import org.cjson.JSONObject;
 import stackblur.StackBlurManager;
 
 import java.io.File;
