@@ -27,4 +27,10 @@
     <string name="coffee_small_title">FRAGRANCE</string>
     <string name="sense_of_taste">味觉</string>
     <string name="travel_title">Wonderful Travel</string>
+
+
+    <string name="errcode_success">发送成功</string>
+    <string name="errcode_cancel">发送取消</string>
+    <string name="errcode_deny">发送被拒绝</string>
+    <string name="errcode_unknown">发送返回</string>
 </resources>

@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/support-v4-19.1.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/renderscript-v8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/libammsdk.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

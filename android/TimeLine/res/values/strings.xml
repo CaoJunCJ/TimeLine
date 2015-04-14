@@ -27,4 +27,9 @@
     <string name="coffee_small_title">FRAGRANCE</string>
     <string name="sense_of_taste">Sense of taste</string>
     <string name="travel_title">Wonderful Travel</string>
+
+    <string name="errcode_success">send success</string>
+    <string name="errcode_cancel">send cancel</string>
+    <string name="errcode_deny">send deny</string>
+    <string name="errcode_unknown">send back</string>
 </resources>

@@ -44,11 +44,6 @@
                   android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".add.Style1"
-                  android:label="style1"
-                  android:screenOrientation="portrait">
-        </activity>
-
         <activity android:name=".style.HumanStyleActivity"
                   android:label="humanStyle"
                   android:screenOrientation="portrait">
@@ -76,6 +71,12 @@
 
         <activity android:name=".style.TravelStyleActivity"
                   android:label="travelStyle"
+                  android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".wxapi.WXEntryActivity"
+                  android:label="WXEntryActivity"
+                  android:exported="true"
                   android:screenOrientation="portrait">
         </activity>
 
