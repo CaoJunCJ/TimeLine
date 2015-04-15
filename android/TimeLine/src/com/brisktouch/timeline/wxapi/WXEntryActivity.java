@@ -20,47 +20,43 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 	private IWXAPI api;
 	boolean isSendFriends = false;
 	String text = "这段文字发送自微信SDK示例程序";
-	Button sendMessage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		api = WXAPIFactory.createWXAPI(WXEntryActivity.this, Constants.APP_ID, false);
+		api.handleIntent(getIntent(), this);
 		LinearLayout linearLayout = new LinearLayout(this);
 		linearLayout.setBackgroundColor(Color.WHITE);
-		sendMessage = new Button(this);
-		sendMessage.setText("send message");
-		linearLayout.addView(sendMessage);
 		setContentView(linearLayout);
+		String _message = getIntent().getStringExtra("TYPE");
+		if(_message!=null && _message.equals("WEIXIN")){
+			sendMessage();
+		}
+	}
 
-		sendMessage.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+	public void sendMessage(){
+		// 初始化一个WXTextObject对象
+		WXTextObject textObj = new WXTextObject();
+		textObj.text = text;
 
-				// 初始化一个WXTextObject对象
-				WXTextObject textObj = new WXTextObject();
-				textObj.text = text;
+		// 用WXTextObject对象初始化一个WXMediaMessage对象
+		WXMediaMessage msg = new WXMediaMessage();
+		msg.mediaObject = textObj;
+		// 发送文本类型的消息时，title字段不起作用
+		// msg.title = "Will be ignored";
+		msg.description = text;
 
-				// 用WXTextObject对象初始化一个WXMediaMessage对象
-				WXMediaMessage msg = new WXMediaMessage();
-				msg.mediaObject = textObj;
-				// 发送文本类型的消息时，title字段不起作用
-				// msg.title = "Will be ignored";
-				msg.description = text;
+		// 构造一个Req
+		SendMessageToWX.Req req = new SendMessageToWX.Req();
+		req.transaction = buildTransaction("text"); // transaction字段用于唯一标识一个请求
+		req.message = msg;
 
-				// 构造一个Req
-				SendMessageToWX.Req req = new SendMessageToWX.Req();
-				req.transaction = buildTransaction("text"); // transaction字段用于唯一标识一个请求
-				req.message = msg;
+		req.scene = isSendFriends ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
 
-				req.scene = false ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-
-				// 调用api接口发送数据到微信
-				api.sendReq(req);
-				finish();
-			}
-		});
-
+		// 调用api接口发送数据到微信
+		api.sendReq(req);
+		finish();
 	}
 
 
@@ -78,28 +74,30 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 			default:
 				break;
 		}
+		Log.d(TAG, "onReq : onReq");
 	}
 
 	@Override
 	public void onResp(BaseResp resp){
-		int result = 0;
+		String result = "0";
 
 		switch (resp.errCode) {
 			case BaseResp.ErrCode.ERR_OK:
-				result = R.string.errcode_success;
+				result = getResources().getString(R.string.errcode_success);
 				break;
 			case BaseResp.ErrCode.ERR_USER_CANCEL:
-				result = R.string.errcode_cancel;
+				result = getResources().getString(R.string.errcode_cancel);
 				break;
 			case BaseResp.ErrCode.ERR_AUTH_DENIED:
-				result = R.string.errcode_deny;
+				result = getResources().getString(R.string.errcode_deny);
 				break;
 			default:
-				result = R.string.errcode_unknown;
+				result = getResources().getString(R.string.errcode_unknown);
 				break;
 		}
-
+		Log.d(TAG, "onResp : " + result);
 		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+		finish();
 	}
 
 	private String buildTransaction(final String type) {
