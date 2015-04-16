@@ -12,10 +12,14 @@ import java.util.*;
  * Created by jim on 4/1/2015.
  */
 public class FileUtil {
+    private String TAG = "FileUtil";
+
     private File mainFolder;
     private File jsonFile;
+    private File screenFolder;
     private String jsonFileName = "data.json";
     private String folderName = "/brisktouch";
+    private String screenImage = "screenImage";
     private static FileUtil instance;
 
     boolean canBeWritable;
@@ -25,6 +29,10 @@ public class FileUtil {
         if(mainFolder == null && canBeWritable){
             mainFolder = new File(Environment.getExternalStorageDirectory() + folderName);
             jsonFile = new File(mainFolder, jsonFileName);
+            screenFolder = new File(mainFolder, screenImage);
+            if(!screenFolder.exists()){
+                screenFolder.mkdir();
+            }
         }
     }
 
@@ -54,6 +62,8 @@ public class FileUtil {
         }
         return false;
     }
+
+
 
     public boolean saveBitmap(Bitmap bitmap, String fileName, Calendar cal) {
 
@@ -97,6 +107,40 @@ public class FileUtil {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean saveBitmap(Bitmap bitmap, String name){
+        File imageFile = new File(mainFolder, name);
+        try {
+            imageFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public String saveScreenBitmap(Bitmap bitmap, String name){
+        File imageFile = new File(screenFolder, name);
+        try {
+            imageFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            return imageFile.getAbsolutePath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<File> getImagesFilePath(String date, String time){

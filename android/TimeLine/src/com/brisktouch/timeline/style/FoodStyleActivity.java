@@ -151,6 +151,6 @@ public class FoodStyleActivity extends BaseStyleActivity{
 
     @Override
     public void share() {
-        foggyCurrentScreen();
+        super.share();
     }
 }

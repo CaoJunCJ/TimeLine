@@ -52,6 +52,6 @@ public class SceneryStyleActivity extends BaseStyleActivity{
 
     @Override
     public void share() {
-        foggyCurrentScreen();
+        super.share();
     }
 }

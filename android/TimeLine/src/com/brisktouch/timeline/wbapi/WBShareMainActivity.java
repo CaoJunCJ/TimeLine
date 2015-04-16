@@ -18,22 +18,33 @@ package com.brisktouch.timeline.wbapi;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.brisktouch.timeline.R;
+import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.*;
 import com.sina.weibo.sdk.api.WeiboMessage;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.sina.weibo.sdk.utils.LogUtil;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 该类是分享功能的入口。
@@ -56,10 +67,13 @@ public class WBShareMainActivity extends Activity implements IWeiboHandler.Respo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         Log.d(TAG, "WBShareMainActivity call");
 
         LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setBackgroundColor(Color.WHITE);
+        linearLayout.setBackgroundResource(R.drawable.share_background);
         setContentView(linearLayout);
 
         // 创建微博 SDK 接口实例
@@ -77,7 +91,8 @@ public class WBShareMainActivity extends Activity implements IWeiboHandler.Respo
         mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
         String _message = getIntent().getStringExtra("TYPE");
         if(_message!=null && _message.equals("WEIBO")){
-            sendMessage();
+            sendImage(getIntent().getStringExtra("IMAGE_PATH"));
+            //sendMessage();
         }
     }
 
@@ -125,10 +140,53 @@ public class WBShareMainActivity extends Activity implements IWeiboHandler.Respo
         finish();
     }
 
+    public void sendImage(String bitmapPath){
+        // 获取微博客户端相关信息，如是否安装、支持 SDK 的版本
+        final boolean isInstalledWeibo = mWeiboShareAPI.isWeiboAppInstalled();
+        final int supportApiLevel = mWeiboShareAPI.getWeiboAppSupportAPI();
+        if(isInstalledWeibo){
+            // 2. 初始化从第三方到微博的消息请求
+            if (supportApiLevel >= 10351 /*ApiUtils.BUILD_INT_VER_2_2*/){
+                WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+                //weiboMessage.textObject = getTextObj();
+                weiboMessage.imageObject = getImageObj(bitmapPath);
+                SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
+                request.transaction = String.valueOf(System.currentTimeMillis());
+                request.multiMessage = weiboMessage;
+
+                mWeiboShareAPI.sendRequest(WBShareMainActivity.this, request);
+            }else{
+                WeiboMessage weiboMessage = new WeiboMessage();
+                weiboMessage.mediaObject = getImageObj(bitmapPath);
+                SendMessageToWeiboRequest request = new SendMessageToWeiboRequest();
+                // 用transaction唯一标识一个请求
+                request.transaction = String.valueOf(System.currentTimeMillis());
+                request.message = weiboMessage;
+
+                mWeiboShareAPI.sendRequest(WBShareMainActivity.this, request);
+            }
+        }else{
+            Toast.makeText(WBShareMainActivity.this, "没安装新浪微博", Toast.LENGTH_SHORT).show();
+        }
+        finish();
+    }
+
     private TextObject getTextObj() {
         TextObject textObject = new TextObject();
         textObject.text = text;
         return textObject;
+    }
+
+    /**
+     * 创建图片消息对象。
+     *
+     * @return 图片消息对象。
+     */
+    private ImageObject getImageObj(String path) {
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        ImageObject imageObject = new ImageObject();
+        imageObject.setImageObject(bitmap);
+        return imageObject;
     }
 
     public void onResponse(BaseResponse baseResp){
@@ -146,6 +204,24 @@ public class WBShareMainActivity extends Activity implements IWeiboHandler.Respo
         }
         Log.d(TAG, result);
         Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
-        finish();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                Message msg = new Message();
+                msg.what = 0;
+                handler.sendMessage(msg);
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(task, 2500);
+        //finish();
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            finish();
+        }
+    };
 }

@@ -54,6 +54,6 @@ public class HumanStyleActivity extends BaseStyleActivity {
 
     @Override
     public void share(){
-        foggyCurrentScreen();
+        super.share();
     }
 }

@@ -16,6 +16,8 @@ import com.brisktouch.timeline.custom.CircleButton;
 import com.brisktouch.timeline.custom.DragImageView;
 import com.brisktouch.timeline.custom.PopButtonOnClickListener;
 import com.brisktouch.timeline.util.*;
+import com.brisktouch.timeline.wbapi.WBShareMainActivity;
+import com.brisktouch.timeline.wxapi.WXEntryActivity;
 import org.cjson.JSONArray;
 import org.cjson.JSONObject;
 import stackblur.StackBlurManager;
@@ -98,6 +100,7 @@ public abstract class BaseStyleActivity extends Activity {
                 shareButton.setVisibility(View.VISIBLE);
                 backButton.setVisibility(View.VISIBLE);
                 stackBlurImageView.setVisibility(View.INVISIBLE);
+                stackBlurImageViewIsVisibility = false;
             }
         });
         maxOutsideLayout.addView(stackBlurImageView);
@@ -230,15 +233,66 @@ public abstract class BaseStyleActivity extends Activity {
         }
     }
 
-    public abstract void share();
+    public void share(){
+        foggyCurrentScreen();
+        ImageView weixinImageView = (ImageView)stackBlurImageView.findViewById(R.id.imageViewWeiXin);
+        ImageView weiboImageView = (ImageView)stackBlurImageView.findViewById(R.id.imageViewXinLangWeiBo);
+        ImageView frendsImageView = (ImageView) stackBlurImageView.findViewById(R.id.imageViewPengYouQuan);
+
+
+        weixinImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), WXEntryActivity.class);
+                intent.putExtra("TYPE","WEIXIN");
+                intent.putExtra("IMAGE_PATH", currentScreenFilePath);
+                startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            }
+        });
+
+        frendsImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), WXEntryActivity.class);
+                intent.putExtra("TYPE","WEIXIN");
+                intent.putExtra("FRIENDS","YES");
+                intent.putExtra("IMAGE_PATH", currentScreenFilePath);
+                startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            }
+        });
+
+        weiboImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), WBShareMainActivity.class);
+                intent.putExtra("TYPE","WEIBO");
+                intent.putExtra("IMAGE_PATH", currentScreenFilePath);
+                startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            }
+        });
+
+    }
     public abstract void save();
+
+    public String currentScreenFilePath;
+
+    boolean stackBlurImageViewIsVisibility = false;
+
     public void foggyCurrentScreen(){
         assistive.setVisibility(View.INVISIBLE);
         saveButton.setVisibility(View.INVISIBLE);
         shareButton.setVisibility(View.INVISIBLE);
         backButton.setVisibility(View.INVISIBLE);
-        Bitmap bitmap = getCurrentImage();
-        StackBlurManager _stackBlurManager = new StackBlurManager(bitmap);
+        Bitmap currentScreenBitmap = getCurrentImage();
+        String fileName = UUID.randomUUID().toString() + System.currentTimeMillis();
+        currentScreenFilePath = FileUtil.getInstance().saveScreenBitmap(currentScreenBitmap, fileName);
+        StackBlurManager _stackBlurManager = new StackBlurManager(currentScreenBitmap);
         int radius = 4*5;
         Bitmap newBitmap = _stackBlurManager.process(radius);
 
@@ -250,6 +304,7 @@ public abstract class BaseStyleActivity extends Activity {
             stackBlurImageView.setBackgroundDrawable(background);
         }
         stackBlurImageView.setVisibility(View.VISIBLE);
+        stackBlurImageViewIsVisibility = true;
     }
     public void save(String style, String title, ViewGroup viewGroup){
         //maybe create two async task to do it.
@@ -322,6 +377,7 @@ public abstract class BaseStyleActivity extends Activity {
         }catch (Exception e){e.printStackTrace();}
     }
     public void back(){
+
         Intent intent = new Intent();
         intent.setClass(this, StyleActivity.class);
         startActivity(intent);
@@ -410,6 +466,13 @@ public abstract class BaseStyleActivity extends Activity {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 browseNativeImageUtil.hideView();
                 nativeImageListDisplay = false;
+                return false;
+            }
+        }
+
+        if(stackBlurImageViewIsVisibility){
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                stackBlurImageView.performClick();
                 return false;
             }
         }

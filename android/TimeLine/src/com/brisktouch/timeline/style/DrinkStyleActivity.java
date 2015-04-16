@@ -1,6 +1,8 @@
 package com.brisktouch.timeline.style;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,9 +63,12 @@ public class DrinkStyleActivity extends BaseStyleActivity{
 
     @Override
     public void share() {
+        super.share();
+        /*
         foggyCurrentScreen();
         ImageView weixinImageView = (ImageView)stackBlurImageView.findViewById(R.id.imageViewWeiXin);
         ImageView weiboImageView = (ImageView)stackBlurImageView.findViewById(R.id.imageViewXinLangWeiBo);
+        ImageView frendsImageView = (ImageView) stackBlurImageView.findViewById(R.id.imageViewPengYouQuan);
 
 
         weixinImageView.setOnClickListener(new View.OnClickListener() {
@@ -72,10 +77,22 @@ public class DrinkStyleActivity extends BaseStyleActivity{
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(), WXEntryActivity.class);
                 intent.putExtra("TYPE","WEIXIN");
+                intent.putExtra("IMAGE_PATH", currentScreenFilePath);
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-                //sendMessage();
-                //finish();
+            }
+        });
+
+        frendsImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), WXEntryActivity.class);
+                intent.putExtra("TYPE","WEIXIN");
+                intent.putExtra("FRIENDS","YES");
+                intent.putExtra("IMAGE_PATH", currentScreenFilePath);
+                startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
         });
 
@@ -85,12 +102,12 @@ public class DrinkStyleActivity extends BaseStyleActivity{
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(), WBShareMainActivity.class);
                 intent.putExtra("TYPE","WEIBO");
+                intent.putExtra("IMAGE_PATH", currentScreenFilePath);
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-                //finish();
             }
         });
-
+        */
 
     }
 

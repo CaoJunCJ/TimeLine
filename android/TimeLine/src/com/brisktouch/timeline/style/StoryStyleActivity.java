@@ -58,7 +58,7 @@ public class StoryStyleActivity  extends BaseStyleActivity {
 
     @Override
     public void share() {
-        foggyCurrentScreen();
+        super.share();
     }
 
 

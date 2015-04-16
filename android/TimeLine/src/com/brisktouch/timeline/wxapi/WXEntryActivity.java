@@ -1,10 +1,17 @@
 package com.brisktouch.timeline.wxapi;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import com.brisktouch.timeline.R;
+import com.brisktouch.timeline.util.Tool;
 import com.tencent.mm.sdk.openapi.*;
 
 
@@ -14,8 +21,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 	private String TAG = "WXEntryActivity";
+
+	private static final int THUMB_SIZE = 150;
+
+	private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
 
 	private IWXAPI api;
 	boolean isSendFriends = false;
@@ -24,16 +38,52 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		api = WXAPIFactory.createWXAPI(WXEntryActivity.this, Constants.APP_ID, false);
+		if(!api.isWXAppInstalled()){
+			Toast.makeText(this, "没安装微信", Toast.LENGTH_LONG).show();
+			finish();
+		}
 		api.registerApp(Constants.APP_ID);
 		api.handleIntent(getIntent(), this);
 		LinearLayout linearLayout = new LinearLayout(this);
-		linearLayout.setBackgroundColor(Color.WHITE);
+		linearLayout.setBackgroundResource(R.drawable.share_background);
 		setContentView(linearLayout);
 		String _message = getIntent().getStringExtra("TYPE");
 		if(_message!=null && _message.equals("WEIXIN")){
-			sendMessage();
+			String isFriends = getIntent().getStringExtra("FRIENDS");
+			if(isFriends!=null && "YES".equals(isFriends)){
+				isSendFriends = true;
+				int wxSdkVersion = api.getWXAppSupportAPI();
+				if (!(wxSdkVersion >= TIMELINE_SUPPORTED_VERSION)) {
+					Toast.makeText(this, "不支持分享到朋友圈", Toast.LENGTH_LONG).show();
+					finish();
+				}
+			}
+			sendImage(getIntent().getStringExtra("IMAGE_PATH"));
+			//sendMessage();
 		}
+	}
+
+	public void sendImage(String path){
+		Bitmap bmp = BitmapFactory.decodeFile(path);
+		WXImageObject imgObj = new WXImageObject(bmp);
+
+		WXMediaMessage msg = new WXMediaMessage();
+		msg.mediaObject = imgObj;
+
+		Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
+		bmp.recycle();
+		msg.thumbData = Tool.customBmpToByteArray(thumbBmp, true);  // 设置缩略图
+
+		SendMessageToWX.Req req = new SendMessageToWX.Req();
+		req.transaction = buildTransaction("img");
+		req.message = msg;
+		req.scene = isSendFriends ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+		api.sendReq(req);
+
+		finish();
 	}
 
 	public void sendMessage(){
@@ -98,10 +148,27 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 		}
 		Log.d(TAG, "onResp : " + result);
 		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-		finish();
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				Message msg = new Message();
+				msg.what = 0;
+				handler.sendMessage(msg);
+			}
+		};
+		Timer timer = new Timer();
+		timer.schedule(task, 2500);
+		//finish();
 	}
 
 	private String buildTransaction(final String type) {
 		return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
 	}
+
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			finish();
+		}
+	};
 }
