@@ -25,6 +25,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		api = WXAPIFactory.createWXAPI(WXEntryActivity.this, Constants.APP_ID, false);
+		api.registerApp(Constants.APP_ID);
 		api.handleIntent(getIntent(), this);
 		LinearLayout linearLayout = new LinearLayout(this);
 		linearLayout.setBackgroundColor(Color.WHITE);

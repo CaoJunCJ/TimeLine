@@ -2,6 +2,7 @@ package com.brisktouch.timeline.style;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ public class DrinkStyleActivity extends BaseStyleActivity{
     LinearLayout drink;
 
     public void onCreate(Bundle savedInstanceState) {
+        long startTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
 
         drinkStyleLinearLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.drink_style, null);
@@ -48,7 +50,8 @@ public class DrinkStyleActivity extends BaseStyleActivity{
         title = (TextView)findViewById(R.id.textView14);
 
         setAllImageViewAndTextViewOnClickListener(drink);
-
+        long endTime = System.currentTimeMillis();
+        Log.d(TAG, "use time : " + (endTime - startTime));
     }
 
     @Override
@@ -61,8 +64,7 @@ public class DrinkStyleActivity extends BaseStyleActivity{
         foggyCurrentScreen();
         ImageView weixinImageView = (ImageView)stackBlurImageView.findViewById(R.id.imageViewWeiXin);
         ImageView weiboImageView = (ImageView)stackBlurImageView.findViewById(R.id.imageViewXinLangWeiBo);
-        IWXAPI api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
-        api.registerApp(Constants.APP_ID);
+
 
         weixinImageView.setOnClickListener(new View.OnClickListener() {
             @Override

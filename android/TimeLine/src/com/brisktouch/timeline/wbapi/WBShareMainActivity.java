@@ -33,6 +33,7 @@ import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.*;
 import com.sina.weibo.sdk.api.WeiboMessage;
 import com.sina.weibo.sdk.constant.WBConstants;
+import com.sina.weibo.sdk.utils.LogUtil;
 
 /**
  * 该类是分享功能的入口。
@@ -55,6 +56,8 @@ public class WBShareMainActivity extends Activity implements IWeiboHandler.Respo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d(TAG, "WBShareMainActivity call");
+
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setBackgroundColor(Color.WHITE);
         setContentView(linearLayout);
@@ -63,8 +66,15 @@ public class WBShareMainActivity extends Activity implements IWeiboHandler.Respo
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, Constants.APP_KEY);
         mWeiboShareAPI.registerApp();
 
-        mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
+        LogUtil.enableLog();
+        // 当 Activity 被重新初始化时（该 Activity 处于后台时，可能会由于内存不足被杀掉了），
+        // 需要调用 {@link IWeiboShareAPI#handleWeiboResponse} 来接收微博客户端返回的数据。
+        // 执行成功，返回 true，并调用 {@link IWeiboHandler.Response#onResponse}；
+        // 失败返回 false，不调用上述回调
+        //if (savedInstanceState != null) {
 
+        //}
+        mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
         String _message = getIntent().getStringExtra("TYPE");
         if(_message!=null && _message.equals("WEIBO")){
             sendMessage();
@@ -78,7 +88,7 @@ public class WBShareMainActivity extends Activity implements IWeiboHandler.Respo
         // 从当前应用唤起微博并进行分享后，返回到当前应用时，需要在此处调用该函数
         // 来接收微博客户端返回的数据；执行成功，返回 true，并调用
         // {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
-        mWeiboShareAPI.handleWeiboResponse(intent, this);
+        mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
     }
 
     /**
@@ -97,6 +107,7 @@ public class WBShareMainActivity extends Activity implements IWeiboHandler.Respo
                 SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
                 request.transaction = String.valueOf(System.currentTimeMillis());
                 request.multiMessage = weiboMessage;
+
                 mWeiboShareAPI.sendRequest(WBShareMainActivity.this, request);
             }else{
                 WeiboMessage weiboMessage = new WeiboMessage();
@@ -105,6 +116,7 @@ public class WBShareMainActivity extends Activity implements IWeiboHandler.Respo
                 // 用transaction唯一标识一个请求
                 request.transaction = String.valueOf(System.currentTimeMillis());
                 request.message = weiboMessage;
+
                 mWeiboShareAPI.sendRequest(WBShareMainActivity.this, request);
             }
         }else{

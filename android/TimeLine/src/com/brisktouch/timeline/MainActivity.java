@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         SharedPreferences perPreferences = getSharedPreferences("TimeLineByJim", MODE_PRIVATE);
         new InitTask(this,null, Global.getJsonData()).start();
+        InitializationApp.getInstance(this).initTypefaceFromAsset();
         if (perPreferences.getBoolean("isFirstUse", false)) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, MyActivity.class);

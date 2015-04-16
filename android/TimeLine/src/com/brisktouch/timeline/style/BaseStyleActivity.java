@@ -128,7 +128,6 @@ public abstract class BaseStyleActivity extends Activity {
     public void initEditWordView(){
 
         editWordUtil = new EditWordUtil(this);
-
         editWordView = editWordUtil.getEditWordView();
         editWordView.setVisibility(View.GONE);
 
@@ -443,7 +442,15 @@ public abstract class BaseStyleActivity extends Activity {
                             textView.setTextColor(color);
                             textView.setTextSize(size);
                             if(!family.equals("DEFAULT")){
-                                Typeface tf = Typeface.createFromAsset(getAssets(), family);
+                                //Typeface tf = Typeface.createFromAsset(getAssets(), family);
+                                Typeface tf = Typeface.DEFAULT;
+                                if(family.equals("Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf")){
+                                    tf = Global.typeFaceData[1];
+                                }else if(family.equals("Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf")){
+                                    tf = Global.typeFaceData[2];
+                                }else if(family.equals("Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf")){
+                                    tf = Global.typeFaceData[3];
+                                }
                                 textView.setTypeface(tf);
                             }
                             textViewIndex++;

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.brisktouch.timeline.R;
+import com.brisktouch.timeline.util.Global;
 import com.brisktouch.timeline.util.IterateViewGroup;
 import com.brisktouch.timeline.util.Utils;
 
@@ -20,6 +22,8 @@ import java.util.regex.Pattern;
  * Created by caojim on 15/3/7.
  */
 public class EditWordUtil {
+    private String TAG = "EditWordUtil";
+
     private Context context;
 
     private View editWord;
@@ -53,51 +57,48 @@ public class EditWordUtil {
     }
 
     public void init(){
-            final AssetManager mgr = context.getAssets();
-            //boolean isChina = context.getResources().getConfiguration().locale.getCountry().equals("CN");
-            editWord = LayoutInflater.from(context).inflate(R.layout.edit_word, null);
+        final AssetManager mgr = context.getAssets();
+        //boolean isChina = context.getResources().getConfiguration().locale.getCountry().equals("CN");
+        editWord = LayoutInflater.from(context).inflate(R.layout.edit_word, null);
 
-            //font style ListView
-            final ListView fontListView = (ListView)editWord.findViewById(R.id.listView);
-            final ListView sizeListView = (ListView)editWord.findViewById(R.id.listView3);
+        //font style ListView
+        final ListView fontListView = (ListView)editWord.findViewById(R.id.listView);
+        final ListView sizeListView = (ListView)editWord.findViewById(R.id.listView3);
 
-            TableRow colorTables[] = {
-                    (TableRow)editWord.findViewById(R.id.tableRow),
-                    (TableRow)editWord.findViewById(R.id.tableRow1),
-                    (TableRow)editWord.findViewById(R.id.tableRow2),
-                    (TableRow)editWord.findViewById(R.id.tableRow3)};
+        TableRow colorTables[] = {
+                (TableRow)editWord.findViewById(R.id.tableRow),
+                (TableRow)editWord.findViewById(R.id.tableRow1),
+                (TableRow)editWord.findViewById(R.id.tableRow2),
+                (TableRow)editWord.findViewById(R.id.tableRow3)};
 
-            setColorTablesListener(colorTables);
+        setColorTablesListener(colorTables);
 
 
 
-            fontListView.setDivider(null);
-            sizeListView.setDivider(null);
+        fontListView.setDivider(null);
+        sizeListView.setDivider(null);
 
-            Typeface[] typeFaceData = {
-                    Typeface.DEFAULT,
-                    Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf"),
-                    Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf"),
-                    Typeface.createFromAsset(mgr, "Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf")};
 
-            Float[] floats = {
-                    13.0f,
-                    14.0f,
-                    15.0f,
-                    16.0f,
-                    17.0f,
-                    18.0f,
-                    20.0f,
-                    22.0f,
-                    24.0f
-            };
-            fontListAdapter = new SimpleAdapter(WordStyle.fontStyle, context, typeFaceData);
-            sizeListAdapter = new SimpleAdapter(WordStyle.sizeStyle, context, floats);
-            fontListView.setAdapter(fontListAdapter);
-            sizeListView.setAdapter(sizeListAdapter);
-            sizeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    //TODO bug, need modify it.  =====>fix
+        Typeface[] typeFaceData = Global.typeFaceData;
+
+        Float[] floats = {
+                13.0f,
+                14.0f,
+                15.0f,
+                16.0f,
+                17.0f,
+                18.0f,
+                20.0f,
+                22.0f,
+                24.0f
+        };
+        fontListAdapter = new SimpleAdapter(WordStyle.fontStyle, context, typeFaceData);
+        sizeListAdapter = new SimpleAdapter(WordStyle.sizeStyle, context, floats);
+        fontListView.setAdapter(fontListAdapter);
+        sizeListView.setAdapter(sizeListAdapter);
+        sizeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO bug, need modify it.  =====>fix
                     /*
                     for(int index = 0; index < sizeListView.getAdapter().getCount() ; index++){
                         LinearLayout lt = (LinearLayout)sizeListView.getChildAt(index);
@@ -105,115 +106,115 @@ public class EditWordUtil {
                         //NULLPOINTEXCEPTION ......
                     }
                     */
-                    IterateViewGroup.iterateViewGroup(sizeListView, new IterateViewGroup.IterateViewCallBack() {
-                        @Override
-                        public void callBack(View v) {
-                            v.setVisibility(View.INVISIBLE);
-                        }
-                    }, IterateViewGroup.ViewClassType.IMAGEVIEW);
-                    ((LinearLayout)((LinearLayout)view).getChildAt(0)).getChildAt(0).setVisibility(View.VISIBLE);
-                    TextView tv = (TextView)((LinearLayout) ((LinearLayout) view).getChildAt(0)).getChildAt(1);
-                    currentSelectTextView.setTextSize(tv.getTextSize());
-                    //currentSelectTextView.setTextSize(((TextView) ((LinearLayout) ((LinearLayout) sizeListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTextSize());
+                IterateViewGroup.iterateViewGroup(sizeListView, new IterateViewGroup.IterateViewCallBack() {
+                    @Override
+                    public void callBack(View v) {
+                        v.setVisibility(View.INVISIBLE);
+                    }
+                }, IterateViewGroup.ViewClassType.IMAGEVIEW);
+                ((LinearLayout)((LinearLayout)view).getChildAt(0)).getChildAt(0).setVisibility(View.VISIBLE);
+                TextView tv = (TextView)((LinearLayout) ((LinearLayout) view).getChildAt(0)).getChildAt(1);
+                currentSelectTextView.setTextSize(tv.getTextSize());
+                //currentSelectTextView.setTextSize(((TextView) ((LinearLayout) ((LinearLayout) sizeListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTextSize());
+            }
+        });
+
+        fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO bug, need modify it.  like up side.
+                for(int index = 0; index < fontListView.getAdapter().getCount() ; index++){
+                    LinearLayout lt = (LinearLayout)fontListView.getChildAt(index);
+                    ((LinearLayout)lt.getChildAt(0)).getChildAt(0).setVisibility(View.INVISIBLE);
+
                 }
-            });
-
-            fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    //TODO bug, need modify it.  like up side.
-                    for(int index = 0; index < fontListView.getAdapter().getCount() ; index++){
-                        LinearLayout lt = (LinearLayout)fontListView.getChildAt(index);
-                        ((LinearLayout)lt.getChildAt(0)).getChildAt(0).setVisibility(View.INVISIBLE);
-
-                    }
-                    ((LinearLayout)((LinearLayout)view).getChildAt(0)).getChildAt(0).setVisibility(View.VISIBLE);
-                    //next code: listView -> itemView(edit_word_font_list_item.xml) ->  LinearLayout -> LinearLayout -> TextView
-                    currentSelectTextView.setTypeface(((TextView)((LinearLayout)((LinearLayout)fontListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTypeface());
-                    switch (i){
-                        case 0:
-                            currentSelectTextView.setTag("DEFAULT");
-                            break;
-                        case 1:
-                            currentSelectTextView.setTag("Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf");
-                            break;
-                        case 2:
-                            currentSelectTextView.setTag("Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf");
-                            break;
-                        case 3:
-                            currentSelectTextView.setTag("Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf");
-                            break;
-                        default:
-                            currentSelectTextView.setTag("DEFAULT");
-                            break;
-                    }
+                ((LinearLayout)((LinearLayout)view).getChildAt(0)).getChildAt(0).setVisibility(View.VISIBLE);
+                //next code: listView -> itemView(edit_word_font_list_item.xml) ->  LinearLayout -> LinearLayout -> TextView
+                currentSelectTextView.setTypeface(((TextView)((LinearLayout)((LinearLayout)fontListView.getChildAt(i)).getChildAt(0)).getChildAt(1)).getTypeface());
+                switch (i){
+                    case 0:
+                        currentSelectTextView.setTag("DEFAULT");
+                        break;
+                    case 1:
+                        currentSelectTextView.setTag("Fonts/zh_cn/MFTheGoldenEra_Noncommercial-Light.otf");
+                        break;
+                    case 2:
+                        currentSelectTextView.setTag("Fonts/zh_cn/MFPinSong_Noncommercial-Regular.otf");
+                        break;
+                    case 3:
+                        currentSelectTextView.setTag("Fonts/zh_cn/MFQingShu_Noncommercial-Regular.otf");
+                        break;
+                    default:
+                        currentSelectTextView.setTag("DEFAULT");
+                        break;
                 }
-            });
+            }
+        });
 
-            editWord.findViewById(R.id.fontLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.fontStyle, editWord));
-            editWord.findViewById(R.id.colorLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.colorStyle, editWord));
-            editWord.findViewById(R.id.sizeLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.sizeStyle, editWord));
+        editWord.findViewById(R.id.fontLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.fontStyle, editWord));
+        editWord.findViewById(R.id.colorLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.colorStyle, editWord));
+        editWord.findViewById(R.id.sizeLinearLayout).setOnClickListener(new StyleLinearLayout(WordStyle.sizeStyle, editWord));
 
-            View acceptButton = editWord.findViewById(R.id.imageButton13);
-            acceptButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    EditText editText = (EditText)editWord.findViewById(R.id.editText);
-                    editText.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) context
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if(Utils.hasCUPCAKE()){
-                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                    }
-                    String result;
-                    String temp = editText.getText().toString();
-                    switch (textAction){
-                        case Normal:
-                            currentSelectTextView.setText(editText.getText());
-                            break;
-                        case SplitChar:
-                            result = "";
-                            char[] chars = temp.toCharArray();
-                            for(int i=0;i<chars.length;i++){
-                                if(i==chars.length-1){
-                                    result = result + chars[i];
-                                }else{
-                                    result = result + chars[i] + '\n';
-                                }
-                            }
-                            currentSelectTextView.setText(result);
-                            break;
-                        case SplitWord:
-                            result = "";
-                            if(isChineseCharacter(temp)){
-                                char[] charArray = temp.toCharArray();
-                                for(int i=0;i<charArray.length;i++){
-                                    if(i==charArray.length-1){
-                                        result = result + charArray[i];
-                                    }else{
-                                        result = result + charArray[i] + '\n';
-                                    }
-                                }
+        View acceptButton = editWord.findViewById(R.id.imageButton13);
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText = (EditText)editWord.findViewById(R.id.editText);
+                editText.clearFocus();
+                InputMethodManager imm = (InputMethodManager) context
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(Utils.hasCUPCAKE()){
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                }
+                String result;
+                String temp = editText.getText().toString();
+                switch (textAction){
+                    case Normal:
+                        currentSelectTextView.setText(editText.getText());
+                        break;
+                    case SplitChar:
+                        result = "";
+                        char[] chars = temp.toCharArray();
+                        for(int i=0;i<chars.length;i++){
+                            if(i==chars.length-1){
+                                result = result + chars[i];
                             }else{
-                                String[] strings = temp.split("\\s+");
-                                for(int i=0;i<strings.length;i++){
-                                    if(i==strings.length-1){
-                                        result = result + strings[i];
-                                    }else{
-                                        result = result + strings[i] + '\n';
-                                    }
+                                result = result + chars[i] + '\n';
+                            }
+                        }
+                        currentSelectTextView.setText(result);
+                        break;
+                    case SplitWord:
+                        result = "";
+                        if(isChineseCharacter(temp)){
+                            char[] charArray = temp.toCharArray();
+                            for(int i=0;i<charArray.length;i++){
+                                if(i==charArray.length-1){
+                                    result = result + charArray[i];
+                                }else{
+                                    result = result + charArray[i] + '\n';
                                 }
                             }
-                            currentSelectTextView.setText(result);
-                            break;
-                        default:
-                            currentSelectTextView.setText(editText.getText());
-                            break;
-                    }
-
-                    currentSelectTextView.performClick();
+                        }else{
+                            String[] strings = temp.split("\\s+");
+                            for(int i=0;i<strings.length;i++){
+                                if(i==strings.length-1){
+                                    result = result + strings[i];
+                                }else{
+                                    result = result + strings[i] + '\n';
+                                }
+                            }
+                        }
+                        currentSelectTextView.setText(result);
+                        break;
+                    default:
+                        currentSelectTextView.setText(editText.getText());
+                        break;
                 }
-            });
+
+                currentSelectTextView.performClick();
+            }
+        });
 
         View hideSoftKeyBoard = editWord.findViewById(R.id.imageButton14);
         hideSoftKeyBoard.setOnClickListener(new View.OnClickListener() {

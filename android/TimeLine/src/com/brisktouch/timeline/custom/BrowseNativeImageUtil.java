@@ -8,7 +8,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,19 +31,42 @@ import java.util.*;
  * Created by jim on 4/8/2015.
  */
 public class BrowseNativeImageUtil implements View.OnClickListener{
-    private Context context;
 
+    private String TAG = "BrowseNativeImageUtil";
+
+    private static final int UPDARE_IMAGELIST_UI = 0;
+
+    private Context context;
     private int clickedViewId;
 
     private ListView mListView;
     public ImageNative mImageFetcher;
     private ListViewAdapter mListViewAdapter;
-    HashMap<Long, List<String>> dateGruopMap = new HashMap<Long, List<String>>();
+    HashMap<Long, List<String>> dateGruopMap;
+    List<Map.Entry<Long, List<String>>> infoIds;
     private boolean isInit = false;
+    private Runnable queryImageURI;
 
     public BrowseNativeImageUtil(Context context){
         this.context = context;
-        getImage();
+        infoIds = new ArrayList<Map.Entry<Long, List<String>>>();
+
+        queryImageURI = new Runnable() {
+            @Override
+            public void run() {
+                //for test, Simulation very many image.
+                //try{
+                //    Thread.currentThread().sleep(5000);
+                //   Log.d(TAG, "getImage end");
+                //}catch (Exception e){e.printStackTrace();}
+                getImage();
+                Message msg = new Message();
+                msg.what = UPDARE_IMAGELIST_UI;
+                handler.sendMessage(msg);
+            }
+        };
+
+        new Thread(queryImageURI).start();
         //init();
     }
 
@@ -88,16 +114,11 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
         mListView.setBackgroundColor(Color.WHITE);
         mListView.setFocusable(false);
         //getImage();
-        List<Map.Entry<Long, List<String>>> infoIds = new ArrayList<Map.Entry<Long, List<String>>>(dateGruopMap.entrySet());
-        Collections.sort(infoIds, new Comparator<Map.Entry<Long, List<String>>>() {
-            public int compare(Map.Entry<Long, List<String>> o1,
-                               Map.Entry<Long, List<String>> o2) {
-                return (o1.getKey()).compareTo(o2.getKey());
-            }
-        });
+
         mListViewAdapter=new ListViewAdapter(infoIds, context, this);
         mListView.setAdapter(mListViewAdapter);
         isInit = true;
+        //TODO alert a Progress Box when queryImageURI not finish.
     }
 
     public boolean isInit(){
@@ -105,6 +126,10 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
     }
 
     private void getImage(){
+        if(dateGruopMap!=null)
+            return;
+        else
+            dateGruopMap = new HashMap<Long, List<String>>();
         if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             Toast.makeText(context, "Not External Storage Card", Toast.LENGTH_SHORT).show();
             return;
@@ -119,6 +144,7 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
                 new String[]{"image/jpeg", "image/png"}, MediaStore.Images.Media.DEFAULT_SORT_ORDER);
 
         while(mCursor.moveToNext()){
+
             String path = mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.DATA));
             File file = new File(path);
             long lastModified = file.lastModified();
@@ -128,8 +154,10 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
             cal.setTimeInMillis(lastModified);
             Date d = null;
             try{
-                d = time.parse(String.format("%s %s %s 00 00 00",cal.get(Calendar.YEAR),
-                        cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)));
+                d = time.parse(String.format("%s %s %s 00 00 00",
+                        cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH)+1,
+                        cal.get(Calendar.DAY_OF_MONTH)));
             }catch (Exception e){}
             long day = d.getTime();
 
@@ -141,6 +169,16 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
                 dateGruopMap.get(day).add(path);
             }
         }
+
+        //infoIds = new ArrayList<Map.Entry<Long, List<String>>>(dateGruopMap.entrySet());
+        infoIds.addAll(dateGruopMap.entrySet());
+
+        Collections.sort(infoIds, new Comparator<Map.Entry<Long, List<String>>>() {
+            public int compare(Map.Entry<Long, List<String>> o1,
+                               Map.Entry<Long, List<String>> o2) {
+                return (o2.getKey()).compareTo(o1.getKey());
+            }
+        });
 
     }
 
@@ -165,4 +203,14 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
         if(dateGruopMap!=null)
             dateGruopMap.clear();
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == UPDARE_IMAGELIST_UI) {
+                if(mListViewAdapter!=null)
+                    mListViewAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 }

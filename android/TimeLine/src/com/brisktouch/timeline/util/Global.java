@@ -1,5 +1,6 @@
 package com.brisktouch.timeline.util;
 
+import android.graphics.Typeface;
 import org.cjson.JSONObject;
 
 /**
@@ -49,4 +50,6 @@ public class Global {
     public static void setJsonData(JSONObject j){
         jsonData = j;
     }
+
+    public static Typeface[] typeFaceData = new Typeface[4];
 }
