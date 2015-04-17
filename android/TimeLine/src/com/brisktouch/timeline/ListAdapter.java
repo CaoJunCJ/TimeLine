@@ -64,6 +64,11 @@ public class ListAdapter extends BaseAdapter {
 		data = Global.getJsonData().optJSONArray(Global.JSON_KEY_DATA);
 		super.notifyDataSetChanged();
 	}
+
+	public void setData(JSONObject json){
+		data = json.optJSONArray(Global.JSON_KEY_DATA);
+	}
+
 	
 	public ListAdapter(JSONObject json,Context c){
 		data = json.optJSONArray(Global.JSON_KEY_DATA);

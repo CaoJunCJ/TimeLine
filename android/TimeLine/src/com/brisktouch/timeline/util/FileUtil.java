@@ -66,7 +66,7 @@ public class FileUtil {
 
 
     public boolean saveBitmap(Bitmap bitmap, String fileName, Calendar cal) {
-
+        //Create a thread to run it.
         String year = Integer.toString(cal.get(Calendar.YEAR));
         String month = Integer.toString(cal.get(Calendar.MONTH) + 1);
         String day = Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
@@ -127,6 +127,7 @@ public class FileUtil {
     }
 
     public String saveScreenBitmap(Bitmap bitmap, String name){
+        //Create a thread to run it.
         File imageFile = new File(screenFolder, name);
         try {
             imageFile.createNewFile();

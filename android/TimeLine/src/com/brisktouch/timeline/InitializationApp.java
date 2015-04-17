@@ -1,8 +1,11 @@
 package com.brisktouch.timeline;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import com.brisktouch.timeline.util.Global;
+
+import java.util.Stack;
 
 /**
  * Created by jim on 4/16/2015.
@@ -32,4 +35,5 @@ public class InitializationApp {
         };
         new Thread(r).start();
     }
+
 }

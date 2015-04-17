@@ -9,12 +9,8 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.brisktouch.timeline.R;
-import com.brisktouch.timeline.custom.EditWordUtil;
+import com.brisktouch.timeline.custom.*;
 import com.brisktouch.timeline.util.IterateViewGroup;
-import com.brisktouch.timeline.custom.BrowseNativeImageUtil;
-import com.brisktouch.timeline.custom.CircleButton;
-import com.brisktouch.timeline.custom.DragImageView;
-import com.brisktouch.timeline.custom.PopButtonOnClickListener;
 import com.brisktouch.timeline.util.*;
 import com.brisktouch.timeline.wbapi.WBShareMainActivity;
 import com.brisktouch.timeline.wxapi.WXEntryActivity;
@@ -70,6 +66,7 @@ public abstract class BaseStyleActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
+
         //hide title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //hide status bar
@@ -378,10 +375,12 @@ public abstract class BaseStyleActivity extends Activity {
     }
     public void back(){
 
+        /*
         Intent intent = new Intent();
         intent.setClass(this, StyleActivity.class);
         startActivity(intent);
         finish();
+        */
     }
 
 
@@ -426,7 +425,7 @@ public abstract class BaseStyleActivity extends Activity {
                         sv.fullScroll(ScrollView.FOCUS_DOWN);
                     }
                 });*/
-                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 290 + h));
+                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 250 + h));
                 ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.BOTTOM);
                 isDisplayContextEditWord = true;
             }else {
@@ -462,6 +461,9 @@ public abstract class BaseStyleActivity extends Activity {
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //TODO create a stack for back at app start.
+
+
         if(nativeImageListDisplay){
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 browseNativeImageUtil.hideView();
@@ -477,6 +479,12 @@ public abstract class BaseStyleActivity extends Activity {
             }
         }
 
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            if(Utils.hasECLAIR())
+                overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
 

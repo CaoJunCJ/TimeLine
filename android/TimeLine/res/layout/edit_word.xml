@@ -95,7 +95,7 @@
             android:id="@+id/imageView6" android:background="#ff615353"/>
     <ListView
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="wrap_content"
             android:id="@+id/listView" android:background="#ff534343"/>
     <TableLayout
             android:layout_width="match_parent"
@@ -237,6 +237,6 @@
     </TableLayout>
     <ListView
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="wrap_content"
             android:id="@+id/listView3" android:visibility="gone" android:background="#ff534343"/>
 </LinearLayout>

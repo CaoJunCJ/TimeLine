@@ -25,6 +25,9 @@ public class StyleActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //hide status bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+
         setContentView(R.layout.select_style);
         ImageButton humanStyleButton = (ImageButton) findViewById(R.id.imageButton);
         humanStyleButton.setOnClickListener(new View.OnClickListener() {
@@ -105,13 +108,11 @@ public class StyleActivity extends Activity {
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent intent = new Intent();
-            intent.setClass(StyleActivity.this, MyActivity.class);
-            startActivity(intent);
-            //if(Utils.hasECLAIR())
-                //overridePendingTransition(R.anim.out_to_left, R.anim.in_from_right);
             finish();
+            if(Utils.hasECLAIR())
+                overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+            return true;
         }
-        return false;
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -16,11 +16,11 @@
                 android:layout_height="match_parent" android:layout_weight="2">
             <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/imageView11" android:adjustViewBounds="true"
-                    android:maxHeight="300dp" android:minHeight="250dp" android:minWidth="250dp"
+                    android:maxHeight="300dp" android:minHeight="250dp"
                     android:layout_marginTop="25dp" android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
-                    android:layout_marginBottom="10dp" android:src="@drawable/story" android:scaleType="fitXY"/>
+                    android:layout_marginBottom="40dp" android:src="@drawable/story" android:scaleType="fitXY"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"

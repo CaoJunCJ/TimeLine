@@ -114,7 +114,7 @@ public class FoodStyleActivity extends BaseStyleActivity{
 
                 String value = textView.getText().toString();
 
-                et.setText(value);
+                et.setText(value.trim());
 
 
 
@@ -124,8 +124,8 @@ public class FoodStyleActivity extends BaseStyleActivity{
                 int height = et.getMeasuredHeight();
                 int width = et.getMeasuredWidth();
                 int h = (int)((float)width/w * et.getLineHeight() );
-                if(h>190)
-                    h = 190;
+                if(h>(80-40))
+                    h = (80-40);
 
 
                 /*sv.post(new Runnable() {
@@ -133,7 +133,7 @@ public class FoodStyleActivity extends BaseStyleActivity{
                         sv.fullScroll(ScrollView.FOCUS_DOWN);
                     }
                 });*/
-                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 290 + h));
+                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 250 + h));
                 ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.BOTTOM);
                 isDisplayContextEditWord = true;
             }else {

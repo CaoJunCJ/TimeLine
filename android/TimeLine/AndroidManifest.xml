@@ -17,7 +17,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
-    <application android:label="@string/app_name" android:icon="@drawable/icon_lr">
+    <application android:label="@string/app_name" android:icon="@drawable/icon_lr"
+                 >
         <!--
         <activity android:name=".test.TestActivity"
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
@@ -102,4 +103,5 @@
 
 
     </application>
+
 </manifest>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import com.brisktouch.timeline.R;
 import com.brisktouch.timeline.style.BaseStyleActivity;
 import com.brisktouch.timeline.util.ImageCache;
 import com.brisktouch.timeline.util.ImageNative;
+import com.brisktouch.timeline.util.ImageResizer;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -47,9 +49,14 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
     private boolean isInit = false;
     private Runnable queryImageURI;
 
+    int mScreenWidth;
+    int mScreenHeight;
+
     public BrowseNativeImageUtil(Context context){
         this.context = context;
         infoIds = new ArrayList<Map.Entry<Long, List<String>>>();
+        mScreenWidth = context.getResources().getDisplayMetrics().widthPixels;
+        mScreenHeight = context.getResources().getDisplayMetrics().heightPixels;
 
         queryImageURI = new Runnable() {
             @Override
@@ -92,7 +99,26 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
         String imagePath = (String)v.getTag();
         if(imagePath!=null){
             //TODO when the image is very big, is will be OutOfMemory.
-            imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+            //
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(imagePath, options);
+            Log.d(TAG, "height:" + options.outHeight);
+            Log.d(TAG, "width:" + options.outWidth);
+
+            Log.d(TAG, "imageView height:" + imageView.getHeight());
+            Log.d(TAG, "imageView width:" + imageView.getWidth());
+
+
+            Log.d(TAG, "imageView LayoutParams height:" +imageView.getLayoutParams().height);
+            Log.d(TAG, "imageView LayoutParams width:" + imageView.getLayoutParams().width);
+
+
+            Bitmap bitmap = ImageResizer.decodeSampledBitmapFromFile(imagePath, imageView.getWidth(), imageView.getHeight(), null);
+            imageView.setImageBitmap(bitmap);
+            //Bitmap bitmap = ImageResizer.decodeSampledBitmapFromFile(imagePath, 400, 400, null);
+            //imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+
         }
         hideView();
         ((BaseStyleActivity)context).nativeImageListDisplay = false;

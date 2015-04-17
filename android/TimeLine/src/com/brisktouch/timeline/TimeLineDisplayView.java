@@ -687,7 +687,8 @@ class TimeLineDisplayView extends TextView {
 				bundle.putSerializable("data", intentObjectData);
 				intent.putExtras(bundle);
 				getContext().startActivity(intent);
-				//((Activity)getContext()).finish();
+				if(Utils.hasECLAIR())
+					((Activity)getContext()).overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 				break;
 			}
 		}

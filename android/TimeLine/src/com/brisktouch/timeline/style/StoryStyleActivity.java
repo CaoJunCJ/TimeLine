@@ -2,6 +2,7 @@ package com.brisktouch.timeline.style;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Display;
@@ -33,6 +34,7 @@ public class StoryStyleActivity  extends BaseStyleActivity {
         story = (LinearLayout)storyStyleLinearLayout.findViewById(R.id.storyStyleLinearLayout);
         reLoadByJsonData(story);
 
+        storyStyleLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
         story.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
 
         scrollView.addView(storyStyleLinearLayout);
@@ -48,6 +50,13 @@ public class StoryStyleActivity  extends BaseStyleActivity {
         title = (TextView)findViewById(R.id.textView12);
 
         setAllImageViewAndTextViewOnClickListener(story);
+
+        //for debug
+        //maxOutsideLayout.setBackgroundColor(Color.RED);
+        //scrollView.setBackgroundColor(Color.YELLOW);
+        //storyStyleLinearLayout.setBackgroundColor(Color.BLUE);
+        //story.setBackgroundColor(Color.GREEN);
+        //findViewById(R.id.imageView11).setBackgroundColor(Color.MAGENTA);
 
     }
 
