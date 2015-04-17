@@ -61,6 +61,10 @@ public class MyActivity extends Activity {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        if(adapter!=null){
+            adapter.setData(Global.getJsonData());
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -73,9 +77,6 @@ public class MyActivity extends Activity {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
-        if(adapter!=null){
-            adapter.setData(Global.getJsonData());
-            adapter.notifyDataSetChanged();
-        }
+
     }
 }
