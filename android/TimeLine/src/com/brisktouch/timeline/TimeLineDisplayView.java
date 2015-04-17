@@ -86,6 +86,10 @@ class TimeLineDisplayView extends TextView {
 
 	}
 
+	public void setRefreshData(){
+		rectMap.clear();
+	}
+
 	public void calculateHeight(){
 		height = 0;
 		height += 20;
@@ -177,7 +181,7 @@ class TimeLineDisplayView extends TextView {
 		currentLength += 2;
 		drawLine(MARGIN_RIGHT, currentLength, DATELINE_LENGTH -2, canvas);
 
-		Log.i(TAG, "onDraw call");
+		//Log.i(TAG, "onDraw call");
 
 		//this.setBackgroundColor(Color.WHITE);
 		//this.setHeight(currentLength);
@@ -239,7 +243,7 @@ class TimeLineDisplayView extends TextView {
 		p.reset();
 		currentLength += length;
 	}
-	
+
 	private void drawThing(int x, int y, String title, String time, Canvas canvas){
 		p.setAntiAlias(true);
 		//p.setColor(Color.parseColor("#F08080"));
@@ -475,6 +479,7 @@ class TimeLineDisplayView extends TextView {
 				startY = y;
 				movingX = startX;
 				movingY = startY;
+				Log.d(TAG, "rectMap size: "+rectMap.size());
 				for (String key : rectMap.keySet()){
 					RectF r = rectMap.get(key);
 					if(r.contains(x, y)){
@@ -591,7 +596,7 @@ class TimeLineDisplayView extends TextView {
 						DeleteAnimationTIME_THING_INTERVAL = TIME_THING_INTERVAL;
 						invalidate();
 					}
-					if(!isMove && (System.currentTimeMillis() - startTimeMillis)<200){
+					if(!isMove || (System.currentTimeMillis() - startTimeMillis) < 150){
 						//jump to style activity
 						jumpToStyleActivity(useTimeDate);
 					}

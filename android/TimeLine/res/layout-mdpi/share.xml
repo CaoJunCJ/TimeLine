@@ -30,24 +30,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
             <ImageView
-                    android:id="@+id/imageViewQQKongjian"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/share_btn2"
-
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-
-                    />
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="10dp">
-            <ImageView
                     android:id="@+id/imageViewXinLangWeiBo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -55,6 +37,14 @@
                     android:src="@drawable/share_btn3"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp" android:visibility="gone">
             <ImageView
                     android:id="@+id/imageViewMeiTuang"
                     android:layout_width="wrap_content"
@@ -71,6 +61,16 @@
                     android:src="@drawable/share_btn5"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
+            <ImageView
+                    android:id="@+id/imageViewQQKongjian"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/share_btn2"
+
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+
+                    />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

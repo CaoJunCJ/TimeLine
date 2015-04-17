@@ -46,6 +46,7 @@ public class ListAdapter extends BaseAdapter {
 		tv.setData(date);
 		tv.setListAdapter(this);
 		//tv.setBackgroundColor(Color.WHITE);
+		tv.setRefreshData();
 		tv.setBackgroundColor(Color.parseColor("#F9F9F9"));
 		tv.calculateHeight();
 		tv.setHeight(tv.getCurrentLength());
