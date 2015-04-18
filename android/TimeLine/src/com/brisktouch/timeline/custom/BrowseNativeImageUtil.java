@@ -114,7 +114,7 @@ public class BrowseNativeImageUtil implements View.OnClickListener{
             Log.d(TAG, "imageView LayoutParams width:" + imageView.getLayoutParams().width);
 
 
-            Bitmap bitmap = ImageResizer.decodeSampledBitmapFromFile(imagePath, imageView.getWidth(), imageView.getHeight(), null);
+            Bitmap bitmap = ImageResizer.decodeSampledBitmapFromFile(imagePath, imageView.getWidth()*2, imageView.getHeight()*2, null);
             imageView.setImageBitmap(bitmap);
             //Bitmap bitmap = ImageResizer.decodeSampledBitmapFromFile(imagePath, 400, 400, null);
             //imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
