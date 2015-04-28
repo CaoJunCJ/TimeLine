@@ -461,10 +461,8 @@ public abstract class BaseStyleActivity extends Activity {
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //TODO create a stack for back at app start.
 
-
-        if(nativeImageListDisplay){
+        if (nativeImageListDisplay) {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 browseNativeImageUtil.hideView();
                 nativeImageListDisplay = false;
@@ -481,7 +479,7 @@ public abstract class BaseStyleActivity extends Activity {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
-            if(Utils.hasECLAIR())
+            if (Utils.hasECLAIR())
                 overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
             return true;
         }
@@ -494,7 +492,7 @@ public abstract class BaseStyleActivity extends Activity {
     public void reLoadByJsonData(ViewGroup viewGroup){
         Intent intent = getIntent();
         IntentObjectData intentObjectData = (IntentObjectData)intent.getSerializableExtra("data");
-        if(intentObjectData!=null){
+        if (intentObjectData!=null) {
             final ArrayList<String[]> strings = (ArrayList<String[]>)intentObjectData.list;
             final String time = intentObjectData.time;
             final String date = intentObjectData.date;
