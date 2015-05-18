@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -227,9 +228,9 @@ public class EditWordUtil {
                 if(Utils.hasCUPCAKE()){
                     imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 }
+                editText.clearFocus();
             }
         });
-
     }
 
     public static boolean isChineseCharacter(String str){

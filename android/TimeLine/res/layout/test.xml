@@ -14,7 +14,7 @@
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" android:background="#ff73fffb">
+                    android:layout_height="200dp" android:background="#ff73fffb" android:weightSum="1">
             </LinearLayout>
             <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="200dp"
                           android:background="#ffffdbb8"/>

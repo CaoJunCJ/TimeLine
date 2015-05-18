@@ -1,12 +1,14 @@
 package com.brisktouch.timeline.style;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.*;
 import android.util.Log;
 import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.brisktouch.timeline.R;
 import com.brisktouch.timeline.custom.*;
@@ -166,7 +168,7 @@ public abstract class BaseStyleActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //TODO should be create a stack for save activity ,when click back ,pop a activity from stack.
-                Toast.makeText(getApplication(), "Onclick at back", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplication(), "Onclick at back", Toast.LENGTH_SHORT).show();
                 back();
             }
         });
@@ -180,7 +182,7 @@ public abstract class BaseStyleActivity extends Activity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplication(), "Onclick at save", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplication(), "Onclick at save", Toast.LENGTH_SHORT).show();
                 save();
             }
         });
@@ -194,7 +196,7 @@ public abstract class BaseStyleActivity extends Activity {
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplication(), "Onclick at share, not implement", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplication(), "Onclick at share, not implement", Toast.LENGTH_SHORT).show();
                 share();
             }
         });
@@ -374,13 +376,7 @@ public abstract class BaseStyleActivity extends Activity {
         }catch (Exception e){e.printStackTrace();}
     }
     public void back(){
-
-        /*
-        Intent intent = new Intent();
-        intent.setClass(this, StyleActivity.class);
-        startActivity(intent);
-        finish();
-        */
+        onKeyDown(KeyEvent.KEYCODE_BACK, null);
     }
 
 
@@ -425,7 +421,15 @@ public abstract class BaseStyleActivity extends Activity {
                         sv.fullScroll(ScrollView.FOCUS_DOWN);
                     }
                 });*/
-                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 250 + h));
+                editWordView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 280 + h));
+
+                et.setSelection(value.length());
+                et.selectAll();
+                et.requestFocus();
+                InputMethodManager inputManager =
+                        (InputMethodManager)et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(et, 0);
+
                 ((LinearLayout)sv.getChildAt(0)).setGravity(Gravity.BOTTOM);
                 isDisplayContextEditWord = true;
             }else {
